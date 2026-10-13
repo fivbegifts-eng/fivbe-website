@@ -1,0 +1,1825 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Shop personalized gifts, photo frames, keychains, hampers and more at Fivbe Gifts." />
+  <title>Fivbe Gifts | More Than Just Gifts</title>
+
+  <style>
+    :root {
+      --brand: #2f6858;
+      --brand-dark: #214d42;
+      --brand-light: #e5eee8;
+      --cream: #f8f4ed;
+      --paper: #fffdf9;
+      --ink: #2b211d;
+      --muted: #756d65;
+      --line: #e5ddd2;
+      --accent: #cf846c;
+      --shadow: 0 10px 30px rgba(40, 50, 40, .08);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: var(--sans);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+
+    /* Announcement and navigation */
+    .announcement {
+      padding: 8px 16px;
+      color: #fff;
+      background: var(--brand);
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(248,244,237,.96);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      font-family: var(--sans);
+      font-size: 10px;
+      letter-spacing: .06em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .nav-links a:hover, .footer-links a:hover { color: var(--brand); }
+    .whatsapp-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--brand);
+      font-size: 13px;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+    .whatsapp-button:hover { background: var(--brand-dark); transform: translateY(-2px); }
+    .menu-button { display: none; border: 0; background: transparent; font-size: 23px; }
+
+    /* Hero */
+    .hero {
+      padding: 75px 0 70px;
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 55px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--accent); }
+    h1, h2, h3 { margin: 0; }
+    h1, h2 { font-family: var(--serif); font-weight: 500; line-height: 1; }
+    h1 {
+      max-width: 570px;
+      margin-top: 20px;
+      font-size: clamp(48px, 7vw, 88px);
+      letter-spacing: -.05em;
+    }
+    .hero-copy > p:not(.eyebrow) {
+      max-width: 460px;
+      margin: 22px 0 28px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+    .primary-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 13px 18px;
+      color: #fff;
+      background: var(--brand);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .primary-link:hover { background: var(--brand-dark); }
+    .text-link { color: var(--brand-dark); font-size: 13px; font-weight: 700; }
+    .text-link:hover { color: var(--accent); }
+    .hero-note {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .hero-note span {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .hero-media {
+      min-height: 420px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #d7c29e, #ca987e 53%, #a86859);
+    }
+    .hero-media img { width: 100%; height: 420px; object-fit: cover; }
+    .hero-fallback {
+      min-height: 420px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-fallback::before {
+      content: "";
+      position: absolute;
+      width: 65%;
+      aspect-ratio: 1;
+      left: 12%;
+      top: -18%;
+      border-radius: 50%;
+      background: #e7cc91;
+      opacity: .75;
+    }
+    .hero-fallback::after {
+      content: "";
+      position: absolute;
+      width: 58%;
+      height: 80%;
+      left: 28%;
+      bottom: -25%;
+      border: 18px solid rgba(116,73,65,.68);
+      border-bottom: 0;
+      border-radius: 50% 50% 0 0;
+    }
+    .vessel {
+      position: absolute;
+      width: 29%;
+      height: 45%;
+      left: 42%;
+      bottom: 14%;
+      border-radius: 16% 16% 38% 38%;
+      background: linear-gradient(90deg,#a65c4d,#d7956a 45%,#8b4b44);
+      clip-path: polygon(26% 0,74% 0,100% 22%,93% 79%,73% 100%,27% 100%,7% 79%,0 22%);
+    }
+    .hero-label {
+      position: absolute;
+      top: 15%;
+      right: 9%;
+      color: #fff5dc;
+      text-align: right;
+      font: 28px/1 var(--serif);
+    }
+    .hero-caption {
+      position: absolute;
+      right: 9%;
+      bottom: 8%;
+      color: #fff5dc;
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* Ticker */
+    .ticker { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+    .ticker-inner {
+      display: flex;
+      justify-content: space-around;
+      gap: 24px;
+      padding: 13px 0;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .ticker-inner span::after { content: "•"; margin-left: 24px; color: var(--accent); }
+
+    /* Catalog */
+    .section { padding: 85px 0; }
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 35px;
+      margin-bottom: 32px;
+    }
+    h2 { font-size: clamp(40px,5vw,66px); letter-spacing: -.045em; }
+    h2 em { color: var(--brand); font-style: italic; }
+    .section-intro { max-width: 330px; color: var(--muted); font-size: 13px; }
+    .section-intro p { margin: 0 0 12px; }
+    .catalog-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .filters { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 3px; }
+    .filter {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 11px;
+    }
+    .filter.active, .filter:hover {
+      border-color: var(--brand);
+      color: #fff;
+      background: var(--brand);
+    }
+    .search {
+      width: 210px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+      font-size: 12px;
+    }
+    .search:focus { border-color: var(--brand); }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .product-card {
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid #e9e5de;
+      border-radius: 13px;
+      background: #fff;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    .product-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #f2f0eb;
+    }
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      transition: transform .35s ease;
+    }
+    .product-card:hover .product-image img { transform: scale(1.035); }
+    .product-image.image-fallback {
+      background: linear-gradient(140deg,#eee3d3,#c8d4c9);
+    }
+    .product-image.image-fallback::after {
+      content: "Fivbe Gifts";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(33,77,66,.55);
+      font: italic 20px var(--serif);
+    }
+    .product-tag {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      padding: 4px 7px;
+      border-radius: 4px;
+      color: var(--brand-dark);
+      background: rgba(255,253,249,.94);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .product-copy {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 12px;
+      gap: 5px;
+    }
+    .product-category {
+      margin: 0;
+      color: var(--brand);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .product-title {
+      min-height: 38px;
+      color: #252923;
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+    .product-description {
+      min-height: 32px;
+      margin: 0;
+      color: #77766f;
+      font-size: 11px;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .price {
+      display: block;
+      margin: 3px 0 5px;
+      color: var(--brand-dark);
+      font-size: 21px;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+    .product-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .quantity-buttons {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      height: 31px;
+      overflow: hidden;
+      border: 1px solid #e0e0da;
+      border-radius: 7px;
+      background: #fafaf8;
+    }
+    .quantity-buttons button {
+      width: 23px;
+      height: 29px;
+      padding: 0;
+      border: 0;
+      color: #333;
+      background: #f4f4f0;
+      font-size: 15px;
+      line-height: 1;
+    }
+    .quantity-buttons button:hover { background: #e9eee9; }
+    .product-quantity {
+      width: 22px;
+      height: 29px;
+      padding: 0;
+      border: 0;
+      outline: none;
+      color: #242424;
+      background: transparent;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+    .product-quantity::-webkit-inner-spin-button,
+    .product-quantity::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    .add-to-cart-btn {
+      flex: 1;
+      min-width: 0;
+      min-height: 31px;
+      padding: 6px 7px;
+      border: 0;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--brand-dark);
+      font-size: 11px;
+      font-weight: 650;
+      transition: background .2s ease;
+    }
+    .add-to-cart-btn:hover { background: var(--brand); }
+    .empty {
+      grid-column: 1 / -1;
+      padding: 50px 20px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* About */
+    .about { background: var(--brand-light); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 65px;
+      align-items: center;
+    }
+    .about-art {
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+      background: var(--brand);
+    }
+    .about-art::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      left: 10%;
+      top: 12%;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 50%;
+      box-shadow: 0 0 0 36px rgba(255,255,255,.08),0 0 0 72px rgba(255,255,255,.08);
+    }
+    .about-art span {
+      position: absolute;
+      right: 12%;
+      bottom: 12%;
+      color: #f6edda;
+      font: italic 34px/1 var(--serif);
+    }
+    .about-copy p { max-width: 570px; color: var(--muted); }
+    .values { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 28px; }
+    .value { padding-top: 12px; border-top: 1px solid rgba(47,104,88,.35); }
+    .value strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--brand-dark);
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+    .value span { color: var(--muted); font-size: 11px; }
+
+    /* Contact and footer */
+    .contact { padding: 65px 0; color: #fffaf3; background: var(--brand-dark); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 60px;
+      align-items: end;
+    }
+    .contact h2 { color: #fffaf3; }
+    .contact h2 em { color: #e7c697; }
+    .contact-copy > p { max-width: 510px; color: rgba(255,250,243,.72); }
+    .contact .whatsapp-button { margin-top: 15px; color: var(--brand-dark); background: #fffaf3; }
+    .contact .whatsapp-button:hover { background: #e7c697; }
+    .contact-details { display: grid; gap: 15px; color: rgba(255,250,243,.72); font-size: 12px; }
+    .contact-details strong { display: block; color: #fffaf3; font-size: 13px; }
+    footer { padding: 25px 0; background: var(--paper); }
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .footer-links { display: flex; gap: 16px; }
+
+    /* Compact bottom cart */
+    .fivbe-cart {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 50%;
+      bottom: 12px;
+      width: min(480px,calc(100% - 24px));
+      transform: translateX(-50%);
+      color: #fff;
+      font-family: var(--sans);
+    }
+    .fivbe-cart-bar {
+      overflow: hidden;
+      border-radius: 12px;
+      background: #263765;
+      box-shadow: 0 8px 28px rgba(0,0,0,.23);
+    }
+    .fivbe-cart-toggle {
+      width: 100%;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 13px;
+      border: 0;
+      color: #fff;
+      background: transparent;
+      text-align: left;
+    }
+    .fivbe-cart-bar-label { display: flex; flex-direction: column; line-height: 1.3; }
+    .fivbe-cart-bar-label strong { font-size: 13px; }
+    .fivbe-cart-bar-label small { color: rgba(255,255,255,.72); font-size: 10px; }
+    .fivbe-cart-bar-total { font-size: 16px; font-weight: 750; white-space: nowrap; }
+    .fivbe-cart-view {
+      padding: 7px 9px;
+      border-radius: 7px;
+      background: rgba(255,255,255,.14);
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .fivbe-cart-content {
+      display: none;
+      max-height: 55vh;
+      overflow-y: auto;
+      margin-bottom: 7px;
+      padding: 15px;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      color: #252525;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(0,0,0,.16);
+    }
+    .fivbe-cart.expanded .fivbe-cart-content { display: block; }
+    .fivbe-cart-content h3 { margin-bottom: 12px; font-size: 16px; }
+    .fivbe-cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .fivbe-cart-item-name { font-size: 12px; font-weight: 650; }
+    .fivbe-cart-item-price { color: #777; font-size: 11px; }
+    .fivbe-cart-controls { display: flex; align-items: center; gap: 8px; }
+    .fivbe-cart-controls button {
+      width: 25px;
+      height: 25px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #f8f8f5;
+      font-size: 14px;
+    }
+    .fivbe-cart-controls span { min-width: 12px; text-align: center; font-size: 12px; }
+    .fivbe-cart-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 13px 0;
+      font-size: 14px;
+      font-weight: 750;
+    }
+    .fivbe-checkout {
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--brand-dark);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .fivbe-checkout:hover { background: var(--brand); }
+    .fivbe-cart-empty { color: #777; font-size: 12px; }
+
+    @media (max-width: 820px) {
+      .container { width: min(100% - 32px,620px); }
+      .nav-links, .nav > .whatsapp-button { display: none; }
+      .menu-button { display: block; }
+      .nav-links.mobile-open {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 8px 20px;
+        border-bottom: 1px solid var(--line);
+        background: var(--cream);
+      }
+      .nav-links.mobile-open a { padding: 10px 0; }
+      .hero, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 35px; }
+      .hero { padding: 55px 0 48px; }
+      h1 { font-size: clamp(50px,14vw,78px); }
+      .hero-media, .hero-fallback, .hero-media img { min-height: 330px; height: 330px; }
+      .section { padding: 65px 0; }
+      .section-heading { display: block; }
+      .section-intro { margin-top: 18px; }
+      .catalog-tools { display: block; }
+      .search { width: 100%; margin-top: 12px; }
+      .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+      .about-art { min-height: 260px; }
+      .footer-row { display: block; }
+      .footer-links { margin: 12px 0; }
+    }
+    @media (max-width: 500px) {
+      .announcement { font-size: 9px; }
+      .product-grid { gap: 10px; }
+      .product-copy { padding: 9px; gap: 5px; }
+      .product-category { font-size: 8px; }
+      .product-title { min-height: 35px; font-size: 12px; }
+      .product-description { min-height: 30px; font-size: 10px; }
+      .price { font-size: 19px; }
+      .product-actions { gap: 5px; }
+      .quantity-buttons { height: 29px; }
+      .quantity-buttons button { width: 20px; height: 27px; }
+      .product-quantity { width: 18px; height: 27px; font-size: 10px; }
+      .add-to-cart-btn { min-height: 29px; padding: 5px 4px; font-size: 10px; }
+      .product-tag { top: 7px; left: 7px; padding: 3px 5px; font-size: 8px; }
+      .values { grid-template-columns: 1fr; }
+      .about-art { min-height: 220px; }
+      .footer-links { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    const BUSINESS = {
+      name: "Fivbe Gifts",
+      shortName: "Fivbe",
+      tagline: "More Than Just Gifts",
+      eyebrow: "Gifts Made With Love",
+      description: "Personalized gifts made to make every moment special.",
+      announcement: "Kanjak Hamper Is Just For Rs. 100",
+      whatsapp: "917349112715",
+      phone: "+91 7349112715",
+      email: "fivbegifts@gmail.com",
+      instagram: "https://www.instagram.com/fivbegifts/",
+      address: "Online Gift Store",
+      hours: "Mon–Sun · 10:00 am–10:00 pm",
+      heroImage: "images/heroimage.png",
+      brand: "#2f6858",
+      brandDark: "#214d42",
+      brandLight: "#e5eee8"
+    };
+
+    const PRODUCTS = [
+       {
+        name: "Kanjak Hamper - Best for kids",
+        price: 100,
+        category: "Navratri Gifts",
+        description: "11+ Items - Chips, dairy, crayon, ballons, Mehendi, Srunchie, Mini keychain, pencil set, stickers, scale, chocolate ",
+        details: "",
+        image: "images/Kanjak Hamper.png",
+        tone: "cream",
+        tag: "Bestseller"
+      },
+      {
+        name: "Rolls-Royce Phantom Black Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Premium Collectible with Timeless Royal Elegance",
+        details: "",
+        image: "Car Frame Rolls Royce Vintage Black.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mercedes-Benz 540K Vintage Red Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Timeless Vintage Elegance for Every Collector",
+        details: "",
+        image: "images/Car Frame Mercedes Vintage Red .png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Audi R8 Red Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Experience Supercar Thrills in Miniature Form",
+        details: "",
+        image: "images/Car Frame Audi R8 Red.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Audi R8 White Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Iconic Design, Premium Finish, Pure Adrenaline.",
+        details: "",
+        image: "images/Car Frame Audi R8 White.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Bugatti La Voiture Noire Black Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Ultimate Luxury, Iconic Design, Timeless Elegance",
+        details: "",
+        image: "images/Car Frame Black Buggati La.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Ford Mustang GT Black Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Iconic American Muscle Car Form",
+        details: "",
+        image: "images/Car Frame Mustang GT .png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Koenigsegg Jesko Blue Hypercar Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Extreme speed meets stunning collectible design.",
+        details: "",
+        image: "images/Car Frame Koinsing Blue.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Scuderia Ferrari SF-24 Formula 1 Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Bring home the thrill of Formula 1.",
+        details: "",
+        image: "images/red f1 car frame.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Renault F1 Team R.S.20 Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Iconic Racing Design, Premium Collector’s Edition.",
+        details: "",
+        image: "images/pili F1 Car Frame.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "McLaren Formula 1 MCL38 Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Iconic Racing Design, Premium Collector’s Edition.",
+        details: "",
+        image: "images/bhagva f1 car frame.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Mercedes-AMG Petronas W15 Formula 1 Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: " Iconic Racing Design, Premium Collector’s Edition.",
+        details: "",
+        image: "images/Nili F1 Car Frame.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Lamborghini Huracan Orange Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: " Iconic Design, Premium Finish, Collector’s Choice.",
+        details: "",
+        image: "images/Car Frame Orange Lambo.png",
+        tone: "cream",
+        tag: ""
+      },
+         {
+        name: "Lamborghini Countach LP500 S Red Car Frame",
+        price: 599,
+        category: "Photo & Frames",
+        description: "Iconic supercar design with legendary performance.",
+        details: "",
+        image: "images/red countach frame.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mini Polaroids - Pack of 20",
+        price: 120,
+        category: "Photo & Frames",
+        description: "A pack of 20 customized mini polaroid prints.",
+        details: "Pack of 20 | Customized prints",
+        image: "images/mini polaroids .jpg.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Large Polaroids - Pack of 20",
+        price: 180,
+        category: "Photo & Frames",
+        description: "A pack of 20 customized large polaroid prints.",
+        details: "Pack of 20 | Customized prints",
+        image: "images/large polaroids ,JPG.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "4x6 Customisable Frame",
+        price: 150,
+        category: "Photo & Frames",
+        description: "A customized frame for your favorite memory.",
+        details: "Premium frame finish",
+        image: "images/4x7 size frame .jpg.jpeg",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "5x7 Customisable Frame",
+        price: 200,
+        category: "Photo & Frames",
+        description: "A customized frame for your favorite memory.",
+        details: "Premium frame finish",
+        image: "images/5X7 size frame .JPG.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "A4 Customisable Frame",
+        price: 300,
+        category: "Photo & Frames",
+        description: "A premium A4 frame for your favorite memories.",
+        details: "Customized photo/design",
+        image: "images/a4 size frame.JPG.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Couple Keychain - 2Pc",
+        price: 200,
+        category: "Keychains",
+        description: "A matching keychain set made for couples.",
+        details: "Perfect for couples & gifting",
+        image: "images/couples keychain .jpg.png",
+        tone: "cream",
+        tag: "Best Seller"
+      },
+      {
+        name: "Labubu Rubber Keychain",
+        price: 99,
+        category: "Keychains",
+        description: "A playful rubber keychain for keys and bags.",
+        details: "Cute character design",
+        image: "images/Rubber keychain .JPG.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mini Rubber Keychains - Pack Of 12",
+        price: 120,
+        category: "Keychains",
+        description: "A cute set of 12 mini rubber keychains.",
+        details: "Cute designs",
+        image: "images/mini keychains .jpg.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Vintage Rolls-Royce Phantom Red Metal Car",
+        price: 299,
+        category: "Metal Cars",
+        description: "Timeless luxury, bold elegance",
+        details: "",
+        image: "images/vintage r.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Vintage Rolls-Royce Phantom Maroon Metal Car",
+        price: 299,
+        category: "Metal Cars",
+        description: "Classic luxury in maroon",
+        details: "",
+        image: "images/vintage m.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Vintage Rolls-Royce Phantom Black Metal Car",
+        price: 299,
+        category: "Metal Cars",
+        description: "Elegant luxury in black",
+        details: "",
+        image: "images/vintage b.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mustang GT Black Metal Car",
+        price: 249,
+        category: "Metal Cars",
+        description: "Bold muscle, sleek black",
+        details: "",
+        image: "images/gt black.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mercedes AMG Yellow Metal Car",
+        price: 279,
+        category: "Metal Cars",
+        description: "Sporty power, vibrant yellow",
+        details: "",
+        image: "images/yellow merce.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Bugatti La Voiture Noire Black Metal Car",
+        price: 279,
+        category: "Metal Cars",
+        description: "Ultimate luxury, pure black power",
+        details: "",
+        image: "images/black buggati (2).png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Ford Mustang GT Black Metal Ca",
+        price: 349,
+        category: "Metal Cars",
+        description: "Bold muscle, sleek black",
+        details: "",
+        image: "images/line mustang.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Dodge Charger Red Metal Ca",
+        price: 349,
+        category: "Metal Cars",
+        description: "Powerful muscle, bold red",
+        details: "",
+        image: "images/red charger.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Lamborghini Huracan Orange Metal Car",
+        price: 249,
+        category: "Metal Cars",
+        description: "Exotic speed, bold orange",
+        details: "",
+        image: "images/orange lamb.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Koenigsegg Jesko Blue Metal Car",
+        price: 349,
+        category: "Metal Cars",
+        description: "Extreme speed, bold blue",
+        details: "",
+        image: "images/koidiih blue.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Audi R8 White Metal Car",
+        price: 279,
+        category: "Metal Cars",
+        description: "Sleek performance, pure white",
+        details: "",
+        image: "images/white audi.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mercedes AMG White Metal Car",
+        price: 349,
+        category: "Metal Cars",
+        description: "Pure performance, sleek white",
+        details: "",
+        image: "images/merceeds white amg.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Audi R8 Red Metal Car",
+        price: 279,
+        category: "Metal Cars",
+        description: "Sporty power, bold red",
+        details: "",
+        image: "images/red audi.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Bugatti La Voiture Noire Blue Metal Car",
+        price: 279,
+        category: "Metal Cars",
+        description: "Luxury power, bold blue",
+        details: "",
+        image: "images/blue buggati (2).png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mercedes AMG Petronas F1 Blue Metal Car",
+        price: 349,
+        category: "",
+        description: "F1 power, iconic blue speed",
+        details: "",
+        image: "images/blue f1 .jpg.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Renault Sport Yellow Metal Car",
+        price: 349,
+        category: "",
+        description: "Sporty performance, vibrant yellow",
+        details: "",
+        image: "images/yello f1.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Scuderia Ferrari F1 Red Metal Car",
+        price: 349,
+        category: "",
+        description: "F1 speed, iconic red power",
+        details: "",
+        image: "images/lal f1.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "McLaren MCL38 F1 Orange Metal Car",
+        price: 349,
+        category: "Metal Cars",
+        description: "F1 speed, iconic orange power",
+        details: "",
+        image: "images/oran f1.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "STYCL Matte Lip Pencil Set(Pack of 12)",
+        price: 599,
+        category: "Beauty",
+        description: "Matte lip pencils in multiple shades.",
+        details: "",
+        image: "images/pen swt.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Streax Hydrate & Shine Face Serum",
+        price: 349,
+        category: "Skincare",
+        description: "Hydrates skin and adds natural-looking shine.",
+        details: "",
+        image: "images/streax serum.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "RENEE Stick-On Nails",
+        price: 199,
+        category: "Beauty",
+        description: "Stylish stick-on nails with glitter designs.",
+        details: "",
+        image: "images/nails.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "STYCL Rose Nail Polish Remover",
+        price: 29,
+        category: "Beauty",
+        description: "Removes nail polish easily and gently.",
+        details: "",
+        image: "images/nail paint remo.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: " Charmis Deep Nourishing Cold Cream",
+        price: 249,
+        category: "Skincare",
+        description: "Deeply nourishes and moisturizes dry skin",
+        details: "",
+        image: "images/charmis.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Reusable Eyelashes",
+        price: 79,
+        category: "Beauty",
+        description: "Lightweight lashes for fuller-looking eyes.",
+        details: "",
+        image: "images/eyelashes.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Engage Drizzle Body Spray",
+        price: 179,
+        category: "Beauty",
+        description: "Floral lavender fragrance for everyday freshness",
+        details: "",
+        image: "images/engeage.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Mars Eyeshadow Palette(12-shades)",
+        price: 249,
+        category: "Beauty",
+        description: "Versatile shades for beautiful eye makeup.",
+        details: "",
+        image: "images/mars shades.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Birthday Hamper – Mini",
+        price: 299,
+        category: "Birthday Hampers",
+        description: "4x6 frame, mini polaroids and a QR code card.",
+        details: "Birthday Gifts",
+        image: "images/Birthday hamper.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: " SUGAR Eyeshadow Palette(8-shades)",
+        price: 399,
+        category: "Beauty",
+        description: "Vibrant green shades for creative eye makeup",
+        details: "",
+        image: "images/eyesahdow sugar.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: " The Man Company Blanc & Oud Body Spray",
+        price: 179,
+        category: "Beauty",
+        description: "Fresh, long-lasting fragrances for men.",
+        details: "",
+        image: "images/men perume.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "NIVEA Pearl Beauty Deodorant ",
+        price: 179,
+        category: "Beauty",
+        description: "Fresh fragrance for everyday confidence",
+        details: "",
+        image: "images/nivea perl.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Professional Makeup Sponge Set",
+        price: 99,
+        category: "Beauty",
+        description: "Soft sponges for flawless makeup application",
+        details: "",
+        image: "images/big spounge.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Cute Makeup Sponge Set",
+        price: 89,
+        category: "Beauty",
+        description: "Colorful sponges for smooth makeup application",
+        details: "",
+        image: "images/mini spounge.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "MARS COSMIC Nail Paint",
+        price: 99,
+        category: "Beauty",
+        description: "Stylish shades for beautiful nails",
+        details: "",
+        image: "images/mars nail pait.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Cute Hello Kitty Lip Oil (Pack of 3)",
+        price: 369,
+        category: "Beauty",
+        description: "Hydrating lip oil for soft lips",
+        details: "",
+        image: "images/kitty lip oil.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "TRESemmé Hydra Matrix Serum",
+        price: 399,
+        category: "Beauty",
+        description: "Lightweight serum for smooth hydrated hair",
+        details: "",
+        image: "images/makeup tresmme serum.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "MARS Blush Hour Liquid Blush",
+        price: 279,
+        category: "Beauty",
+        description: "Lightweight blush for a natural glow",
+        details: "",
+        image: "images/makeup blush hour.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Sugar Illuminating Moisturizer",
+        price: 109,
+        category: "Beauty",
+        description: "Hydrating moisturizer for radiant glowing skin",
+        details: "",
+        image: "images/sugar mosiisisitu.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Shills Vitamin C Face Sheet Mask",
+        price: 79,
+        category: "Skincare",
+        description: "Hydrating sheet mask for radiant skin",
+        details: "",
+        image: "images/makeup shills face mask.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "",
+        price: 99,
+        category: "Skincare",
+        description: "Gentle wipes for effortless makeup removal",
+        details: "",
+        image: "",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "Sugar Black Eyeliner",
+        price: 199,
+        category: "Beauty",
+        description: "Smooth eyeliner for defined beautiful eyes",
+        details: "",
+        image: "images/makeup sugar eye linear.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "MARS - Lipstick",
+        price: 189,
+        category: "Beauty",
+        description: "Hydrating sheet mask for radiant skin",
+        details: "",
+        image: "images/makeup mars lip stick.png",
+        tone: "cream",
+        tag: ""
+      },
+      {
+        name: "",
+        price: 79,
+        category: "Skincare",
+        description: "",
+        details: "",
+        image: "",
+        tone: "cream",
+        tag: ""
+      },
+    ];
+  </script>
+
+  <div class="announcement" id="announcement"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Go to homepage">
+        <span class="brand-mark" id="brand-mark"></span>
+        <span id="brand-name"></span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#collection">Collection</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="whatsapp-button" id="header-whatsapp" href="#" target="_blank" rel="noreferrer">WhatsApp us</a>
+      <button class="menu-button" type="button" aria-label="Open menu"
+        onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="container hero">
+      <div class="hero-copy">
+        <p class="eyebrow" id="business-eyebrow"></p>
+        <h1 id="business-tagline"></h1>
+        <p id="business-description"></p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#collection">Explore the collection ↓</a>
+          <a class="text-link" href="#about">Why we make →</a>
+        </div>
+        <div class="hero-note"><span></span> Curated with care · shipped across India</div>
+      </div>
+      <div class="hero-media" id="hero-media" aria-label="Business hero image"></div>
+    </section>
+
+    <div class="ticker" aria-label="Store promises">
+      <div class="container ticker-inner">
+        <span>Made with care</span>
+        <span>Thoughtful gifting</span>
+        <span>Personal ordering</span>
+        <span>Sent with care</span>
+      </div>
+    </div>
+
+    <section class="section container" id="collection">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">The collection</p>
+          <h2>Things worth<br /><em>bringing home.</em></h2>
+        </div>
+        <div class="section-intro">
+          <p>Thoughtfully selected gifts for your favorite people and moments. Browse the collection and order directly with us.</p>
+          <a class="text-link" href="#contact">Need a recommendation? →</a>
+        </div>
+      </div>
+
+      <div class="catalog-tools">
+        <div class="filters" id="filters" role="tablist" aria-label="Filter products"></div>
+        <label>
+          <span class="sr-only">Search products</span>
+          <input class="search" id="search" type="search" placeholder="Search the collection" />
+        </label>
+      </div>
+
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="container about-grid">
+        <div class="about-art" aria-hidden="true"><span>Fivbe<br />Gifts</span></div>
+        <div class="about-copy">
+          <p class="eyebrow">A note from the studio</p>
+          <h2>Made with care.<br /><em>Meant to stay.</em></h2>
+          <p id="about-description">At Fivbe Gifts, we believe thoughtful gifts make everyday moments memorable. Explore personalized keepsakes, frames, hampers and more, all in one place.</p>
+          <div class="values">
+            <div class="value"><strong>Personal touches</strong><span>Gifts selected to make special moments memorable.</span></div>
+            <div class="value"><strong>Made for gifting</strong><span>Thoughtful picks for friends, family and loved ones.</span></div>
+            <div class="value"><strong>Personal service</strong><span>Message us directly for help with your order.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <p class="eyebrow" style="color:#e7c697">Let’s make gifting special</p>
+          <h2>Your next favourite<br /><em>might be a message away.</em></h2>
+          <p>Tell us what you’re looking for, share a screenshot, or simply say hello. We’re happy to help you choose a gift.</p>
+          <a class="whatsapp-button" id="contact-whatsapp" href="#" target="_blank" rel="noreferrer">Start a WhatsApp conversation</a>
+        </div>
+        <div class="contact-details">
+          <div><strong>Find the studio</strong><span id="business-address"></span></div>
+          <div><strong>Studio hours</strong><span id="business-hours"></span></div>
+          <div><strong>Call or WhatsApp</strong><span id="business-phone"></span></div>
+          <div><strong>Email</strong><span id="business-email"></span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span id="footer-business"></span>
+      <div class="footer-links">
+        <a href="#collection">Collection</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a id="instagram-link" href="#" target="_blank" rel="noreferrer" hidden>Instagram</a>
+      </div>
+      <span id="copyright"></span>
+    </div>
+  </footer>
+
+  <script>
+    const money = (value) => `₹${Number(value).toLocaleString("en-IN")}`;
+    const whatsapp = (message) =>
+      `https://wa.me/${BUSINESS.whatsapp}?text=${encodeURIComponent(message)}`;
+
+    const escapeHTML = (value = "") =>
+      String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+
+    document.documentElement.style.setProperty("--brand", BUSINESS.brand);
+    document.documentElement.style.setProperty("--brand-dark", BUSINESS.brandDark);
+    document.documentElement.style.setProperty("--brand-light", BUSINESS.brandLight);
+    document.title = `${BUSINESS.name} · ${BUSINESS.tagline}`;
+
+    document.getElementById("announcement").textContent = BUSINESS.announcement;
+    document.getElementById("brand-mark").textContent = BUSINESS.shortName;
+    document.getElementById("brand-name").textContent = BUSINESS.name;
+    document.getElementById("business-eyebrow").textContent = BUSINESS.eyebrow;
+    document.getElementById("business-tagline").textContent = BUSINESS.tagline;
+    document.getElementById("business-description").textContent = BUSINESS.description;
+    document.getElementById("business-address").textContent = BUSINESS.address;
+    document.getElementById("business-hours").textContent = BUSINESS.hours;
+    document.getElementById("business-phone").textContent = BUSINESS.phone;
+    document.getElementById("business-email").textContent = BUSINESS.email;
+    document.getElementById("footer-business").textContent = BUSINESS.name;
+    document.getElementById("copyright").textContent =
+      `© ${new Date().getFullYear()} ${BUSINESS.name}`;
+
+    const generalMessage = `Hi ${BUSINESS.name}, I’d love some help choosing a gift.`;
+    document.getElementById("header-whatsapp").href = whatsapp(generalMessage);
+    document.getElementById("contact-whatsapp").href =
+      whatsapp(`Hi ${BUSINESS.name}, I’m browsing your collection and would love a recommendation.`);
+
+    /* Hero image with fallback */
+    const hero = document.getElementById("hero-media");
+    const heroFallback = `
+      <div class="hero-fallback">
+        <div class="vessel"></div>
+        <div class="hero-label">A thoughtful<br />little collection</div>
+        <div class="hero-caption">Fivbe Gifts · Made with care</div>
+      </div>`;
+
+    if (BUSINESS.heroImage) {
+      const heroImage = document.createElement("img");
+      heroImage.src = BUSINESS.heroImage;
+      heroImage.alt = "Fivbe Gifts collection";
+      heroImage.onerror = () => { hero.innerHTML = heroFallback; };
+      hero.appendChild(heroImage);
+    } else {
+      hero.innerHTML = heroFallback;
+    }
+
+    /* Only show products that have a name and category.
+       Empty placeholders remain in PRODUCTS for you to fill later. */
+    const validProducts = PRODUCTS
+      .map((product, originalIndex) => ({ ...product, originalIndex }))
+      .filter((product) => product.name.trim() && product.category.trim());
+
+    const categories = [
+      "All pieces",
+      ...new Set(validProducts.map((product) => product.category))
+    ];
+
+    let selectedCategory = "All pieces";
+    const filters = document.getElementById("filters");
+    const grid = document.getElementById("product-grid");
+    const search = document.getElementById("search");
+
+    filters.innerHTML = categories.map((category) => `
+      <button class="filter ${category === selectedCategory ? "active" : ""}"
+        type="button" role="tab"
+        aria-selected="${category === selectedCategory}"
+        data-category="${escapeHTML(category)}">
+        ${escapeHTML(category)}
+      </button>
+    `).join("");
+
+    filters.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+
+      selectedCategory = button.dataset.category;
+      filters.querySelectorAll(".filter").forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-selected", String(active));
+      });
+      renderProducts();
+    });
+
+    search.addEventListener("input", renderProducts);
+
+    function productCard(product) {
+      const productIndex = product.originalIndex;
+      const safeName = escapeHTML(product.name);
+      const safeCategory = escapeHTML(product.category);
+      const safeDescription = escapeHTML(product.description || "");
+      const safeTone = escapeHTML(product.tone || "cream");
+      const safeTag = escapeHTML(product.tag || "");
+
+      const image = product.image
+        ? `<img src="${escapeHTML(product.image)}"
+             alt="${safeName}"
+             loading="lazy"
+             onerror="this.style.display='none'; this.parentElement.classList.add('image-fallback');" />`
+        : "";
+
+      return `
+        <article class="product-card">
+          <div class="product-image">
+            ${image}
+            ${safeTag ? `<span class="product-tag">${safeTag}</span>` : ""}
+          </div>
+
+          <div class="product-copy">
+            <p class="product-category">${safeCategory}</p>
+            <h3 class="product-title">${safeName}</h3>
+            <p class="product-description">${safeDescription}</p>
+            <span class="price">${money(product.price)}</span>
+
+            <div class="product-actions">
+              <div class="quantity-buttons" aria-label="Choose quantity">
+                <button type="button" class="quantity-minus"
+                  aria-label="Decrease quantity">−</button>
+                <input type="number" class="product-quantity"
+                  value="1" min="1" max="99" inputmode="numeric"
+                  aria-label="Quantity for ${safeName}" />
+                <button type="button" class="quantity-plus"
+                  aria-label="Increase quantity">+</button>
+              </div>
+
+              <button type="button" class="add-to-cart-btn"
+                data-add-to-cart="${productIndex}">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderProducts() {
+      const query = search.value.trim().toLowerCase();
+
+      const visible = validProducts.filter((product) => {
+        const categoryMatch =
+          selectedCategory === "All pieces" ||
+          product.category === selectedCategory;
+
+        const searchableText =
+          `${product.name} ${product.description} ${product.category}`.toLowerCase();
+
+        const queryMatch = !query || searchableText.includes(query);
+        return categoryMatch && queryMatch;
+      });
+
+      grid.innerHTML = visible.length
+        ? visible.map(productCard).join("")
+        : `<div class="empty">
+             <h3>Nothing by that name yet.</h3>
+             <p>Try another search or browse all pieces.</p>
+           </div>`;
+    }
+
+    /* Fivbe cart */
+    const fivbeCart = new Map();
+
+    const cartPanel = document.createElement("div");
+    cartPanel.className = "fivbe-cart";
+    cartPanel.innerHTML = `
+      <div class="fivbe-cart-content">
+        <h3>Your Cart</h3>
+        <div class="fivbe-cart-items"></div>
+        <div class="fivbe-cart-total">
+          <span>Total</span>
+          <span class="fivbe-cart-total-value">₹0</span>
+        </div>
+        <button class="fivbe-checkout" type="button">Order on WhatsApp</button>
+      </div>
+
+      <div class="fivbe-cart-bar">
+        <button class="fivbe-cart-toggle" type="button"
+          aria-expanded="false">
+          <span class="fivbe-cart-bar-label">
+            <strong><span class="fivbe-cart-count">0</span> items in cart</strong>
+            <small>Tap to view your cart</small>
+          </span>
+          <span class="fivbe-cart-bar-total">₹0</span>
+          <span class="fivbe-cart-view">View Cart ↑</span>
+        </button>
+      </div>
+    `;
+    document.body.appendChild(cartPanel);
+
+    const cartItemsContainer = cartPanel.querySelector(".fivbe-cart-items");
+    const cartTotalElement = cartPanel.querySelector(".fivbe-cart-total-value");
+    const cartCountElement = cartPanel.querySelector(".fivbe-cart-count");
+    const cartBarTotalElement = cartPanel.querySelector(".fivbe-cart-bar-total");
+    const cartToggle = cartPanel.querySelector(".fivbe-cart-toggle");
+
+    cartToggle.addEventListener("click", () => {
+      const expanded = cartPanel.classList.toggle("expanded");
+      cartToggle.setAttribute("aria-expanded", String(expanded));
+      cartPanel.querySelector(".fivbe-cart-view").textContent =
+        expanded ? "Hide Cart ↓" : "View Cart ↑";
+    });
+
+    function fivbeRenderCart() {
+      let total = 0;
+      let itemCount = 0;
+
+      if (fivbeCart.size === 0) {
+        cartItemsContainer.innerHTML =
+          `<p class="fivbe-cart-empty">Your cart is empty.</p>`;
+      } else {
+        cartItemsContainer.innerHTML = Array.from(fivbeCart.values())
+          .map((item) => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            itemCount += item.quantity;
+
+            return `
+              <div class="fivbe-cart-item">
+                <div>
+                  <div class="fivbe-cart-item-name">${escapeHTML(item.name)}</div>
+                  <div class="fivbe-cart-item-price">
+                    ${money(item.price)} × ${item.quantity}
+                  </div>
+                </div>
+                <div class="fivbe-cart-controls">
+                  <button type="button" data-cart-minus="${item.id}"
+                    aria-label="Remove one ${escapeHTML(item.name)}">−</button>
+                  <span>${item.quantity}</span>
+                  <button type="button" data-cart-plus="${item.id}"
+                    aria-label="Add one ${escapeHTML(item.name)}">+</button>
+                </div>
+              </div>
+            `;
+          }).join("");
+      }
+
+      cartTotalElement.textContent = money(total);
+      cartCountElement.textContent = itemCount;
+      cartBarTotalElement.textContent = money(total);
+      cartPanel.style.display = itemCount === 0 ? "none" : "block";
+    }
+
+    document.addEventListener("click", (event) => {
+      const minusButton = event.target.closest(".quantity-minus");
+      const plusButton = event.target.closest(".quantity-plus");
+      const addButton = event.target.closest("[data-add-to-cart]");
+      const cartMinus = event.target.closest("[data-cart-minus]");
+      const cartPlus = event.target.closest("[data-cart-plus]");
+      const checkoutButton = event.target.closest(".fivbe-checkout");
+
+      if (minusButton || plusButton) {
+        const input = event.target.parentElement.querySelector(".product-quantity");
+        if (!input) return;
+
+        const current = Math.max(1, Number(input.value) || 1);
+        input.value = minusButton
+          ? Math.max(1, current - 1)
+          : Math.min(99, current + 1);
+        return;
+      }
+
+      if (addButton) {
+        const productIndex = Number(addButton.dataset.addToCart);
+        const product = PRODUCTS[productIndex];
+        if (!product || !product.name) return;
+
+        const card = addButton.closest(".product-card");
+        const quantityInput = card.querySelector(".product-quantity");
+        const quantity = Math.min(99, Math.max(1, Number(quantityInput.value) || 1));
+        const existingItem = fivbeCart.get(productIndex);
+
+        if (existingItem) {
+          existingItem.quantity = Math.min(99, existingItem.quantity + quantity);
+        } else {
+          fivbeCart.set(productIndex, {
+            id: productIndex,
+            name: product.name,
+            price: Number(product.price),
+            quantity
+          });
+        }
+
+        fivbeRenderCart();
+        addButton.textContent = "Added ✓";
+        window.setTimeout(() => {
+          addButton.textContent = "Add to Cart";
+        }, 1000);
+        return;
+      }
+
+      if (cartMinus) {
+        const id = Number(cartMinus.dataset.cartMinus);
+        const item = fivbeCart.get(id);
+
+        if (item) {
+          item.quantity -= 1;
+          if (item.quantity <= 0) fivbeCart.delete(id);
+          fivbeRenderCart();
+        }
+        return;
+      }
+
+      if (cartPlus) {
+        const id = Number(cartPlus.dataset.cartPlus);
+        const item = fivbeCart.get(id);
+
+        if (item) {
+          item.quantity = Math.min(99, item.quantity + 1);
+          fivbeRenderCart();
+        }
+        return;
+      }
+
+      if (checkoutButton) {
+        if (fivbeCart.size === 0) {
+          alert("Your cart is empty.");
+          return;
+        }
+
+        let message = `Hi ${BUSINESS.name}, I would like to order:\n\n`;
+        let total = 0;
+
+        fivbeCart.forEach((item) => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          message += `${item.name} × ${item.quantity} = ${money(itemTotal)}\n`;
+        });
+
+        message += `\nTotal: ${money(total)}\n\nPlease confirm availability and delivery details.`;
+        window.open(whatsapp(message), "_blank");
+      }
+    });
+
+    /* Keep typed quantity within the allowed range */
+    document.addEventListener("change", (event) => {
+      if (!event.target.matches(".product-quantity")) return;
+      const value = Number(event.target.value) || 1;
+      event.target.value = Math.min(99, Math.max(1, value));
+    });
+
+    /* Instagram link */
+    if (BUSINESS.instagram) {
+      const instagram = document.getElementById("instagram-link");
+      instagram.href = BUSINESS.instagram;
+      instagram.hidden = false;
+    }
+
+    fivbeRenderCart();
+    renderProducts();
+  </script>
+</body>
+</html>

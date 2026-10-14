@@ -1566,12 +1566,12 @@
       const safeTone = escapeHTML(product.tone || "cream");
       const safeTag = escapeHTML(product.tag || "");
 
-      const image = product.image
-        ? `<img src="${escapeHTML(product.image)}"
-             alt="${safeName}"
-             loading="lazy"
-             onerror="this.style.display='none'; this.parentElement.classList.add('image-fallback');" />`
-        : "";
+    const image = product.image
+  ? `<img src="${escapeHTML(product.image)}"
+       alt="${safeName}"
+       loading="lazy"
+       onerror="if (!this.dataset.triedImages && !this.src.includes('/images/')) { this.dataset.triedImages = '1'; this.src = 'images/' + this.getAttribute('src'); } else { this.style.display='none'; this.parentElement.classList.add('image-fallback'); }" />`
+  : "";
 
       return `
         <article class="product-card">

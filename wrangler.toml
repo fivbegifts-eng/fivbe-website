@@ -1,0 +1,7 @@
+name = "fivbe-website"
+main = "worker.js"
+compatibility_date = "2026-10-13"
+
+[assets]
+directory = "."
+binding = "ASSETS"

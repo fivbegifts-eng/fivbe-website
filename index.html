@@ -1848,8 +1848,22 @@
       instagram.hidden = false;
     }
 
-    fivbeRenderCart();
+        fivbeRenderCart();
     renderProducts();
+  </script>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://qrmzkgsdkiamlkoysbem.supabase.co/rest/v1/';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_pG2wMa6M4EtxnSBbWGv8FA_aK1eW1ra';
+
+    window.fivbeSupabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    console.log('Fivbe Supabase client initialized');
   </script>
 </body>
 </html>

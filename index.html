@@ -630,6 +630,185 @@
     .fivbe-checkout:hover { background: var(--brand); }
     .fivbe-cart-empty { color: #777; font-size: 12px; }
 
+
+    /* Customer authentication */
+    .account-button {
+      min-height: 40px;
+      padding: 0 16px;
+      border: 1px solid var(--brand);
+      border-radius: 999px;
+      color: var(--brand-dark);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .account-button:hover { color: #fff; background: var(--brand); }
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(25, 35, 30, .58);
+    }
+    .auth-overlay.is-open { display: flex; }
+    .auth-dialog {
+      position: relative;
+      width: min(100%, 440px);
+      max-height: min(90vh, 720px);
+      overflow-y: auto;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 20px 60px rgba(0,0,0,.22);
+    }
+    .auth-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--muted);
+      background: #f0eee8;
+      font-size: 21px;
+    }
+    .auth-kicker {
+      margin: 0 0 7px;
+      color: var(--brand);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .auth-dialog h2 {
+      margin: 0 38px 8px 0;
+      font-size: 36px;
+    }
+    .auth-intro {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .auth-form { display: grid; gap: 12px; }
+    .auth-field { display: grid; gap: 5px; }
+    .auth-field label {
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .auth-field input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      font-size: 13px;
+    }
+    .auth-field input:focus { border-color: var(--brand); }
+    .auth-submit, .auth-google, .auth-signout {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 750;
+    }
+    .auth-submit {
+      margin-top: 4px;
+      border: 0;
+      color: #fff;
+      background: var(--brand-dark);
+    }
+    .auth-submit:hover { background: var(--brand); }
+    .auth-google {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fff;
+    }
+    .auth-google:hover { border-color: var(--brand); }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      color: var(--muted);
+      font-size: 10px;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+    .auth-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 15px;
+      font-size: 11px;
+    }
+    .auth-link {
+      padding: 0;
+      border: 0;
+      color: var(--brand);
+      background: transparent;
+      font-size: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .auth-message {
+      display: none;
+      margin: 14px 0 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--brand-dark);
+      background: var(--brand-light);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    .auth-message.is-error {
+      color: #8a2e25;
+      background: #fbecea;
+    }
+    .auth-account {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+    .auth-account-label {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+    .auth-account-email {
+      margin: 0 0 16px;
+      font-size: 14px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    .auth-signout {
+      border: 1px solid var(--line);
+      color: var(--brand-dark);
+      background: #fff;
+    }
+    .auth-signout:hover { border-color: var(--brand); }
+    @media (max-width: 820px) {
+      .account-button { min-height: 36px; padding: 0 12px; font-size: 11px; }
+      .auth-dialog { padding: 25px 20px; }
+    }
+
     @media (max-width: 820px) {
       .container { width: min(100% - 32px,620px); }
       .nav-links, .nav > .whatsapp-button { display: none; }
@@ -721,10 +900,58 @@ let PRODUCTS = [];
         <a href="#contact">Contact</a>
       </nav>
       <a class="whatsapp-button" id="header-whatsapp" href="#" target="_blank" rel="noreferrer">WhatsApp us</a>
+      <button class="account-button" id="account-open" type="button">Sign in</button>
       <button class="menu-button" type="button" aria-label="Open menu"
         onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button>
     </div>
   </header>
+
+
+  <section class="auth-overlay" id="auth-overlay" aria-hidden="true">
+    <div class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button class="auth-close" id="auth-close" type="button" aria-label="Close">×</button>
+      <p class="auth-kicker">Fivbe Gifts account</p>
+      <h2 id="auth-title">Welcome back.</h2>
+      <p class="auth-intro" id="auth-intro">Sign in to your account, or create one to get started.</p>
+
+      <div id="auth-forms">
+        <form class="auth-form" id="auth-form">
+          <div class="auth-field" id="auth-name-wrap" hidden>
+            <label for="auth-name">Full name</label>
+            <input id="auth-name" name="name" type="text" autocomplete="name" maxlength="100" />
+          </div>
+          <div class="auth-field">
+            <label for="auth-email">Email address</label>
+            <input id="auth-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="auth-field" id="auth-password-wrap">
+            <label for="auth-password">Password</label>
+            <input id="auth-password" name="password" type="password"
+              autocomplete="current-password" minlength="6" required />
+          </div>
+          <button class="auth-submit" id="auth-submit" type="submit">Sign in</button>
+        </form>
+
+        <div class="auth-divider">OR</div>
+        <button class="auth-google" id="auth-google" type="button">Continue with Google</button>
+
+        <div class="auth-links">
+          <button class="auth-link" id="auth-mode-toggle" type="button">Create an account</button>
+          <button class="auth-link" id="auth-forgot" type="button">Forgot password?</button>
+        </div>
+      </div>
+
+      <div id="auth-signed-in" hidden>
+        <div class="auth-account">
+          <p class="auth-account-label">Signed in as</p>
+          <p class="auth-account-email" id="auth-account-email"></p>
+          <button class="auth-signout" id="auth-signout" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+    </div>
+  </section>
 
   <main id="top">
     <section class="container hero">
@@ -1221,6 +1448,168 @@ window.setFivbeProducts = function(rows) {
   );
 
   window.fivbeSupabase = supabase;
+
+
+  /* Customer authentication: email/password, Google OAuth and password reset. */
+  const authOverlay = document.getElementById('auth-overlay');
+  const authForm = document.getElementById('auth-form');
+  const authForms = document.getElementById('auth-forms');
+  const authSignedIn = document.getElementById('auth-signed-in');
+  const authMessage = document.getElementById('auth-message');
+  const accountOpen = document.getElementById('account-open');
+  const authNameWrap = document.getElementById('auth-name-wrap');
+  const authPasswordWrap = document.getElementById('auth-password-wrap');
+  const authPassword = document.getElementById('auth-password');
+  const authTitle = document.getElementById('auth-title');
+  const authIntro = document.getElementById('auth-intro');
+  const authSubmit = document.getElementById('auth-submit');
+  const authModeToggle = document.getElementById('auth-mode-toggle');
+  const authForgot = document.getElementById('auth-forgot');
+  let authMode = 'signin';
+  let currentAuthUser = null;
+
+  function setAuthMessage(message, isError = false) {
+    authMessage.textContent = message;
+    authMessage.classList.toggle('is-error', isError);
+    authMessage.style.display = message ? 'block' : 'none';
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode;
+    const isSignup = mode === 'signup';
+    const isReset = mode === 'reset';
+    authTitle.textContent = isSignup ? 'Create your account.' : isReset ? 'Reset password.' : 'Welcome back.';
+    authIntro.textContent = isSignup
+      ? 'Create a free Fivbe Gifts account. A free account does not include paid membership.'
+      : isReset
+        ? 'Enter your email address and we’ll send you a password reset link.'
+        : 'Sign in to your Fivbe Gifts account.';
+    authNameWrap.hidden = !isSignup;
+    authPasswordWrap.hidden = isReset;
+    authPassword.required = !isReset;
+    authPassword.autocomplete = isSignup ? 'new-password' : 'current-password';
+    authSubmit.textContent = isSignup ? 'Create account' : isReset ? 'Send reset link' : 'Sign in';
+    authModeToggle.textContent = isSignup ? 'Already have an account? Sign in' : 'Create an account';
+    authForgot.hidden = isSignup || isReset;
+    document.getElementById('auth-google').hidden = isReset;
+    document.querySelector('.auth-divider').hidden = isReset;
+    setAuthMessage('');
+  }
+
+  function openAuthDialog() {
+    authOverlay.classList.add('is-open');
+    authOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setAuthMessage('');
+    document.getElementById('auth-close').focus();
+  }
+
+  function closeAuthDialog() {
+    authOverlay.classList.remove('is-open');
+    authOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function renderAuthState(user) {
+    currentAuthUser = user || null;
+    const signedIn = Boolean(currentAuthUser);
+    accountOpen.textContent = signedIn ? 'My account' : 'Sign in';
+    authForms.hidden = signedIn;
+    authSignedIn.hidden = !signedIn;
+    if (signedIn) {
+      document.getElementById('auth-account-email').textContent = currentAuthUser.email || 'Signed-in account';
+      authTitle.textContent = 'Your account.';
+      authIntro.textContent = 'You are signed in to Fivbe Gifts.';
+      setAuthMessage('');
+    } else {
+      setAuthMode('signin');
+    }
+  }
+
+  accountOpen.addEventListener('click', openAuthDialog);
+  document.getElementById('auth-close').addEventListener('click', closeAuthDialog);
+  authOverlay.addEventListener('click', (event) => {
+    if (event.target === authOverlay) closeAuthDialog();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && authOverlay.classList.contains('is-open')) closeAuthDialog();
+  });
+
+  authModeToggle.addEventListener('click', () => {
+    setAuthMode(authMode === 'signup' ? 'signin' : 'signup');
+  });
+
+  authForgot.addEventListener('click', () => setAuthMode('reset'));
+
+  document.getElementById('auth-google').addEventListener('click', async () => {
+    setAuthMessage('Redirecting to Google…');
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/' }
+    });
+    if (error) setAuthMessage(error.message, true);
+  });
+
+  authForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = document.getElementById('auth-email').value.trim();
+    const password = authPassword.value;
+    const name = document.getElementById('auth-name').value.trim();
+
+    authSubmit.disabled = true;
+    authSubmit.textContent = 'Please wait…';
+    setAuthMessage('');
+
+    try {
+      if (authMode === 'signup') {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: window.location.origin + '/',
+            data: name ? { full_name: name } : {}
+          }
+        });
+        if (error) throw error;
+        if (data.session) {
+          setAuthMessage('Your account has been created and you are signed in.');
+        } else {
+          setAuthMessage('Account request created. Please check your email for the confirmation link before signing in.');
+        }
+      } else if (authMode === 'reset') {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + '/'
+        });
+        if (error) throw error;
+        setAuthMessage('If an account exists for this email, a password reset link has been sent.');
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        setAuthMessage('You are signed in successfully.');
+      }
+    } catch (error) {
+      setAuthMessage(error.message || 'Something went wrong. Please try again.', true);
+    } finally {
+      authSubmit.disabled = false;
+      authSubmit.textContent = authMode === 'signup' ? 'Create account' : authMode === 'reset' ? 'Send reset link' : 'Sign in';
+    }
+  });
+
+  document.getElementById('auth-signout').addEventListener('click', async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      setAuthMessage(error.message, true);
+      return;
+    }
+    setAuthMessage('You have been signed out.');
+  });
+
+  supabase.auth.onAuthStateChange((_event, session) => {
+    renderAuthState(session?.user || null);
+  });
+
+  const { data: initialSession } = await supabase.auth.getSession();
+  renderAuthState(initialSession.session?.user || null);
 
   async function loadProducts() {
     const { data, error } = await supabase

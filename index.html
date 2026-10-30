@@ -1863,7 +1863,16 @@
       SUPABASE_PUBLISHABLE_KEY
     );
 
-    console.log('Fivbe Supabase client initialized');
+    const { data, error } = await window.fivbeSupabase
+  .from('products')
+  .select('id, name')
+  .limit(5);
+
+if (error) {
+  console.error('Supabase database error:', error.message);
+} else {
+  console.log('Supabase database connected!', data);
+}
   </script>
 </body>
 </html>

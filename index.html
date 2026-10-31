@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Shop personalized gifts, photo frames, keychains, hampers and more at Fivbe Gifts." />
+  <meta name="description" content="Shop thoughtful gifts and join Fivbe Membership for exclusive member pricing on eligible products." />
   <title>Fivbe Gifts | More Than Just Gifts</title>
 
   <style>
@@ -913,6 +913,17 @@
       .auth-profile-top { align-items: center; }
     }
 
+    /* Homepage membership invitation */
+    .membership-invite { padding: 58px 0; background: #e5eee8; border-top: 1px solid #d7e4dc; border-bottom: 1px solid #d7e4dc; }
+    .membership-invite-inner { display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; gap: 34px; }
+    .membership-invite h2 { margin: 7px 0 12px; color: var(--brand-dark); font: 600 clamp(32px,4vw,48px)/1.08 var(--serif); letter-spacing: -.035em; }
+    .membership-invite p:not(.eyebrow) { max-width: 590px; margin: 0; color: #53665c; font-size: 13px; }
+    .membership-invite-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+    .membership-invite-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 22px; border-radius: 7px; color: #fff; background: var(--brand-dark); font-size: 12px; font-weight: 750; transition: transform .2s, background .2s; }
+    .membership-invite-button:hover { background: var(--brand); transform: translateY(-1px); }
+    .membership-invite-note { color: #61766a; font-size: 10px; }
+    @media (max-width: 700px) { .membership-invite-inner { grid-template-columns: 1fr; gap: 20px; } }
+
     /* Membership area */
     .membership-panel { margin: 18px 0 16px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: #fbfaf6; }
     .membership-heading { margin: 0; color: var(--brand-dark); font: 600 22px/1.2 var(--serif); }
@@ -920,7 +931,7 @@
     .membership-status { margin: 0 0 13px; padding: 10px 11px; border-radius: 8px; color: var(--brand-dark); background: var(--brand-light); font-size: 11px; line-height: 1.5; }
     .membership-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: stretch; }
     .membership-plan { position: relative; display: flex; flex-direction: column; align-items: stretch; min-width: 0; padding: 17px 15px 15px; border: 1px solid var(--line); border-radius: 12px; background: #fff; text-align: left; }
-    .membership-plan[aria-pressed="true"] { border: 2px solid var(--brand); padding: 16px 14px 14px; background: #f6faf6; box-shadow: 0 8px 22px rgba(47,104,88,.09); }
+    .membership-plan.is-selected { border: 2px solid var(--brand); padding: 16px 14px 14px; background: #f6faf6; box-shadow: 0 8px 22px rgba(47,104,88,.09); }
     .membership-plan-kicker { display: block; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
     .membership-plan-price { display: block; margin-top: 5px; color: var(--brand-dark); font: 700 29px/1.15 var(--serif); }
     .membership-plan-duration { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
@@ -929,7 +940,7 @@
     .membership-plan-benefits li::before { content: "✓"; color: var(--brand); font-weight: 800; }
     .membership-plan-cta { display: block; width: 100%; min-height: 40px; margin-top: auto; padding: 9px 10px; border: 1px solid var(--brand-dark); border-radius: 7px; color: #fff; background: var(--brand-dark); font-size: 11px; font-weight: 750; text-align: center; transition: background .2s, transform .2s; }
     .membership-plan-cta:hover { background: var(--brand); transform: translateY(-1px); }
-    .membership-plan[aria-pressed="true"] .membership-plan-cta { color: var(--brand-dark); background: var(--brand-light); }
+    .membership-plan.is-selected .membership-plan-cta { color: var(--brand-dark); background: var(--brand-light); }
     .membership-best-value { display: inline-block; align-self: flex-start; margin: 0 0 7px; padding: 4px 7px; border-radius: 20px; color: var(--brand-dark); background: var(--brand-light); font-size: 9px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
     @media (max-width: 520px) { .membership-plans { grid-template-columns: 1fr; } }
     .membership-payment { margin-top: 13px; padding: 13px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
@@ -1050,6 +1061,7 @@ let PRODUCTS = [];
       </a>
       <nav class="nav-links" aria-label="Main navigation">
         <a href="#collection">Collection</a>
+        <a href="membership.html">Membership</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -1219,6 +1231,20 @@ let PRODUCTS = [];
       </div>
     </div>
 
+    <section class="membership-invite" aria-labelledby="membership-invite-title">
+      <div class="container membership-invite-inner">
+        <div>
+          <p class="eyebrow">A little more value with every order</p>
+          <h2 id="membership-invite-title">Good gifts. Better member prices.</h2>
+          <p>Join Fivbe Membership to access special member pricing on eligible products. Choose a 6-month or 12-month plan and enjoy more thoughtful gifting for less.</p>
+        </div>
+        <div class="membership-invite-actions">
+          <a class="membership-invite-button" href="membership.html">Explore membership · Join now →</a>
+          <span class="membership-invite-note">Plans from ₹199 · Activation after payment verification</span>
+        </div>
+      </div>
+    </section>
+
     <section class="section container" id="collection">
       <div class="section-heading">
         <div>
@@ -1281,6 +1307,7 @@ let PRODUCTS = [];
       <span id="footer-business"></span>
       <div class="footer-links">
         <a href="#collection">Collection</a>
+        <a href="membership.html">Membership</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <a id="instagram-link" href="#" target="_blank" rel="noreferrer" hidden>Instagram</a>
@@ -1835,7 +1862,9 @@ window.setFivbeProducts = function(rows) {
   function chooseMembershipPlan(months) {
     selectedMembershipMonths = months;
     document.querySelectorAll('[data-membership-months]').forEach((button) => {
-      button.setAttribute('aria-pressed', String(Number(button.dataset.membershipMonths) === months));
+      const selected = Number(button.dataset.membershipMonths) === months;
+      button.setAttribute('aria-pressed', String(selected));
+      button.closest('.membership-plan')?.classList.toggle('is-selected', selected);
     });
     const amount = months === 6 ? 199 : 299;
     membershipSummary.textContent = `${months}-month membership · ${money(amount)}. Pay exactly this amount to ${membershipUpiId}.`;
@@ -1971,7 +2000,7 @@ window.setFivbeProducts = function(rows) {
       membershipHistory.hidden = true;
       membershipStatus.textContent = 'Sign in to view membership details.';
       selectedMembershipMonths = null;
-      document.querySelectorAll('[data-membership-months]').forEach((button) => button.setAttribute('aria-pressed', 'false'));
+      document.querySelectorAll('[data-membership-months]').forEach((button) => { button.setAttribute('aria-pressed', 'false'); button.closest('.membership-plan')?.classList.remove('is-selected'); });
       setAuthMode('signin');
     }
   }
@@ -1995,7 +2024,7 @@ window.setFivbeProducts = function(rows) {
     setAuthMessage('Redirecting to Google…');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin + '/' }
+      options: { redirectTo: window.location.origin + window.location.pathname + window.location.search }
     });
     if (error) setAuthMessage(error.message, true);
   });
@@ -2028,7 +2057,7 @@ window.setFivbeProducts = function(rows) {
         }
       } else if (authMode === 'reset') {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: window.location.origin + '/'
+          redirectTo: window.location.origin + window.location.pathname + window.location.search
         });
         if (error) throw error;
         setAuthMessage('If an account exists for this email, a password reset link has been sent.');
@@ -2109,6 +2138,13 @@ window.setFivbeProducts = function(rows) {
 
   const { data: initialSession } = await supabase.auth.getSession();
   renderAuthState(initialSession.session?.user || null);
+
+  // Membership page CTAs return here with ?join=6 or ?join=12.
+  const requestedMembershipMonths = Number(new URLSearchParams(window.location.search).get('join'));
+  if ([6, 12].includes(requestedMembershipMonths)) {
+    chooseMembershipPlan(requestedMembershipMonths);
+    openAuthDialog();
+  }
 
   async function loadProducts() {
     const { data, error } = await supabase

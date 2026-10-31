@@ -798,6 +798,120 @@
       font-weight: 700;
       overflow-wrap: anywhere;
     }
+
+    .auth-profile-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 17px 0 14px;
+    }
+    .auth-profile-heading {
+      margin: 0;
+      color: var(--brand-dark);
+      font: 600 22px/1.2 var(--serif);
+    }
+    .auth-profile-help {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .auth-profile-edit {
+      flex: 0 0 auto;
+      min-height: 36px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--brand-dark);
+      background: #fff;
+      font-size: 11px;
+      font-weight: 750;
+      transition: border-color .2s, background .2s;
+    }
+    .auth-profile-edit:hover { border-color: var(--brand); background: var(--brand-light); }
+    .auth-profile-details {
+      display: grid;
+      gap: 0;
+      margin: 0 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .auth-profile-detail {
+      display: grid;
+      grid-template-columns: minmax(92px, .7fr) minmax(0, 1.3fr);
+      gap: 12px;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .auth-profile-detail:last-child { border-bottom: 0; }
+    .auth-profile-detail dt {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .auth-profile-detail dd {
+      margin: 0;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 650;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+    .auth-profile-empty {
+      color: #9a9187 !important;
+      font-weight: 450 !important;
+      font-style: italic;
+    }
+    .auth-profile-form {
+      display: grid;
+      gap: 12px;
+      margin: 0 0 16px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fcfaf6;
+    }
+    .auth-profile-form[hidden], .auth-profile-details[hidden] { display: none !important; }
+    .auth-profile-form .auth-field { margin: 0; }
+    .auth-profile-form .auth-field input { background: #fff; }
+    .auth-profile-actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 3px;
+    }
+    .auth-profile-save, .auth-profile-cancel {
+      flex: 1;
+      min-height: 42px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .auth-profile-save {
+      border: 1px solid var(--brand-dark);
+      color: #fff;
+      background: var(--brand-dark);
+    }
+    .auth-profile-save:hover { background: var(--brand); }
+    .auth-profile-save:disabled { opacity: .65; cursor: wait; }
+    .auth-profile-cancel {
+      border: 1px solid var(--line);
+      color: var(--brand-dark);
+      background: #fff;
+    }
+    .auth-profile-cancel:hover { border-color: var(--brand); }
+    .auth-profile-status {
+      margin: -4px 0 14px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    @media (max-width: 420px) {
+      .auth-profile-detail { grid-template-columns: 82px minmax(0, 1fr); }
+      .auth-profile-top { align-items: center; }
+    }
     .auth-signout {
       border: 1px solid var(--line);
       color: var(--brand-dark);
@@ -943,8 +1057,45 @@ let PRODUCTS = [];
 
       <div id="auth-signed-in" hidden>
         <div class="auth-account">
-          <p class="auth-account-label">Signed in as</p>
+          <p class="auth-account-label">FIVBE ACCOUNT</p>
           <p class="auth-account-email" id="auth-account-email"></p>
+
+          <div class="auth-profile-top">
+            <div>
+              <h3 class="auth-profile-heading">My profile</h3>
+              <p class="auth-profile-help">Your personal and contact information.</p>
+            </div>
+            <button class="auth-profile-edit" id="auth-profile-edit" type="button">Edit profile</button>
+          </div>
+
+          <dl class="auth-profile-details" id="auth-profile-details">
+            <div class="auth-profile-detail">
+              <dt>Full name</dt>
+              <dd id="auth-profile-name-view" class="auth-profile-empty">Not added yet</dd>
+            </div>
+            <div class="auth-profile-detail">
+              <dt>Phone</dt>
+              <dd id="auth-profile-phone-view" class="auth-profile-empty">Not added yet</dd>
+            </div>
+          </dl>
+
+          <form class="auth-profile-form" id="auth-profile-form" hidden>
+            <div class="auth-field">
+              <label for="auth-profile-name">Full name</label>
+              <input id="auth-profile-name" name="full_name" type="text"
+                autocomplete="name" maxlength="100" placeholder="Enter your full name" />
+            </div>
+            <div class="auth-field">
+              <label for="auth-profile-phone">Phone number</label>
+              <input id="auth-profile-phone" name="phone" type="tel"
+                autocomplete="tel" maxlength="20" placeholder="Enter your contact number" />
+            </div>
+            <div class="auth-profile-actions">
+              <button class="auth-profile-cancel" id="auth-profile-cancel" type="button">Cancel</button>
+              <button class="auth-profile-save" id="auth-profile-save" type="submit">Save changes</button>
+            </div>
+          </form>
+          <p class="auth-profile-status" id="auth-profile-status" hidden></p>
           <button class="auth-signout" id="auth-signout" type="button">Sign out</button>
         </div>
       </div>
@@ -1467,6 +1618,71 @@ window.setFivbeProducts = function(rows) {
   const authForgot = document.getElementById('auth-forgot');
   let authMode = 'signin';
   let currentAuthUser = null;
+  let profileRequestId = 0;
+  const profileForm = document.getElementById('auth-profile-form');
+  const profileName = document.getElementById('auth-profile-name');
+  const profilePhone = document.getElementById('auth-profile-phone');
+  const profileSave = document.getElementById('auth-profile-save');
+  const profileDetails = document.getElementById('auth-profile-details');
+  const profileEdit = document.getElementById('auth-profile-edit');
+  const profileCancel = document.getElementById('auth-profile-cancel');
+  const profileStatus = document.getElementById('auth-profile-status');
+  const profileNameView = document.getElementById('auth-profile-name-view');
+  const profilePhoneView = document.getElementById('auth-profile-phone-view');
+  let savedProfile = { full_name: '', phone: '' };
+
+  function setProfileViewMode(editing) {
+    profileForm.hidden = !editing;
+    profileDetails.hidden = editing;
+    profileEdit.hidden = editing;
+    profileStatus.hidden = true;
+    if (!editing) {
+      profileName.value = savedProfile.full_name || '';
+      profilePhone.value = savedProfile.phone || '';
+    }
+  }
+
+  function renderProfileDetails(profile) {
+    savedProfile = {
+      full_name: profile?.full_name || '',
+      phone: profile?.phone || ''
+    };
+    profileNameView.textContent = savedProfile.full_name || 'Not added yet';
+    profilePhoneView.textContent = savedProfile.phone || 'Not added yet';
+    profileNameView.classList.toggle('auth-profile-empty', !savedProfile.full_name);
+    profilePhoneView.classList.toggle('auth-profile-empty', !savedProfile.phone);
+    profileName.value = savedProfile.full_name;
+    profilePhone.value = savedProfile.phone;
+  }
+
+  async function loadCustomerProfile(user) {
+    if (!user) return;
+    const requestId = ++profileRequestId;
+
+    // Show the name supplied during signup while the saved profile is loading.
+    renderProfileDetails({ full_name: user.user_metadata?.full_name || '', phone: '' });
+    setProfileViewMode(false);
+    profileStatus.hidden = true;
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('full_name, phone')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (requestId !== profileRequestId || !currentAuthUser || currentAuthUser.id !== user.id) return;
+
+    if (error) {
+      setAuthMessage('Your account is signed in, but profile details could not be loaded: ' + error.message, true);
+      return;
+    }
+
+    renderProfileDetails(data || {
+      full_name: user.user_metadata?.full_name || '',
+      phone: ''
+    });
+    setProfileViewMode(false);
+  }
 
   function setAuthMessage(message, isError = false) {
     authMessage.textContent = message;
@@ -1521,7 +1737,13 @@ window.setFivbeProducts = function(rows) {
       authTitle.textContent = 'Your account.';
       authIntro.textContent = 'You are signed in to Fivbe Gifts.';
       setAuthMessage('');
+      // Defer the profile query until the auth-state callback has returned.
+      window.setTimeout(() => loadCustomerProfile(currentAuthUser), 0);
     } else {
+      profileRequestId++;
+      renderProfileDetails({ full_name: '', phone: '' });
+      setProfileViewMode(false);
+      profileStatus.hidden = true;
       setAuthMode('signin');
     }
   }
@@ -1592,6 +1814,55 @@ window.setFivbeProducts = function(rows) {
     } finally {
       authSubmit.disabled = false;
       authSubmit.textContent = authMode === 'signup' ? 'Create account' : authMode === 'reset' ? 'Send reset link' : 'Sign in';
+    }
+  });
+
+  profileEdit.addEventListener('click', () => {
+    profileName.value = savedProfile.full_name;
+    profilePhone.value = savedProfile.phone;
+    setProfileViewMode(true);
+    profileName.focus();
+  });
+
+  profileCancel.addEventListener('click', () => {
+    setProfileViewMode(false);
+    setAuthMessage('');
+  });
+
+  profileForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentAuthUser) {
+      setAuthMessage('Please sign in again before saving your profile.', true);
+      return;
+    }
+
+    const fullName = profileName.value.trim();
+    const phone = profilePhone.value.trim();
+
+    profileSave.disabled = true;
+    profileSave.textContent = 'Saving…';
+    setAuthMessage('');
+
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: currentAuthUser.id,
+          full_name: fullName || null,
+          phone: phone || null
+        }, { onConflict: 'id' });
+
+      if (error) throw error;
+      renderProfileDetails({ full_name: fullName, phone });
+      setProfileViewMode(false);
+      profileStatus.textContent = 'Your profile details have been saved.';
+      profileStatus.hidden = false;
+      setAuthMessage('');
+    } catch (error) {
+      setAuthMessage(error.message || 'Could not save your profile. Please try again.', true);
+    } finally {
+      profileSave.disabled = false;
+      profileSave.textContent = 'Save profile';
     }
   });
 

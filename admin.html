@@ -1,321 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
-  <title>Fivbe Admin | Membership Requests</title>
-  <style>
-    :root {
-      --green: #2f6858;
-      --green-dark: #214d42;
-      --green-soft: #e5eee8;
-      --cream: #f8f4ed;
-      --paper: #fffdf9;
-      --ink: #252d29;
-      --muted: #727b75;
-      --line: #e4e8e2;
-      --danger: #a53c36;
-      --danger-bg: #fae9e6;
-      --success: #276746;
-      --success-bg: #e6f3e9;
-      --shadow: 0 18px 50px rgba(35, 60, 48, .08);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--cream); }
-    button, input, textarea { font: inherit; }
-    button { cursor: pointer; }
-    .topbar { background: var(--green-dark); color: white; padding: 17px 24px; }
-    .topbar-inner { max-width: 1180px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .brand { font-size: 19px; font-weight: 800; letter-spacing: -.04em; }
-    .brand span { color: #cfe3d5; font-weight: 500; }
-    .top-note { color: #dce9e0; font-size: 12px; }
-    main { width: min(1180px, calc(100% - 36px)); margin: 42px auto 70px; }
-    .eyebrow { color: var(--green); font-size: 11px; letter-spacing: .15em; font-weight: 800; text-transform: uppercase; }
-    h1 { margin: 8px 0 7px; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.055em; line-height: 1.12; }
-    .sub { color: var(--muted); margin: 0; font-size: 14px; }
-    .panel { margin-top: 28px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--paper); box-shadow: var(--shadow); }
-    .login-panel { max-width: 460px; margin: 38px auto; }
-    .panel h2 { margin: 0 0 7px; font-size: 20px; letter-spacing: -.035em; }
-    .field { display: grid; gap: 7px; margin-top: 17px; }
-    label { font-size: 12px; color: #4f5c54; font-weight: 700; }
-    input, textarea { width: 100%; border: 1px solid #dce3dc; background: white; border-radius: 10px; padding: 12px 13px; outline: none; color: var(--ink); }
-    input:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(47,104,88,.12); }
-    .btn { border: 0; border-radius: 10px; padding: 11px 16px; font-weight: 750; font-size: 13px; transition: transform .15s, opacity .15s; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn:disabled { opacity: .55; cursor: wait; transform: none; }
-    .btn-primary { color: white; background: var(--green); }
-    .btn-quiet { color: var(--green-dark); background: var(--green-soft); }
-    .btn-danger { color: var(--danger); background: var(--danger-bg); }
-    .btn-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 20px; }
-    .message { display: none; margin-top: 16px; border-radius: 10px; padding: 11px 13px; font-size: 13px; }
-    .message.show { display: block; }
-    .message.error { color: var(--danger); background: var(--danger-bg); }
-    .message.ok { color: var(--success); background: var(--success-bg); }
-    .dashboard-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; flex-wrap: wrap; }
-    .stats { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
-    .stat { min-width: 150px; padding: 15px 18px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
-    .stat strong { display: block; font-size: 25px; line-height: 1.1; letter-spacing: -.04em; }
-    .stat span { color: var(--muted); font-size: 11px; }
-    .table-wrap { overflow-x: auto; margin-top: 24px; }
-    table { width: 100%; border-collapse: collapse; min-width: 760px; }
-    th { padding: 12px 13px; text-align: left; color: #758078; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid var(--line); }
-    td { padding: 15px 13px; font-size: 13px; border-bottom: 1px solid #edf0ec; vertical-align: middle; }
-    tbody tr:last-child td { border-bottom: 0; }
-    .utr { font-weight: 800; letter-spacing: .025em; }
-    .muted { color: var(--muted); font-size: 11px; }
-    .pill { display: inline-flex; padding: 5px 9px; border-radius: 30px; background: #fff4dc; color: #875e16; font-size: 10px; font-weight: 800; }
-    .actions { display: flex; gap: 7px; }
-    .empty { padding: 38px 15px; text-align: center; color: var(--muted); }
-    .empty strong { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
-    .footnote { margin-top: 20px; color: var(--muted); font-size: 11px; line-height: 1.6; }
-    [hidden] { display: none !important; }
-    @media (max-width: 620px) {
-      .topbar { padding: 15px 18px; }
-      main { width: min(100% - 24px, 1180px); margin-top: 28px; }
-      .panel { padding: 20px 16px; border-radius: 15px; }
-      .top-note { display: none; }
-    }
-  </style>
-</head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Fivbe Admin Dashboard</title>
+<style>
+:root{--green:#2f6858;--dark:#214d42;--soft:#e5eee8;--cream:#f8f4ed;--paper:#fffdf9;--ink:#252d29;--muted:#727b75;--line:#e4e8e2;--red:#a53c36;--redbg:#fae9e6;--ok:#276746;--okbg:#e6f3e9;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--cream);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.topbar{background:var(--dark);color:#fff;padding:16px 22px}.topbar-inner{max-width:1240px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px}.brand{font-size:19px;font-weight:850;letter-spacing:-.04em}.brand span{color:#cfe3d5;font-weight:500;font-size:12px;letter-spacing:.08em;margin-left:8px}main{width:min(1240px,calc(100% - 32px));margin:32px auto 60px}.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--green)}h1{font-size:clamp(27px,4vw,38px);margin:7px 0}.sub{font-size:13px;color:var(--muted);margin:0;line-height:1.5}.panel{margin-top:22px;padding:23px;border:1px solid var(--line);border-radius:17px;background:var(--paper)}.login{max-width:450px;margin:34px auto}.field{display:grid;gap:7px;margin-top:15px}label{font-size:12px;font-weight:750;color:#4f5c54}input,select{width:100%;border:1px solid #dce3dc;background:#fff;border-radius:10px;padding:11px 12px;color:var(--ink)}input:focus,select:focus{outline:2px solid #b8d4c4;border-color:var(--green)}.btn{border:0;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:800}.primary{background:var(--green);color:#fff}.quiet{background:var(--soft);color:var(--dark)}.danger{background:var(--redbg);color:var(--red)}.btn:disabled{opacity:.55;cursor:wait}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.head{display:flex;justify-content:space-between;gap:16px;align-items:end;flex-wrap:wrap}.layout{display:grid;grid-template-columns:215px minmax(0,1fr);gap:19px;margin-top:23px}.nav{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:10px;height:max-content;position:sticky;top:14px}.nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px;border:0;background:transparent;color:#536158;border-radius:10px;font-size:13px;font-weight:750}.nav button.active{background:var(--soft);color:var(--dark)}.navicon{width:22px;text-align:center;font-size:17px}.content{min-width:0}.view[hidden]{display:none!important}.stats{display:flex;gap:11px;flex-wrap:wrap;margin-top:18px}.stat{min-width:135px;flex:1;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:13px}.stat strong{display:block;font-size:24px}.stat span{font-size:11px;color:var(--muted)}.msg{display:none;padding:10px 12px;border-radius:10px;margin-top:13px;font-size:12px;line-height:1.5}.msg.show{display:block}.msg.error{background:var(--redbg);color:var(--red)}.msg.ok{background:var(--okbg);color:var(--ok)}.table-wrap{overflow-x:auto;margin-top:18px}table{width:100%;border-collapse:collapse;min-width:730px}th{padding:11px;text-align:left;color:#758078;font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)}td{padding:13px 11px;font-size:12px;border-bottom:1px solid #edf0ec;vertical-align:middle}.muted{color:var(--muted);font-size:10px}.utr{font-weight:800;letter-spacing:.025em}.pill,.tag{display:inline-flex;padding:5px 8px;border-radius:20px;background:#fff4dc;color:#875e16;font-size:10px;font-weight:800;text-transform:capitalize}.tag{background:var(--soft);color:var(--dark)}.actions{display:flex;gap:6px;flex-wrap:wrap}.empty{text-align:center;padding:30px 12px;color:var(--muted);font-size:12px}.empty strong{display:block;color:var(--ink);margin-bottom:4px}.orders{display:grid;gap:11px;margin-top:17px}.order-card{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden}.summary{display:grid;grid-template-columns:1fr 1.3fr .7fr .8fr .8fr auto;gap:10px;align-items:center;padding:13px}.summary strong{display:block;font-size:12px}.summary small{display:block;font-size:10px;color:var(--muted);margin-top:4px}.detail{border-top:1px solid var(--line);padding:15px;background:#fcfcf9}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.block h3{font-size:11px;color:var(--dark);margin:0 0 7px}.block p{font-size:11px;line-height:1.5;margin:4px 0;overflow-wrap:anywhere}.items{font-size:11px;line-height:1.7;padding-left:17px;margin:0}.controls{display:flex;gap:9px;align-items:end;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:13px;margin-top:13px}.controls .field{margin:0;min-width:135px;flex:1}.foot{font-size:10px;line-height:1.6;color:var(--muted);margin-top:16px}[hidden]{display:none!important}
+@media(max-width:760px){main{width:calc(100% - 22px);margin-top:22px}.layout{grid-template-columns:1fr}.nav{position:static;display:grid;grid-template-columns:repeat(3,1fr)}.nav button{justify-content:center;gap:5px;padding:10px 5px;font-size:11px}.summary{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.panel{padding:17px 13px}.topbar{padding:14px 16px}}
+</style></head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">FIVBE <span>ADMIN</span></div>
-      <div class="top-note">Private store management</div>
-    </div>
-  </header>
+<header class="topbar"><div class="topbar-inner"><div class="brand">FIVBE <span>ADMIN DASHBOARD</span></div><div class="row"><span id="admin-label" style="font-size:11px;color:#dce9e0"></span><button class="btn quiet" id="signout" type="button" hidden>Sign out</button></div></div></header>
+<main>
+<section id="login-view"><div class="eyebrow">Private store management</div><h1>Welcome back.</h1><p class="sub">Sign in once to manage Fivbe orders and memberships.</p><div class="panel login"><h2 style="margin:0 0 5px">Admin sign in</h2><p class="sub">Use your authorised Fivbe admin account.</p><form id="login-form"><div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required></div><div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div><div class="row" style="margin-top:18px"><button class="btn primary" id="login-button">Sign in securely</button></div></form><div id="login-message" class="msg" role="status"></div></div></section>
+<section id="app-view" hidden><div class="head"><div><div class="eyebrow">Fivbe store</div><h1 id="page-title">Overview</h1><p class="sub" id="page-subtitle">Your store administration in one place.</p></div><button class="btn quiet" id="refresh-current" type="button">Refresh section</button></div>
+<div class="layout"><nav class="nav" aria-label="Admin sections"><button class="active" data-view="overview"><span class="navicon">▦</span>Overview</button><button data-view="orders"><span class="navicon">▣</span>Orders</button><button data-view="memberships"><span class="navicon">♛</span>Memberships</button></nav><div class="content">
+<section class="view" id="view-overview"><div class="stats"><div class="stat"><strong id="ov-orders">—</strong><span>Recent orders loaded</span></div><div class="stat"><strong id="ov-unpaid">—</strong><span>Orders with payment pending</span></div><div class="stat"><strong id="ov-members">—</strong><span>Pending membership requests</span></div><div class="stat"><strong id="ov-value">—</strong><span>Pending membership value</span></div></div><div class="panel"><h2 style="margin:0 0 6px;font-size:18px">Admin workspace</h2><p class="sub">Manage customer purchases, payment verification, fulfilment and membership activation from this dashboard.</p><div class="row" style="margin-top:16px"><button class="btn primary" data-goto="orders">Manage orders</button><button class="btn quiet" data-goto="memberships">Manage memberships</button></div><p class="foot">Both sections use this signed-in session. Each operation is still checked by its own secure Supabase Edge Function.</p></div><div id="overview-message" class="msg" role="status"></div></section>
+<section class="view" id="view-orders" hidden><div class="stats"><div class="stat"><strong id="order-count">—</strong><span>Latest orders loaded (up to 100)</span></div><div class="stat"><strong id="order-unpaid">—</strong><span>Payment pending</span></div><div class="stat"><strong id="order-placed">—</strong><span>Awaiting confirmation</span></div></div><div class="panel"><div class="head"><div><h2 style="margin:0 0 5px;font-size:18px">Customer orders</h2><p class="sub">Review saved orders, verify UPI payments and update fulfilment status.</p></div></div><div class="row" style="margin-top:17px"><label for="order-filter">Filter orders</label><select id="order-filter" style="max-width:210px"><option value="all">All orders</option><option value="placed">Placed</option><option value="confirmed">Confirmed</option><option value="processing">Processing</option><option value="packed">Packed</option><option value="dispatched">Dispatched</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div><div id="orders-message" class="msg" role="status"></div><div id="orders-list" class="orders"><div class="empty">Loading orders…</div></div><p class="foot">Check payments in FamPay before marking paid. This panel does not currently deduct or restock inventory, recalculate totals, or send WhatsApp messages. Orders appear here after checkout saves them in Supabase.</p></div></section>
+<section class="view" id="view-memberships" hidden><div class="stats"><div class="stat"><strong id="pending-count">—</strong><span>Pending requests</span></div><div class="stat"><strong id="pending-total">—</strong><span>Total pending value</span></div></div><div class="panel"><div class="head"><div><h2 style="margin:0 0 5px;font-size:18px">Membership requests</h2><p class="sub">Check the UTR against your FamPay transaction history before approving.</p></div></div><div id="membership-message" class="msg" role="status"></div><div class="table-wrap"><table><thead><tr><th>Submitted</th><th>Customer ID</th><th>Plan</th><th>Amount</th><th>UPI reference (UTR)</th><th>Status</th><th>Action</th></tr></thead><tbody id="requests-body"><tr><td colspan="7" class="empty">Loading requests…</td></tr></tbody></table></div><p class="foot">Membership activation is performed only by the existing authorised server-side membership review function.</p></div></section>
+</div></div></section></main>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const supabase=createClient('https://qrmzkgsdkiamlkoysbem.supabase.co','sb_publishable_pG2wMa6M4EtxnSBbWGv8FA_aK1eW1ra');
+const $=id=>document.getElementById(id);let orders=[],ordersLoading=false,membershipLoading=false,currentView='overview';
+const titles={overview:['Overview','Your store administration in one place.'],orders:['Orders management','Review customer purchases, verify payments and update fulfilment.'],memberships:['Membership management','Verify membership UPI payments and manage activation.']};
+function msg(el,text,error=false){el.textContent=text;el.className=`msg show ${error?'error':'ok'}`}function hideMsg(el){el.textContent='';el.className='msg'}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function money(v){const n=Number(v);return Number.isFinite(n)?`₹${n.toLocaleString('en-IN')}`:'—'}function date(v){if(!v)return '—';const d=new Date(v);return Number.isNaN(d.getTime())?'—':d.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}
+async function api(fn,payload){const {data,error}=await supabase.functions.invoke(fn,{body:payload});if(error){let m=error.message||`${fn} request failed.`;try{const b=await error.context?.json?.();if(b?.error)m=b.error}catch(_){}throw new Error(m)}if(data?.error)throw new Error(data.error);return data}
+function showLogin(error=''){$('login-view').hidden=false;$('app-view').hidden=true;$('signout').hidden=true;$('admin-label').textContent='';if(error)msg($('login-message'),error,true)}function showApp(session){$('login-view').hidden=true;$('app-view').hidden=false;$('signout').hidden=false;$('admin-label').textContent=session?.user?.email||'Authorised admin';setView('overview')}
+function setView(name){if(!titles[name])return;currentView=name;document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!==`view-${name}`);document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));$('page-title').textContent=titles[name][0];$('page-subtitle').textContent=titles[name][1];$('refresh-current').hidden=name==='overview'}
+function addressLines(a){if(!a||typeof a!=='object')return ['No shipping address saved'];const keys=['name','full_name','phone','address_line1','address_line_1','address_line2','address_line_2','address','landmark','city','district','state','postal_code','pincode','zip','country'];const out=[];for(const k of keys){const v=a[k];if(v!==undefined&&v!==null&&String(v).trim())out.push(`${k.replaceAll('_',' ')}: ${v}`)}if(!out.length)for(const [k,v] of Object.entries(a))if(['string','number'].includes(typeof v)&&String(v).trim())out.push(`${k.replaceAll('_',' ')}: ${v}`);return out.length?out:['No readable shipping address saved']}
+async function loadOrders(){if(ordersLoading)return;ordersLoading=true;hideMsg($('orders-message'));$('orders-list').innerHTML='<div class="empty">Loading orders…</div>';try{const d=await api('orders-admin',{action:'admin_orders'});orders=Array.isArray(d.orders)?d.orders:[];renderOrders();updateOverview()}catch(e){$('orders-list').innerHTML='<div class="empty"><strong>Could not load orders.</strong>Check the orders-admin Edge Function and try again.</div>';msg($('orders-message'),e.message,true);$('order-count').textContent='—';$('order-unpaid').textContent='—';$('order-placed').textContent='—';$('ov-orders').textContent='—';$('ov-unpaid').textContent='—'}finally{ordersLoading=false}}
+function renderOrders(){const f=$('order-filter').value,list=orders.filter(o=>f==='all'||o.order_status===f);$('order-count').textContent=orders.length;$('order-unpaid').textContent=orders.filter(o=>o.payment_status==='pending').length;$('order-placed').textContent=orders.filter(o=>o.order_status==='placed').length;if(!list.length){$('orders-list').innerHTML='<div class="empty"><strong>No matching orders.</strong>If there are no saved orders, checkout still needs to be connected to create them.</div>';return}
+$('orders-list').innerHTML=list.map(o=>{const items=Array.isArray(o.order_items)?o.order_items:[];const itemHtml=items.length?items.map(i=>`<li>${esc(i.product_name)} × ${esc(i.quantity)} — ${esc(money(Number(i.unit_price)*Number(i.quantity)))}</li>`).join(''):'<li>Item details unavailable</li>';const addr=addressLines(o.shipping_address).map(x=>`<p>${esc(x)}</p>`).join('');const quote=o.shipping_quote_status?`${esc(o.shipping_quote_status)}${o.shipping_quote_amount!=null?' · '+esc(money(o.shipping_quote_amount)):''}`:'Not specified';return `<article class="order-card" data-id="${esc(o.id)}"><div class="summary"><div><strong>#${esc(o.id.slice(0,8).toUpperCase())}</strong><small>${esc(date(o.created_at))}</small></div><div><strong>${esc(o.customer_name||'Customer')}</strong><small>${esc(o.customer_email||o.customer_phone||'Contact not saved')}</small></div><div><strong>${esc(money(o.total_amount))}</strong><small>Total</small></div><div><span class="tag">${esc(o.payment_status||'pending')}</span><small>Payment</small></div><div><span class="tag">${esc(o.order_status||'placed')}</span><small>Order</small></div><button class="btn quiet" data-expand type="button">Details</button></div><div class="detail" hidden><div class="grid"><div class="block"><h3>Items</h3><ul class="items">${itemHtml}</ul><p>Subtotal: <b>${esc(money(o.subtotal))}</b></p><p>Shipping fee: <b>${esc(money(o.shipping_fee))}</b></p><p>Parcel weight: <b>${o.total_weight_grams==null?'Not recorded':esc(o.total_weight_grams)+' g'}</b></p><p>Shipping quote: <b>${quote}</b></p></div><div class="block"><h3>Delivery address</h3>${addr}<p>Phone: ${esc(o.customer_phone||'Not saved')}</p><p>Payment reference: <b>${esc(o.payment_reference||'Not provided')}</b></p><p>Full order ID: <small>${esc(o.id)}</small></p></div></div><div class="controls"><div class="field"><label>Order status</label><select data-order><option value="placed">Placed</option><option value="confirmed">Confirmed</option><option value="processing">Processing</option><option value="packed">Packed</option><option value="dispatched">Dispatched</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div><div class="field"><label>Payment status</label><select data-payment><option value="pending">Pending</option><option value="paid">Paid</option><option value="failed">Failed</option><option value="refunded">Refunded</option></select></div><div class="field"><label>Verified UTR / reference</label><input data-reference maxlength="120" placeholder="Enter reference"></div><button class="btn primary" data-save type="button">Save updates</button></div><div class="msg" data-result role="status"></div></div></article>`}).join('');
+$('orders-list').querySelectorAll('.order-card').forEach(card=>{const o=orders.find(x=>x.id===card.dataset.id);card.querySelector('[data-order]').value=o.order_status||'placed';card.querySelector('[data-payment]').value=o.payment_status||'pending';card.querySelector('[data-reference]').value=o.payment_reference||''})}
+async function loadMemberships(){if(membershipLoading)return;membershipLoading=true;hideMsg($('membership-message'));$('requests-body').innerHTML='<tr><td colspan="7" class="empty">Loading requests…</td></tr>';try{const d=await api('admin-api',{action:'admin_pending'});const requests=Array.isArray(d?.requests)?d.requests:[];$('pending-count').textContent=String(requests.length);$('pending-total').textContent=money(requests.reduce((s,r)=>s+Number(r.amount||0),0));if(!requests.length){$('requests-body').innerHTML='<tr><td colspan="7"><div class="empty"><strong>You’re all caught up.</strong>No pending membership requests right now.</div></td></tr>'}else{$('requests-body').innerHTML=requests.map(r=>`<tr data-request-id="${esc(r.id)}"><td>${esc(date(r.submitted_at))}</td><td><span class="muted">${esc(r.user_id)}</span></td><td>${esc(r.plan_months)} months</td><td><strong>${esc(money(r.amount))}</strong></td><td><span class="utr">${esc(r.utr)}</span></td><td><span class="pill">${esc(r.status||'pending')}</span></td><td><div class="actions"><button class="btn primary" data-decision="approved" type="button">Approve</button><button class="btn danger" data-decision="rejected" type="button">Reject</button></div></td></tr>`).join('')}}catch(e){$('requests-body').innerHTML='<tr><td colspan="7" class="empty">Could not load membership requests.</td></tr>';msg($('membership-message'),e.message,true)}finally{membershipLoading=false;updateOverview()}}
+function updateOverview(){$('ov-orders').textContent=$('order-count').textContent;$('ov-unpaid').textContent=$('order-unpaid').textContent;$('ov-members').textContent=$('pending-count').textContent;$('ov-value').textContent=$('pending-total').textContent}
+async function refreshCurrent(){if(currentView==='orders')await loadOrders();else if(currentView==='memberships')await loadMemberships();else await Promise.all([loadOrders(),loadMemberships()])}
+document.querySelectorAll('[data-view],[data-goto]').forEach(b=>b.addEventListener('click',async()=>{const v=b.dataset.view||b.dataset.goto;setView(v);if(v==='orders')await loadOrders();if(v==='memberships')await loadMemberships()}));$('refresh-current').addEventListener('click',refreshCurrent);$('order-filter').addEventListener('change',renderOrders);
+$('orders-list').addEventListener('click',async e=>{const expand=e.target.closest('[data-expand]');if(expand){const d=expand.closest('.order-card').querySelector('.detail');d.hidden=!d.hidden;expand.textContent=d.hidden?'Details':'Hide details';return}const save=e.target.closest('[data-save]');if(!save)return;const card=save.closest('.order-card'),id=card.dataset.id,order_status=card.querySelector('[data-order]').value,payment_status=card.querySelector('[data-payment]').value,payment_reference=card.querySelector('[data-reference]').value.trim(),old=orders.find(o=>o.id===id);if(payment_status==='paid'&&!payment_reference&&!old?.payment_reference){msg(card.querySelector('[data-result]'),'Enter the verified UTR before marking payment as paid.',true);return}if(!confirm(`Save updates for order #${id.slice(0,8).toUpperCase()}?\n\nOrder: ${order_status}\nPayment: ${payment_status}\n\nOnly mark paid after checking the transaction in FamPay.`))return;save.disabled=true;try{await api('orders-admin',{action:'admin_update_order',order_id:id,order_status,payment_status,payment_reference});msg($('orders-message'),'Order updated successfully.');await loadOrders()}catch(err){msg(card.querySelector('[data-result]'),err.message,true);save.disabled=false}});
+$('requests-body').addEventListener('click',async e=>{const button=e.target.closest('button[data-decision]');if(!button)return;const row=button.closest('tr[data-request-id]');if(!row)return;const request_id=row.dataset.requestId,decision=button.dataset.decision,utr=row.querySelector('.utr')?.textContent||'',plan=row.children[2]?.textContent||'membership',amount=row.children[3]?.textContent||'';if(!confirm(`${decision==='approved'?'APPROVE':'REJECT'} this ${plan} request for ${amount}?\n\nUTR: ${utr}\n\n${decision==='approved'?'Approve only after confirming payment in FamPay.':'This will mark the request as rejected.'}`))return;const admin_note=prompt('Optional admin note (leave blank if none):','')||'';if(admin_note.length>500){msg($('membership-message'),'Admin note must be 500 characters or fewer.',true);return}button.disabled=true;try{await api('admin-api',{action:'admin_review',request_id,decision,admin_note:admin_note.trim()});msg($('membership-message'),decision==='approved'?'Membership approved and activated.':'Membership request rejected.');await loadMemberships()}catch(err){msg($('membership-message'),err.message,true);button.disabled=false}});
+$('login-form').addEventListener('submit',async e=>{e.preventDefault();hideMsg($('login-message'));$('login-button').disabled=true;try{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;const {data:{session}}=await supabase.auth.getSession();if(!session)throw new Error('Sign-in did not return a session.');showApp(session);await refreshCurrent()}catch(e){msg($('login-message'),e.message||'Sign in failed.',true)}finally{$('login-button').disabled=false}});
+$('signout').addEventListener('click',async()=>{await supabase.auth.signOut();showLogin()});supabase.auth.onAuthStateChange((_event,session)=>{if(!session)showLogin();else if($('app-view').hidden){showApp(session);refreshCurrent()}});const {data:{session}}=await supabase.auth.getSession();if(session){showApp(session);await refreshCurrent()}
+</script></body></html>
 
-  <main>
-    <section id="login-view">
-      <div class="eyebrow">Store administration</div>
-      <h1>Welcome back.</h1>
-      <p class="sub">Sign in with your authorised Fivbe admin account to review membership payments.</p>
-      <div class="panel login-panel">
-        <h2>Admin sign in</h2>
-        <p class="sub">Use the admin email and password already registered with Fivbe.</p>
-        <form id="login-form">
-          <div class="field">
-            <label for="email">Email address</label>
-            <input id="email" type="email" autocomplete="username" required>
-          </div>
-          <div class="field">
-            <label for="password">Password</label>
-            <input id="password" type="password" autocomplete="current-password" required>
-          </div>
-          <div class="btn-row"><button class="btn btn-primary" id="login-button" type="submit">Sign in securely</button></div>
-        </form>
-        <div id="login-message" class="message" role="status"></div>
-      </div>
-    </section>
-
-    <section id="dashboard-view" hidden>
-      <div class="dashboard-head">
-        <div>
-          <div class="eyebrow">Fivbe store</div>
-          <h1>Membership requests</h1>
-          <p class="sub">Check the UTR against your FamPay transaction history before approving a request.</p>
-        </div>
-        <div class="btn-row" style="margin-top:0">
-          <button class="btn btn-quiet" id="refresh-button" type="button">Refresh requests</button>
-          <button class="btn btn-quiet" id="signout-button" type="button">Sign out</button>
-        </div>
-      </div>
-      <div class="stats">
-        <div class="stat"><strong id="pending-count">—</strong><span>Pending requests</span></div>
-        <div class="stat"><strong id="pending-total">—</strong><span>Total pending value</span></div>
-      </div>
-      <div class="panel">
-        <div class="dashboard-head">
-          <div><h2>Waiting for verification</h2><p class="sub">Approve only after confirming the exact amount and transaction in FamPay.</p></div>
-        </div>
-        <div id="request-message" class="message" role="status"></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Submitted</th><th>Customer ID</th><th>Plan</th><th>Amount</th><th>UPI reference (UTR)</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody id="requests-body"><tr><td colspan="7" class="empty">Loading requests…</td></tr></tbody>
-          </table>
-        </div>
-        <p class="footnote">Security: this page uses the signed-in admin session and the existing server-side admin-api. The Supabase service-role key is never placed in this page. Membership is activated only by the server after an authorised approval.</p>
-      </div>
-    </section>
-  </main>
-
-  <script type="module">
-    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-    const SUPABASE_URL = 'https://qrmzkgsdkiamlkoysbem.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_pG2wMa6M4EtxnSBbWGv8FA_aK1eW1ra';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-    const loginView = document.getElementById('login-view');
-    const dashboardView = document.getElementById('dashboard-view');
-    const loginForm = document.getElementById('login-form');
-    const loginButton = document.getElementById('login-button');
-    const loginMessage = document.getElementById('login-message');
-    const requestMessage = document.getElementById('request-message');
-    const requestsBody = document.getElementById('requests-body');
-    const refreshButton = document.getElementById('refresh-button');
-    let loading = false;
-
-    function showMessage(element, message, isError = false) {
-      element.textContent = message;
-      element.className = `message show ${isError ? 'error' : 'ok'}`;
-    }
-    function hideMessage(element) {
-      element.textContent = '';
-      element.className = 'message';
-    }
-    function showLogin(message = '') {
-      loginView.hidden = false;
-      dashboardView.hidden = true;
-      if (message) showMessage(loginMessage, message, true);
-    }
-    function showDashboard() {
-      loginView.hidden = true;
-      dashboardView.hidden = false;
-    }
-    function escapeText(value) {
-      return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
-    }
-    function formatDate(value) {
-      if (!value) return '—';
-      const date = new Date(value);
-      return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
-    }
-    function money(value) {
-      const amount = Number(value);
-      return Number.isFinite(amount) ? `₹${amount.toLocaleString('en-IN')}` : '—';
-    }
-
-    async function adminApi(payload) {
-      const { data, error } = await supabase.functions.invoke('admin-api', { body: payload });
-      if (error) {
-        let message = error.message || 'The admin service could not complete the request.';
-        try {
-          const response = error.context;
-          if (response && typeof response.json === 'function') {
-            const body = await response.json();
-            if (body?.error) message = body.error;
-          }
-        } catch (_) {}
-        throw new Error(message);
-      }
-      if (data?.error) throw new Error(data.error);
-      return data;
-    }
-
-    async function verifyAdminAndLoad() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        showLogin();
-        return;
-      }
-      showDashboard();
-      await loadRequests();
-    }
-
-    async function loadRequests() {
-      if (loading) return;
-      loading = true;
-      refreshButton.disabled = true;
-      hideMessage(requestMessage);
-      requestsBody.innerHTML = '<tr><td colspan="7" class="empty">Loading requests…</td></tr>';
-      try {
-        const data = await adminApi({ action: 'admin_pending' });
-        const requests = Array.isArray(data?.requests) ? data.requests : [];
-        document.getElementById('pending-count').textContent = String(requests.length);
-        const total = requests.reduce((sum, request) => sum + Number(request.amount || 0), 0);
-        document.getElementById('pending-total').textContent = money(total);
-        if (!requests.length) {
-          requestsBody.innerHTML = '<tr><td colspan="7"><div class="empty"><strong>You’re all caught up.</strong>No pending membership requests right now.</div></td></tr>';
-          return;
-        }
-        requestsBody.innerHTML = requests.map((request) => `
-          <tr data-request-id="${escapeText(request.id)}">
-            <td>${escapeText(formatDate(request.submitted_at))}</td>
-            <td><span class="muted">${escapeText(request.user_id)}</span></td>
-            <td>${escapeText(request.plan_months)} months</td>
-            <td><strong>${escapeText(money(request.amount))}</strong></td>
-            <td><span class="utr">${escapeText(request.utr)}</span></td>
-            <td><span class="pill">${escapeText(request.status || 'pending')}</span></td>
-            <td><div class="actions"><button class="btn btn-primary" data-decision="approved" type="button">Approve</button><button class="btn btn-danger" data-decision="rejected" type="button">Reject</button></div></td>
-          </tr>`).join('');
-      } catch (error) {
-        requestsBody.innerHTML = '<tr><td colspan="7" class="empty">Could not load requests.</td></tr>';
-        showMessage(requestMessage, error.message || 'Could not load membership requests.', true);
-        if (/admin access denied|authentication required|invalid jwt|jwt/i.test(error.message || '')) {
-          showLogin('This account is not authorised for the Fivbe admin panel. Sign in with the authorised admin account.');
-        }
-      } finally {
-        loading = false;
-        refreshButton.disabled = false;
-      }
-    }
-
-    requestsBody.addEventListener('click', async (event) => {
-      const button = event.target.closest('button[data-decision]');
-      if (!button) return;
-      const row = button.closest('tr[data-request-id]');
-      if (!row) return;
-      const requestId = row.dataset.requestId;
-      const decision = button.dataset.decision;
-      const utr = row.querySelector('.utr')?.textContent || '';
-      const plan = row.children[2]?.textContent || 'membership';
-      const amount = row.children[3]?.textContent || '';
-      const actionLabel = decision === 'approved' ? 'APPROVE' : 'REJECT';
-      if (!window.confirm(`${actionLabel} this ${plan} request for ${amount}?
-
-UTR: ${utr}
-
-${decision === 'approved' ? 'Approve only if you have confirmed the payment in FamPay.' : 'This will mark the request as rejected.'}`)) return;
-      const note = window.prompt('Optional admin note (leave blank if none):', '') || '';
-      if (note.length > 500) {
-        showMessage(requestMessage, 'Admin note must be 500 characters or fewer.', true);
-        return;
-      }
-      button.disabled = true;
-      try {
-        await adminApi({ action: 'admin_review', request_id: requestId, decision, admin_note: note.trim() });
-        showMessage(requestMessage, decision === 'approved' ? 'Membership approved and activated.' : 'Membership request rejected.');
-        await loadRequests();
-      } catch (error) {
-        showMessage(requestMessage, error.message || 'Could not review this request.', true);
-        button.disabled = false;
-      }
-    });
-
-    loginForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      hideMessage(loginMessage);
-      loginButton.disabled = true;
-      loginButton.textContent = 'Signing in…';
-      try {
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        await verifyAdminAndLoad();
-      } catch (error) {
-        showMessage(loginMessage, error.message || 'Sign in failed.', true);
-      } finally {
-        loginButton.disabled = false;
-        loginButton.textContent = 'Sign in securely';
-      }
-    });
-
-    refreshButton.addEventListener('click', loadRequests);
-    document.getElementById('signout-button').addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      showLogin();
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) showLogin();
-    });
-
-    await verifyAdminAndLoad();
-  </script>
-</body>
-</html>

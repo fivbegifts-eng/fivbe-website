@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Join Fivbe Membership. Choose a 6-month or 12-month plan to access member pricing on eligible Fivbe Gifts products." />
+  <title>Fivbe Membership · Fivbe Gifts</title>
+  <style>
+    :root { --brand:#2f6858; --brand-dark:#214d42; --brand-light:#e5eee8; --cream:#f8f4ed; --paper:#fffdf9; --ink:#2b211d; --muted:#756d65; --line:#e5ddd2; --serif:Georgia,"Times New Roman",serif; --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    * { box-sizing:border-box; } body { margin:0; color:var(--ink); background:var(--cream); font-family:var(--sans); line-height:1.6; } a { color:inherit; text-decoration:none; }
+    .announcement { padding:8px 16px; color:#fff; background:var(--brand); text-align:center; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+    .site-header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--line); background:rgba(248,244,237,.96); backdrop-filter:blur(12px); }
+    .container { width:min(1080px,calc(100% - 40px)); margin:0 auto; } .nav { min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { color:var(--brand-dark); font:700 21px var(--serif); } .nav-links { display:flex; align-items:center; gap:24px; color:#5f6259; font-size:12px; } .nav-links a:hover { color:var(--brand); }
+    .nav-join { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:0 15px; border-radius:6px; color:white; background:var(--brand-dark); font-size:11px; font-weight:750; }
+    .hero { padding:74px 0 56px; text-align:center; } .eyebrow { margin:0; color:var(--brand); font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { max-width:760px; margin:13px auto 16px; color:var(--brand-dark); font:600 clamp(40px,6vw,68px)/1.02 var(--serif); letter-spacing:-.045em; } h1 em { color:var(--brand); font-weight:500; }
+    .hero-copy { max-width:650px; margin:0 auto; color:var(--muted); font-size:14px; }
+    .plan-section { padding:16px 0 76px; } .plans { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; max-width:820px; margin:0 auto; align-items:stretch; }
+    .plan { position:relative; display:flex; flex-direction:column; padding:28px; border:1px solid var(--line); border-radius:13px; background:var(--paper); box-shadow:0 10px 30px rgba(40,50,40,.05); }
+    .plan.featured { border:2px solid var(--brand); padding:27px; background:#fbfdf9; } .best { align-self:flex-start; margin:0 0 12px; padding:5px 9px; border-radius:30px; color:var(--brand-dark); background:var(--brand-light); font-size:9px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .plan-kicker { color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; } .price { margin:8px 0 0; color:var(--brand-dark); font:700 46px/1.1 var(--serif); } .duration { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .plan-desc { margin:17px 0 0; color:#59645d; font-size:12px; } .benefits { display:grid; gap:11px; margin:20px 0 25px; padding:0; list-style:none; font-size:12px; } .benefits li { display:flex; gap:9px; align-items:flex-start; } .benefits li:before { content:'✓'; color:var(--brand); font-weight:900; }
+    .cta { display:flex; align-items:center; justify-content:center; min-height:46px; margin-top:auto; padding:0 16px; border-radius:7px; color:#fff; background:var(--brand-dark); font-size:12px; font-weight:800; transition:background .2s,transform .2s; } .cta:hover { background:var(--brand); transform:translateY(-1px); }
+    .how { padding:54px 0; background:var(--brand-light); } .how h2 { margin:0 0 23px; color:var(--brand-dark); text-align:center; font:600 34px/1.1 var(--serif); }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; } .step { padding:18px; border:1px solid #d4e1d8; border-radius:9px; background:rgba(255,255,255,.55); } .step b { display:block; margin-bottom:5px; color:var(--brand-dark); font-size:12px; } .step p { margin:0; color:#5d6c62; font-size:11px; }
+    .fineprint { max-width:820px; margin:25px auto 0; color:var(--muted); text-align:center; font-size:10px; }
+    .faq { padding:62px 0 70px; } .faq h2 { margin:0 0 20px; color:var(--brand-dark); text-align:center; font:600 34px/1.1 var(--serif); } .faq-list { max-width:760px; margin:0 auto; } details { padding:15px 0; border-bottom:1px solid var(--line); } summary { color:var(--brand-dark); cursor:pointer; font-size:12px; font-weight:750; } details p { margin:8px 0 0; color:var(--muted); font-size:11px; }
+    footer { padding:23px 0; border-top:1px solid var(--line); color:var(--muted); font-size:10px; } .footer-row { display:flex; justify-content:space-between; gap:15px; }
+    @media(max-width:650px) { .nav { min-height:62px; } .nav-links { gap:12px; font-size:10px; } .nav-links a:nth-child(2) { display:none; } .nav-join { min-height:34px; padding:0 10px; font-size:10px; } .hero { padding:55px 0 40px; } .plans,.steps { grid-template-columns:1fr; } .plan { padding:23px; } .plan.featured { padding:22px; } .footer-row { flex-direction:column; text-align:center; } }
+  </style>
+</head>
+<body>
+  <div class="announcement">A little more value with every order</div>
+  <header class="site-header"><div class="container nav">
+    <a class="brand" href="index.html">Fivbe Gifts</a>
+    <nav class="nav-links" aria-label="Main navigation"><a href="index.html#collection">Collection</a><a href="index.html#about">Our story</a></nav>
+    <a class="nav-join" href="index.html?join=6">Join now</a>
+  </div></header>
+  <main>
+    <section class="hero container">
+      <p class="eyebrow">Fivbe Membership</p>
+      <h1>More thoughtful gifting.<br /><em>More member value.</em></h1>
+      <p class="hero-copy">Become a Fivbe member and access special member pricing on eligible products. Pick the plan that suits you and enjoy member benefits for the full membership period after your payment is verified.</p>
+    </section>
+    <section class="plan-section container" aria-label="Membership plans">
+      <div class="plans">
+        <article class="plan">
+          <span class="plan-kicker">Starter membership</span>
+          <p class="price">₹199</p>
+          <p class="duration">6 months of member benefits</p>
+          <p class="plan-desc">A simple way to start enjoying Fivbe member pricing.</p>
+          <ul class="benefits"><li>Access member prices on eligible products</li><li>Enjoy member pricing for 6 months after approval</li><li>Renew whenever you're ready</li></ul>
+          <a class="cta" href="index.html?join=6">Join now · 6 months</a>
+        </article>
+        <article class="plan featured">
+          <span class="best">Best value</span>
+          <span class="plan-kicker">Extended membership</span>
+          <p class="price">₹299</p>
+          <p class="duration">12 months of member benefits</p>
+          <p class="plan-desc">One payment for a full year of member pricing.</p>
+          <ul class="benefits"><li>Access member prices on eligible products</li><li>Enjoy member pricing for 12 months after approval</li><li>One payment for a full year of benefits</li></ul>
+          <a class="cta" href="index.html?join=12">Join now · 12 months</a>
+        </article>
+      </div>
+      <p class="fineprint">Membership is paid and separate from a free Fivbe account. Member pricing applies to eligible products only. Your membership becomes active only after Fivbe verifies your UPI payment and approves your request.</p>
+    </section>
+    <section class="how"><div class="container">
+      <h2>How to become a member</h2>
+      <div class="steps">
+        <div class="step"><b>01 · Choose your plan</b><p>Select the 6-month or 12-month membership that works for you.</p></div>
+        <div class="step"><b>02 · Sign in and pay</b><p>Continue to your Fivbe account, make the UPI payment, and submit your transaction reference.</p></div>
+        <div class="step"><b>03 · We verify and activate</b><p>We review your payment. Once approved, your membership dates and member status appear in your account.</p></div>
+      </div>
+    </div></section>
+    <section class="faq container">
+      <h2>Membership, simply explained</h2>
+      <div class="faq-list">
+        <details><summary>Does creating a free account include membership?</summary><p>No. A free Fivbe account lets you sign in and manage your profile. Paid membership must be purchased separately.</p></details>
+        <details><summary>When does my membership start?</summary><p>Your membership starts after Fivbe verifies your payment and approves your membership request.</p></details>
+        <details><summary>How do I pay and submit my transaction reference?</summary><p>Choose a plan above. You’ll be taken to the Fivbe account area, where you can sign in, see the exact UPI amount, make payment, and submit your UTR for verification.</p></details>
+        <details><summary>Are member prices available on every product?</summary><p>Member pricing is available on eligible products. Product pages will show the applicable price where member pricing is offered.</p></details>
+      </div>
+    </section>
+  </main>
+  <footer><div class="container footer-row"><span>© <span id="year"></span> Fivbe Gifts</span><span><a href="index.html">Home</a> · <a href="https://www.instagram.com/fivbegifts/" target="_blank" rel="noreferrer">Instagram</a> · <a href="https://wa.me/917349112715" target="_blank" rel="noreferrer">WhatsApp</a></span></div></footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

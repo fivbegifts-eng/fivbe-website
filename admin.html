@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Fivbe Admin | Membership Requests</title>
+  <style>
+    :root {
+      --green: #2f6858;
+      --green-dark: #214d42;
+      --green-soft: #e5eee8;
+      --cream: #f8f4ed;
+      --paper: #fffdf9;
+      --ink: #252d29;
+      --muted: #727b75;
+      --line: #e4e8e2;
+      --danger: #a53c36;
+      --danger-bg: #fae9e6;
+      --success: #276746;
+      --success-bg: #e6f3e9;
+      --shadow: 0 18px 50px rgba(35, 60, 48, .08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--cream); }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { background: var(--green-dark); color: white; padding: 17px 24px; }
+    .topbar-inner { max-width: 1180px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { font-size: 19px; font-weight: 800; letter-spacing: -.04em; }
+    .brand span { color: #cfe3d5; font-weight: 500; }
+    .top-note { color: #dce9e0; font-size: 12px; }
+    main { width: min(1180px, calc(100% - 36px)); margin: 42px auto 70px; }
+    .eyebrow { color: var(--green); font-size: 11px; letter-spacing: .15em; font-weight: 800; text-transform: uppercase; }
+    h1 { margin: 8px 0 7px; font-size: clamp(28px, 4vw, 40px); letter-spacing: -.055em; line-height: 1.12; }
+    .sub { color: var(--muted); margin: 0; font-size: 14px; }
+    .panel { margin-top: 28px; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--paper); box-shadow: var(--shadow); }
+    .login-panel { max-width: 460px; margin: 38px auto; }
+    .panel h2 { margin: 0 0 7px; font-size: 20px; letter-spacing: -.035em; }
+    .field { display: grid; gap: 7px; margin-top: 17px; }
+    label { font-size: 12px; color: #4f5c54; font-weight: 700; }
+    input, textarea { width: 100%; border: 1px solid #dce3dc; background: white; border-radius: 10px; padding: 12px 13px; outline: none; color: var(--ink); }
+    input:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(47,104,88,.12); }
+    .btn { border: 0; border-radius: 10px; padding: 11px 16px; font-weight: 750; font-size: 13px; transition: transform .15s, opacity .15s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: .55; cursor: wait; transform: none; }
+    .btn-primary { color: white; background: var(--green); }
+    .btn-quiet { color: var(--green-dark); background: var(--green-soft); }
+    .btn-danger { color: var(--danger); background: var(--danger-bg); }
+    .btn-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 20px; }
+    .message { display: none; margin-top: 16px; border-radius: 10px; padding: 11px 13px; font-size: 13px; }
+    .message.show { display: block; }
+    .message.error { color: var(--danger); background: var(--danger-bg); }
+    .message.ok { color: var(--success); background: var(--success-bg); }
+    .dashboard-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; flex-wrap: wrap; }
+    .stats { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+    .stat { min-width: 150px; padding: 15px 18px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+    .stat strong { display: block; font-size: 25px; line-height: 1.1; letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-size: 11px; }
+    .table-wrap { overflow-x: auto; margin-top: 24px; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th { padding: 12px 13px; text-align: left; color: #758078; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid var(--line); }
+    td { padding: 15px 13px; font-size: 13px; border-bottom: 1px solid #edf0ec; vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .utr { font-weight: 800; letter-spacing: .025em; }
+    .muted { color: var(--muted); font-size: 11px; }
+    .pill { display: inline-flex; padding: 5px 9px; border-radius: 30px; background: #fff4dc; color: #875e16; font-size: 10px; font-weight: 800; }
+    .actions { display: flex; gap: 7px; }
+    .empty { padding: 38px 15px; text-align: center; color: var(--muted); }
+    .empty strong { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
+    .footnote { margin-top: 20px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    [hidden] { display: none !important; }
+    @media (max-width: 620px) {
+      .topbar { padding: 15px 18px; }
+      main { width: min(100% - 24px, 1180px); margin-top: 28px; }
+      .panel { padding: 20px 16px; border-radius: 15px; }
+      .top-note { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">FIVBE <span>ADMIN</span></div>
+      <div class="top-note">Private store management</div>
+    </div>
+  </header>
+
+  <main>
+    <section id="login-view">
+      <div class="eyebrow">Store administration</div>
+      <h1>Welcome back.</h1>
+      <p class="sub">Sign in with your authorised Fivbe admin account to review membership payments.</p>
+      <div class="panel login-panel">
+        <h2>Admin sign in</h2>
+        <p class="sub">Use the admin email and password already registered with Fivbe.</p>
+        <form id="login-form">
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" type="email" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" required>
+          </div>
+          <div class="btn-row"><button class="btn btn-primary" id="login-button" type="submit">Sign in securely</button></div>
+        </form>
+        <div id="login-message" class="message" role="status"></div>
+      </div>
+    </section>
+
+    <section id="dashboard-view" hidden>
+      <div class="dashboard-head">
+        <div>
+          <div class="eyebrow">Fivbe store</div>
+          <h1>Membership requests</h1>
+          <p class="sub">Check the UTR against your FamPay transaction history before approving a request.</p>
+        </div>
+        <div class="btn-row" style="margin-top:0">
+          <button class="btn btn-quiet" id="refresh-button" type="button">Refresh requests</button>
+          <button class="btn btn-quiet" id="signout-button" type="button">Sign out</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="pending-count">—</strong><span>Pending requests</span></div>
+        <div class="stat"><strong id="pending-total">—</strong><span>Total pending value</span></div>
+      </div>
+      <div class="panel">
+        <div class="dashboard-head">
+          <div><h2>Waiting for verification</h2><p class="sub">Approve only after confirming the exact amount and transaction in FamPay.</p></div>
+        </div>
+        <div id="request-message" class="message" role="status"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Submitted</th><th>Customer ID</th><th>Plan</th><th>Amount</th><th>UPI reference (UTR)</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="requests-body"><tr><td colspan="7" class="empty">Loading requests…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="footnote">Security: this page uses the signed-in admin session and the existing server-side admin-api. The Supabase service-role key is never placed in this page. Membership is activated only by the server after an authorised approval.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://qrmzkgsdkiamlkoysbem.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_pG2wMa6M4EtxnSBbWGv8FA_aK1eW1ra';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const loginView = document.getElementById('login-view');
+    const dashboardView = document.getElementById('dashboard-view');
+    const loginForm = document.getElementById('login-form');
+    const loginButton = document.getElementById('login-button');
+    const loginMessage = document.getElementById('login-message');
+    const requestMessage = document.getElementById('request-message');
+    const requestsBody = document.getElementById('requests-body');
+    const refreshButton = document.getElementById('refresh-button');
+    let loading = false;
+
+    function showMessage(element, message, isError = false) {
+      element.textContent = message;
+      element.className = `message show ${isError ? 'error' : 'ok'}`;
+    }
+    function hideMessage(element) {
+      element.textContent = '';
+      element.className = 'message';
+    }
+    function showLogin(message = '') {
+      loginView.hidden = false;
+      dashboardView.hidden = true;
+      if (message) showMessage(loginMessage, message, true);
+    }
+    function showDashboard() {
+      loginView.hidden = true;
+      dashboardView.hidden = false;
+    }
+    function escapeText(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    }
+    function formatDate(value) {
+      if (!value) return '—';
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? '—' : date.toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+    function money(value) {
+      const amount = Number(value);
+      return Number.isFinite(amount) ? `₹${amount.toLocaleString('en-IN')}` : '—';
+    }
+
+    async function adminApi(payload) {
+      const { data, error } = await supabase.functions.invoke('admin-api', { body: payload });
+      if (error) {
+        let message = error.message || 'The admin service could not complete the request.';
+        try {
+          const response = error.context;
+          if (response && typeof response.json === 'function') {
+            const body = await response.json();
+            if (body?.error) message = body.error;
+          }
+        } catch (_) {}
+        throw new Error(message);
+      }
+      if (data?.error) throw new Error(data.error);
+      return data;
+    }
+
+    async function verifyAdminAndLoad() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        showLogin();
+        return;
+      }
+      showDashboard();
+      await loadRequests();
+    }
+
+    async function loadRequests() {
+      if (loading) return;
+      loading = true;
+      refreshButton.disabled = true;
+      hideMessage(requestMessage);
+      requestsBody.innerHTML = '<tr><td colspan="7" class="empty">Loading requests…</td></tr>';
+      try {
+        const data = await adminApi({ action: 'admin_pending' });
+        const requests = Array.isArray(data?.requests) ? data.requests : [];
+        document.getElementById('pending-count').textContent = String(requests.length);
+        const total = requests.reduce((sum, request) => sum + Number(request.amount || 0), 0);
+        document.getElementById('pending-total').textContent = money(total);
+        if (!requests.length) {
+          requestsBody.innerHTML = '<tr><td colspan="7"><div class="empty"><strong>You’re all caught up.</strong>No pending membership requests right now.</div></td></tr>';
+          return;
+        }
+        requestsBody.innerHTML = requests.map((request) => `
+          <tr data-request-id="${escapeText(request.id)}">
+            <td>${escapeText(formatDate(request.submitted_at))}</td>
+            <td><span class="muted">${escapeText(request.user_id)}</span></td>
+            <td>${escapeText(request.plan_months)} months</td>
+            <td><strong>${escapeText(money(request.amount))}</strong></td>
+            <td><span class="utr">${escapeText(request.utr)}</span></td>
+            <td><span class="pill">${escapeText(request.status || 'pending')}</span></td>
+            <td><div class="actions"><button class="btn btn-primary" data-decision="approved" type="button">Approve</button><button class="btn btn-danger" data-decision="rejected" type="button">Reject</button></div></td>
+          </tr>`).join('');
+      } catch (error) {
+        requestsBody.innerHTML = '<tr><td colspan="7" class="empty">Could not load requests.</td></tr>';
+        showMessage(requestMessage, error.message || 'Could not load membership requests.', true);
+        if (/admin access denied|authentication required|invalid jwt|jwt/i.test(error.message || '')) {
+          showLogin('This account is not authorised for the Fivbe admin panel. Sign in with the authorised admin account.');
+        }
+      } finally {
+        loading = false;
+        refreshButton.disabled = false;
+      }
+    }
+
+    requestsBody.addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-decision]');
+      if (!button) return;
+      const row = button.closest('tr[data-request-id]');
+      if (!row) return;
+      const requestId = row.dataset.requestId;
+      const decision = button.dataset.decision;
+      const utr = row.querySelector('.utr')?.textContent || '';
+      const plan = row.children[2]?.textContent || 'membership';
+      const amount = row.children[3]?.textContent || '';
+      const actionLabel = decision === 'approved' ? 'APPROVE' : 'REJECT';
+      if (!window.confirm(`${actionLabel} this ${plan} request for ${amount}?
+
+UTR: ${utr}
+
+${decision === 'approved' ? 'Approve only if you have confirmed the payment in FamPay.' : 'This will mark the request as rejected.'}`)) return;
+      const note = window.prompt('Optional admin note (leave blank if none):', '') || '';
+      if (note.length > 500) {
+        showMessage(requestMessage, 'Admin note must be 500 characters or fewer.', true);
+        return;
+      }
+      button.disabled = true;
+      try {
+        await adminApi({ action: 'admin_review', request_id: requestId, decision, admin_note: note.trim() });
+        showMessage(requestMessage, decision === 'approved' ? 'Membership approved and activated.' : 'Membership request rejected.');
+        await loadRequests();
+      } catch (error) {
+        showMessage(requestMessage, error.message || 'Could not review this request.', true);
+        button.disabled = false;
+      }
+    });
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      hideMessage(loginMessage);
+      loginButton.disabled = true;
+      loginButton.textContent = 'Signing in…';
+      try {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        await verifyAdminAndLoad();
+      } catch (error) {
+        showMessage(loginMessage, error.message || 'Sign in failed.', true);
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = 'Sign in securely';
+      }
+    });
+
+    refreshButton.addEventListener('click', loadRequests);
+    document.getElementById('signout-button').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      showLogin();
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) showLogin();
+    });
+
+    await verifyAdminAndLoad();
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Fivbe Admin | Orders</title>
+<style>
+:root{--green:#2f6858;--dark:#214d42;--soft:#e5eee8;--cream:#f8f4ed;--paper:#fffdf9;--ink:#252d29;--muted:#727b75;--line:#e4e8e2;--red:#a53c36;font-family:Inter,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--cream);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}
+.topbar{background:var(--dark);color:white;padding:17px 24px}.topbar-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font-weight:850;font-size:19px}.brand span{color:#cfe3d5;font-weight:500}
+main{width:min(1180px,calc(100% - 36px));margin:38px auto 70px}.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--green)}h1{font-size:clamp(28px,4vw,40px);margin:8px 0}.sub{font-size:14px;color:var(--muted);margin:0}
+.panel{margin-top:25px;padding:25px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}.login{max-width:450px;margin:35px auto}.field{display:grid;gap:7px;margin-top:16px}label{font-size:12px;font-weight:750;color:#4f5c54}input,select{width:100%;border:1px solid #dce3dc;background:#fff;border-radius:10px;padding:11px 12px;color:var(--ink)}
+.btn{border:0;border-radius:10px;padding:11px 15px;font-size:13px;font-weight:800}.primary{background:var(--green);color:white}.quiet{background:var(--soft);color:var(--dark)}.btn:disabled{opacity:.55;cursor:wait}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.head{display:flex;justify-content:space-between;gap:16px;align-items:end;flex-wrap:wrap}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.stat{min-width:150px;padding:14px 17px;background:white;border:1px solid var(--line);border-radius:13px}.stat strong{display:block;font-size:25px}.stat span{font-size:11px;color:var(--muted)}
+.filter{display:flex;gap:10px;align-items:center;max-width:340px;margin-top:20px}.filter select{max-width:220px}.orders{display:grid;gap:12px;margin-top:18px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.summary{display:grid;grid-template-columns:1fr 1.3fr .7fr .8fr .8fr auto;gap:12px;align-items:center;padding:15px}.summary strong{display:block;font-size:13px}.summary small{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+.tag{display:inline-flex;padding:5px 8px;border-radius:20px;background:var(--soft);color:var(--dark);font-size:10px;font-weight:800;text-transform:capitalize}.detail{border-top:1px solid var(--line);padding:17px;background:#fcfcf9}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.block h3{font-size:12px;color:var(--dark);margin:0 0 8px}.block p{font-size:12px;line-height:1.5;margin:4px 0;overflow-wrap:anywhere}.items{font-size:12px;line-height:1.7;padding-left:18px;margin:0}
+.controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:15px;margin-top:15px}.controls .field{margin:0;min-width:150px;flex:1}
+.msg{display:none;padding:11px 13px;border-radius:10px;margin-top:14px;font-size:13px}.msg.show{display:block}.msg.error{background:#fae9e6;color:var(--red)}.msg.ok{background:#e6f3e9;color:#276746}
+.empty{text-align:center;padding:35px 12px;color:var(--muted);font-size:13px}.empty strong{display:block;color:var(--ink);margin-bottom:4px}.foot{font-size:11px;line-height:1.6;color:var(--muted);margin-top:18px}[hidden]{display:none!important}
+@media(max-width:700px){main{width:calc(100% - 24px);margin-top:25px}.panel{padding:19px 15px}.summary{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.topbar{padding:15px 18px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="topbar-inner"><div class="brand">FIVBE <span>ADMIN · ORDERS</span></div><div class="row"><a href="/admin.html" style="color:#e7f1e9;font-size:12px">Membership admin</a><button class="btn quiet" id="signout" type="button">Sign out</button></div></div></header>
+<main>
+<section id="login-view">
+<div class="eyebrow">Store administration</div><h1>Order management</h1><p class="sub">Sign in with your authorised Fivbe admin account.</p>
+<div class="panel login"><h2 style="margin:0 0 5px">Admin sign in</h2>
+<form id="login-form">
+<div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="username" required></div>
+<div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+<div class="row" style="margin-top:18px"><button class="btn primary" id="login-button">Sign in securely</button></div>
+</form><div id="login-message" class="msg" role="status"></div></div>
+</section>
+<section id="dashboard" hidden>
+<div class="head"><div><div class="eyebrow">Fivbe store</div><h1>Customer orders</h1><p class="sub">Review saved order details, verify UPI payments and update fulfilment status.</p></div><button class="btn quiet" id="refresh">Refresh orders</button></div>
+<div class="stats"><div class="stat"><strong id="count">—</strong><span>Orders loaded (latest 100)</span></div><div class="stat"><strong id="unpaid">—</strong><span>Payment pending</span></div><div class="stat"><strong id="placed">—</strong><span>Awaiting confirmation</span></div></div>
+<div class="panel">
+<div class="head"><div><h2 style="margin:0 0 5px;font-size:20px">All orders</h2><p class="sub">Open an order to see items, delivery address and update its statuses.</p></div></div>
+<div class="filter"><label for="filter">Filter</label><select id="filter">
+<option value="all">All orders</option><option value="placed">Placed</option><option value="confirmed">Confirmed</option><option value="processing">Processing</option><option value="packed">Packed</option><option value="dispatched">Dispatched</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+</select></div>
+<div id="orders-message" class="msg" role="status"></div><div id="orders" class="orders"><div class="empty">Loading orders…</div></div>
+<p class="foot">Security: this page calls the separate server-side orders-admin function. The Supabase service-role key is never included in this page. It does not alter product stock or recalculate customer totals.</p>
+</div>
+</section>
+</main>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const supabase=createClient('https://qrmzkgsdkiamlkoysbem.supabase.co','sb_publishable_pG2wMa6M4EtxnSBbWGv8FA_aK1eW1ra');
+const $=id=>document.getElementById(id);let cached=[];let busy=false;
+function msg(el,text,error=false){el.textContent=text;el.className=`msg show ${error?'error':'ok'}`}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function money(v){const n=Number(v);return Number.isFinite(n)?`₹${n.toLocaleString('en-IN')}`:'—'}
+function date(v){if(!v)return '—';const d=new Date(v);return Number.isNaN(d.getTime())?'—':d.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}
+function addressLines(a){
+if(!a||typeof a!=='object')return ['No shipping address saved'];
+const keys=['name','full_name','phone','address_line1','address_line_1','address_line2','address_line_2','address','landmark','city','district','state','postal_code','pincode','zip','country'];const out=[];
+for(const k of keys){const v=a[k];if(v!==undefined&&v!==null&&String(v).trim())out.push(`${k.replaceAll('_',' ')}: ${v}`)}
+if(!out.length)for(const [k,v] of Object.entries(a))if(['string','number'].includes(typeof v)&&String(v).trim())out.push(`${k.replaceAll('_',' ')}: ${v}`);
+return out.length?out:['No readable shipping address saved'];
+}
+async function api(payload){
+const {data,error}=await supabase.functions.invoke('orders-admin',{body:payload});
+if(error){let m=error.message||'Order service failed.';try{const b=await error.context?.json?.();if(b?.error)m=b.error}catch(_){}throw new Error(m)}
+if(data?.error)throw new Error(data.error);return data;
+}
+function render(){
+const filter=$('filter').value;const list=cached.filter(o=>filter==='all'||o.order_status===filter);
+$('count').textContent=cached.length;$('unpaid').textContent=cached.filter(o=>o.payment_status==='pending').length;$('placed').textContent=cached.filter(o=>o.order_status==='placed').length;
+if(!list.length){$('orders').innerHTML='<div class="empty"><strong>No matching orders.</strong>Try another filter.</div>';return}
+$('orders').innerHTML=list.map(o=>{
+const items=Array.isArray(o.order_items)?o.order_items:[];
+const itemHtml=items.length?items.map(i=>`<li>${esc(i.product_name)} × ${esc(i.quantity)} — ${esc(money(Number(i.unit_price)*Number(i.quantity)))}</li>`).join(''):'<li>Item details unavailable</li>';
+const addr=addressLines(o.shipping_address).map(x=>`<p>${esc(x)}</p>`).join('');
+const quote=o.shipping_quote_status?`${esc(o.shipping_quote_status)}${o.shipping_quote_amount!=null?' · '+esc(money(o.shipping_quote_amount)):''}`:'Not specified';
+return `<article class="card" data-id="${esc(o.id)}">
+<div class="summary">
+<div><strong>#${esc(o.id.slice(0,8).toUpperCase())}</strong><small>${esc(date(o.created_at))}</small></div>
+<div><strong>${esc(o.customer_name||'Customer')}</strong><small>${esc(o.customer_email||o.customer_phone||'Contact not saved')}</small></div>
+<div><strong>${esc(money(o.total_amount))}</strong><small>Total</small></div>
+<div><span class="tag">${esc(o.payment_status||'pending')}</span><small>Payment</small></div>
+<div><span class="tag">${esc(o.order_status||'placed')}</span><small>Order</small></div>
+<button class="btn quiet" data-expand type="button">Details</button>
+</div>
+<div class="detail" hidden>
+<div class="grid">
+<div class="block"><h3>Items</h3><ul class="items">${itemHtml}</ul><p>Subtotal: <b>${esc(money(o.subtotal))}</b></p><p>Shipping fee: <b>${esc(money(o.shipping_fee))}</b></p><p>Parcel weight: <b>${o.total_weight_grams==null?'Not recorded':esc(o.total_weight_grams)+' g'}</b></p><p>Shipping quote: <b>${quote}</b></p></div>
+<div class="block"><h3>Delivery address</h3>${addr}<p>Phone: ${esc(o.customer_phone||'Not saved')}</p><p>Payment reference: <b>${esc(o.payment_reference||'Not provided')}</b></p><p>Full order ID: <small>${esc(o.id)}</small></p></div>
+</div>
+<div class="controls">
+<div class="field"><label>Order status</label><select data-order>
+<option value="placed">Placed</option><option value="confirmed">Confirmed</option><option value="processing">Processing</option><option value="packed">Packed</option><option value="dispatched">Dispatched</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+</select></div>
+<div class="field"><label>Payment status</label><select data-payment><option value="pending">Pending</option><option value="paid">Paid</option><option value="failed">Failed</option><option value="refunded">Refunded</option></select></div>
+<div class="field"><label>Verified UTR / reference</label><input data-reference maxlength="120" placeholder="Enter reference"></div>
+<button class="btn primary" data-save type="button">Save updates</button>
+</div><div class="msg" data-result role="status"></div>
+</div></article>`;
+}).join('');
+$('orders').querySelectorAll('.card').forEach(card=>{
+const o=cached.find(x=>x.id===card.dataset.id);
+card.querySelector('[data-order]').value=o.order_status||'placed';
+card.querySelector('[data-payment]').value=o.payment_status||'pending';
+card.querySelector('[data-reference]').value=o.payment_reference||'';
+});
+}
+async function load(){
+if(busy)return;busy=true;$('refresh').disabled=true;$('orders').innerHTML='<div class="empty">Loading orders…</div>';
+try{const d=await api({action:'admin_orders'});cached=Array.isArray(d.orders)?d.orders:[];render()}
+catch(e){$('orders').innerHTML='<div class="empty"><strong>Could not load orders.</strong>Check the orders-admin function and refresh.</div>';msg($('orders-message'),e.message||'Could not load orders.',true)}
+finally{busy=false;$('refresh').disabled=false}
+}
+function showLogin(error){$('login-view').hidden=false;$('dashboard').hidden=true;if(error)msg($('login-message'),error,true)}
+async function showDashboard(){$('login-view').hidden=true;$('dashboard').hidden=false;await load()}
+$('login-form').addEventListener('submit',async e=>{
+e.preventDefault();$('login-button').disabled=true;
+try{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await showDashboard()}
+catch(e){msg($('login-message'),e.message||'Sign in failed.',true)}
+finally{$('login-button').disabled=false}
+});
+$('refresh').addEventListener('click',load);$('filter').addEventListener('change',render);
+$('orders').addEventListener('click',async e=>{
+const expand=e.target.closest('[data-expand]');
+if(expand){const d=expand.closest('.card').querySelector('.detail');d.hidden=!d.hidden;expand.textContent=d.hidden?'Details':'Hide details';return}
+const save=e.target.closest('[data-save]');if(!save)return;
+const card=save.closest('.card');const id=card.dataset.id;
+const orderStatus=card.querySelector('[data-order]').value;
+const paymentStatus=card.querySelector('[data-payment]').value;
+const paymentReference=card.querySelector('[data-reference]').value.trim();
+const old=cached.find(o=>o.id===id);
+if(paymentStatus==='paid'&&!paymentReference&&!old?.payment_reference){msg(card.querySelector('[data-result]'),'Enter the verified UTR before marking payment as paid.',true);return}
+if(!confirm(`Save updates for order #${id.slice(0,8).toUpperCase()}?\n\nOrder: ${orderStatus}\nPayment: ${paymentStatus}\n\nOnly mark paid after checking the transaction in FamPay.`))return;
+save.disabled=true;
+try{await api({action:'admin_update_order',order_id:id,order_status:orderStatus,payment_status:paymentStatus,payment_reference:paymentReference});await load();msg($('orders-message'),'Order updated successfully.')}
+catch(err){msg(card.querySelector('[data-result]'),err.message||'Could not update order.',true);save.disabled=false}
+});
+$('signout').addEventListener('click',async()=>{await supabase.auth.signOut();showLogin()});
+supabase.auth.onAuthStateChange((_event,session)=>{if(!session)showLogin()});
+const {data:{session}}=await supabase.auth.getSession();if(session)await showDashboard();
+</script>
+</body>
+</html>

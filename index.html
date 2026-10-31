@@ -912,6 +912,46 @@
       .auth-profile-detail { grid-template-columns: 82px minmax(0, 1fr); }
       .auth-profile-top { align-items: center; }
     }
+
+    /* Membership area */
+    .membership-panel { margin: 18px 0 16px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: #fbfaf6; }
+    .membership-heading { margin: 0; color: var(--brand-dark); font: 600 22px/1.2 var(--serif); }
+    .membership-copy { margin: 6px 0 13px; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .membership-status { margin: 0 0 13px; padding: 10px 11px; border-radius: 8px; color: var(--brand-dark); background: var(--brand-light); font-size: 11px; line-height: 1.5; }
+    .membership-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: stretch; }
+    .membership-plan { position: relative; display: flex; flex-direction: column; align-items: stretch; min-width: 0; padding: 17px 15px 15px; border: 1px solid var(--line); border-radius: 12px; background: #fff; text-align: left; }
+    .membership-plan[aria-pressed="true"] { border: 2px solid var(--brand); padding: 16px 14px 14px; background: #f6faf6; box-shadow: 0 8px 22px rgba(47,104,88,.09); }
+    .membership-plan-kicker { display: block; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
+    .membership-plan-price { display: block; margin-top: 5px; color: var(--brand-dark); font: 700 29px/1.15 var(--serif); }
+    .membership-plan-duration { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .membership-plan-benefits { display: grid; gap: 8px; margin: 15px 0 17px; padding: 0; list-style: none; color: var(--ink); font-size: 11px; line-height: 1.45; }
+    .membership-plan-benefits li { display: flex; gap: 7px; align-items: flex-start; }
+    .membership-plan-benefits li::before { content: "✓"; color: var(--brand); font-weight: 800; }
+    .membership-plan-cta { display: block; width: 100%; min-height: 40px; margin-top: auto; padding: 9px 10px; border: 1px solid var(--brand-dark); border-radius: 7px; color: #fff; background: var(--brand-dark); font-size: 11px; font-weight: 750; text-align: center; transition: background .2s, transform .2s; }
+    .membership-plan-cta:hover { background: var(--brand); transform: translateY(-1px); }
+    .membership-plan[aria-pressed="true"] .membership-plan-cta { color: var(--brand-dark); background: var(--brand-light); }
+    .membership-best-value { display: inline-block; align-self: flex-start; margin: 0 0 7px; padding: 4px 7px; border-radius: 20px; color: var(--brand-dark); background: var(--brand-light); font-size: 9px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    @media (max-width: 520px) { .membership-plans { grid-template-columns: 1fr; } }
+    .membership-payment { margin-top: 13px; padding: 13px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+    .membership-payment[hidden], .membership-history[hidden] { display: none !important; }
+    .membership-payment p { margin: 0 0 9px; color: var(--ink); font-size: 11px; line-height: 1.55; }
+    .membership-upi { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 10px 0; padding: 10px; border-radius: 7px; background: #f5f4ef; }
+    .membership-upi strong { font-size: 12px; overflow-wrap: anywhere; }
+    .membership-copy-btn, .membership-pay-btn { min-height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 7px; color: var(--brand-dark); background: #fff; font-size: 10px; font-weight: 750; }
+    .membership-pay-btn { display: inline-flex; align-items: center; justify-content: center; margin: 0 0 12px; border-color: var(--brand-dark); color: #fff; background: var(--brand-dark); text-decoration: none; }
+    .membership-utr { display: grid; gap: 6px; margin-top: 9px; }
+    .membership-utr label { font-size: 11px; font-weight: 700; }
+    .membership-utr input { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 7px; font-size: 12px; }
+    .membership-submit { width: 100%; min-height: 42px; margin-top: 10px; border: 0; border-radius: 7px; color: #fff; background: var(--brand-dark); font-size: 12px; font-weight: 750; }
+    .membership-submit:disabled { opacity: .6; cursor: wait; }
+    .membership-note { color: var(--muted) !important; font-size: 10px !important; }
+    .membership-history { margin-top: 13px; }
+    .membership-history h4 { margin: 0 0 7px; color: var(--brand-dark); font-size: 12px; }
+    .membership-request { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 10px; }
+    .membership-request strong { color: var(--brand-dark); }
+    .membership-request span { color: var(--muted); text-align: right; }
+    @media (max-width: 380px) { .membership-plans { grid-template-columns: 1fr; } }
+
     .auth-signout {
       border: 1px solid var(--line);
       color: var(--brand-dark);
@@ -1096,6 +1136,57 @@ let PRODUCTS = [];
             </div>
           </form>
           <p class="auth-profile-status" id="auth-profile-status" hidden></p>
+
+          <section class="membership-panel" aria-labelledby="membership-heading">
+            <h3 class="membership-heading" id="membership-heading">Fivbe Membership</h3>
+            <p class="membership-copy">Enjoy member prices on eligible products. Membership activates only after we verify your UPI payment.</p>
+            <p class="membership-status" id="membership-status" role="status">Checking your membership…</p>
+            <div class="membership-plans" aria-label="Choose a membership plan">
+              <article class="membership-plan">
+                <span class="membership-plan-kicker">Starter membership</span>
+                <strong class="membership-plan-price">₹199</strong>
+                <span class="membership-plan-duration">6 months of member benefits</span>
+                <ul class="membership-plan-benefits">
+                  <li>Access member prices on eligible products</li>
+                  <li>Enjoy member pricing for 6 months after approval</li>
+                  <li>Renew whenever you're ready</li>
+                </ul>
+                <button class="membership-plan-cta" type="button" data-membership-months="6" aria-pressed="false">Activate 6-month plan</button>
+              </article>
+              <article class="membership-plan">
+                <span class="membership-best-value">Best value</span>
+                <span class="membership-plan-kicker">Extended membership</span>
+                <strong class="membership-plan-price">₹299</strong>
+                <span class="membership-plan-duration">12 months of member benefits</span>
+                <ul class="membership-plan-benefits">
+                  <li>Access member prices on eligible products</li>
+                  <li>Enjoy member pricing for 12 months after approval</li>
+                  <li>One payment for a full year of benefits</li>
+                </ul>
+                <button class="membership-plan-cta" type="button" data-membership-months="12" aria-pressed="false">Activate 12-month plan</button>
+              </article>
+            </div>
+            <div class="membership-payment" id="membership-payment" hidden>
+              <p id="membership-payment-summary"></p>
+              <p>Pay using your UPI app. Make sure the amount matches the selected plan.</p>
+              <div class="membership-upi">
+                <strong id="membership-upi-id">7975100918@fam</strong>
+                <button class="membership-copy-btn" id="membership-copy-upi" type="button">Copy UPI ID</button>
+              </div>
+              <a class="membership-pay-btn" id="membership-pay-link" href="upi://pay?pa=7975100918%40fam&amp;pn=Fivbe%20Gifts&amp;cu=INR" target="_blank" rel="noreferrer">Pay with UPI</a>
+              <p class="membership-note">After paying, enter the UTR / transaction reference from your UPI app below. A submitted UTR is not proof of payment; your membership remains pending until we verify it.</p>
+              <form class="membership-utr" id="membership-utr-form">
+                <label for="membership-utr-input">UPI UTR / transaction reference</label>
+                <input id="membership-utr-input" type="text" maxlength="50" minlength="6" autocomplete="off" required placeholder="Enter your transaction reference" />
+                <button class="membership-submit" id="membership-submit" type="submit">Submit payment for verification</button>
+              </form>
+            </div>
+            <div class="membership-history" id="membership-history" hidden>
+              <h4>Your membership requests</h4>
+              <div id="membership-history-list"></div>
+            </div>
+          </section>
+
           <button class="auth-signout" id="auth-signout" type="button">Sign out</button>
         </div>
       </div>
@@ -1666,7 +1757,7 @@ window.setFivbeProducts = function(rows) {
 
     const { data, error } = await supabase
       .from('profiles')
-      .select('full_name, phone')
+      .select('full_name, phone, membership_started_at, membership_expires_at')
       .eq('id', user.id)
       .maybeSingle();
 
@@ -1682,6 +1773,7 @@ window.setFivbeProducts = function(rows) {
       phone: ''
     });
     setProfileViewMode(false);
+    await loadMembershipData(user);
   }
 
   function setAuthMessage(message, isError = false) {
@@ -1726,6 +1818,137 @@ window.setFivbeProducts = function(rows) {
     document.body.style.overflow = '';
   }
 
+  /* Membership customer experience. All privileged actions run through admin-api. */
+  const membershipStatus = document.getElementById('membership-status');
+  const membershipPayment = document.getElementById('membership-payment');
+  const membershipSummary = document.getElementById('membership-payment-summary');
+  const membershipPayLink = document.getElementById('membership-pay-link');
+  const membershipUtrForm = document.getElementById('membership-utr-form');
+  const membershipUtrInput = document.getElementById('membership-utr-input');
+  const membershipSubmit = document.getElementById('membership-submit');
+  const membershipHistory = document.getElementById('membership-history');
+  const membershipHistoryList = document.getElementById('membership-history-list');
+  const membershipUpiId = '7975100918@fam';
+  let selectedMembershipMonths = null;
+  let membershipBusy = false;
+
+  function chooseMembershipPlan(months) {
+    selectedMembershipMonths = months;
+    document.querySelectorAll('[data-membership-months]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.membershipMonths) === months));
+    });
+    const amount = months === 6 ? 199 : 299;
+    membershipSummary.textContent = `${months}-month membership · ${money(amount)}. Pay exactly this amount to ${membershipUpiId}.`;
+    const note = `Fivbe Gifts ${months} month membership`;
+    const params = new URLSearchParams({ pa: membershipUpiId, pn: 'Fivbe Gifts', am: String(amount), cu: 'INR', tn: note });
+    membershipPayLink.href = `upi://pay?${params.toString()}`;
+    membershipPayment.hidden = false;
+  }
+
+  document.querySelectorAll('[data-membership-months]').forEach((button) => {
+    button.addEventListener('click', () => chooseMembershipPlan(Number(button.dataset.membershipMonths)));
+  });
+
+  document.getElementById('membership-copy-upi').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(membershipUpiId);
+      document.getElementById('membership-copy-upi').textContent = 'Copied';
+    } catch (_) {
+      setAuthMessage('Please copy the UPI ID manually: ' + membershipUpiId, true);
+    }
+  });
+
+  async function callMembershipApi(payload) {
+    const { data, error } = await supabase.functions.invoke('admin-api', { body: payload });
+    if (error) {
+      let detail = error.message || 'Membership service request failed.';
+      try {
+        const response = error.context;
+        if (response && typeof response.json === 'function') {
+          const body = await response.json();
+          if (body?.error) detail = body.error;
+        }
+      } catch (_) {}
+      throw new Error(detail);
+    }
+    if (data?.error) throw new Error(data.error);
+    return data;
+  }
+
+  function renderMembershipHistory(requests) {
+    if (!requests || !requests.length) {
+      membershipHistoryList.innerHTML = '<p class="membership-note">No membership requests yet.</p>';
+      membershipHistory.hidden = false;
+      return;
+    }
+    const labels = { pending: 'Pending verification', approved: 'Approved', rejected: 'Rejected' };
+    membershipHistoryList.innerHTML = requests.map((request) => {
+      const date = request.submitted_at ? new Date(request.submitted_at).toLocaleDateString('en-IN') : '';
+      return `<div class="membership-request"><strong>${Number(request.plan_months)} months · ${money(request.amount)}</strong><span>${labels[request.status] || escapeHTML(request.status)}<br>${escapeHTML(date)}</span></div>`;
+    }).join('');
+    membershipHistory.hidden = false;
+  }
+
+  async function loadMembershipData(user) {
+    if (!user) return;
+    membershipStatus.textContent = 'Checking your membership…';
+    try {
+      const [{ data: profile, error: profileError }, history] = await Promise.all([
+        supabase.from('profiles').select('membership_started_at, membership_expires_at').eq('id', user.id).maybeSingle(),
+        callMembershipApi({ action: 'my_memberships' })
+      ]);
+      if (profileError) throw profileError;
+      const expiry = profile?.membership_expires_at ? new Date(profile.membership_expires_at) : null;
+      if (expiry && !Number.isNaN(expiry.getTime()) && expiry > new Date()) {
+        membershipStatus.textContent = `Your membership is active until ${expiry.toLocaleDateString('en-IN')}. Member pricing is available while it remains active.`;
+      } else {
+        membershipStatus.textContent = 'You do not currently have an active membership. Choose a plan below to apply for member pricing.';
+      }
+      renderMembershipHistory(history?.requests || []);
+    } catch (error) {
+      membershipStatus.textContent = 'We could not load membership details. Please refresh or try again.';
+      setAuthMessage(error.message || 'Could not load membership details.', true);
+    }
+  }
+
+  membershipUtrForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!currentAuthUser) {
+      setAuthMessage('Please sign in again before submitting payment.', true);
+      return;
+    }
+    if (![6, 12].includes(selectedMembershipMonths)) {
+      setAuthMessage('Please choose a membership plan first.', true);
+      return;
+    }
+    const utr = membershipUtrInput.value.trim();
+    if (!/^[A-Za-z0-9-]{6,50}$/.test(utr)) {
+      setAuthMessage('Enter a valid UTR/reference number (6–50 letters or numbers).', true);
+      return;
+    }
+    if (membershipBusy) return;
+    membershipBusy = true;
+    membershipSubmit.disabled = true;
+    membershipSubmit.textContent = 'Submitting…';
+    setAuthMessage('');
+    try {
+      const result = await callMembershipApi({
+        action: 'submit_membership',
+        plan_months: selectedMembershipMonths,
+        utr
+      });
+      membershipUtrInput.value = '';
+      setAuthMessage('Your payment reference has been submitted. Membership remains pending until Fivbe verifies the payment.');
+      await loadMembershipData(currentAuthUser);
+    } catch (error) {
+      setAuthMessage(error.message || 'Could not submit your membership request.', true);
+    } finally {
+      membershipBusy = false;
+      membershipSubmit.disabled = false;
+      membershipSubmit.textContent = 'Submit payment for verification';
+    }
+  });
+
   function renderAuthState(user) {
     currentAuthUser = user || null;
     const signedIn = Boolean(currentAuthUser);
@@ -1744,6 +1967,11 @@ window.setFivbeProducts = function(rows) {
       renderProfileDetails({ full_name: '', phone: '' });
       setProfileViewMode(false);
       profileStatus.hidden = true;
+      membershipPayment.hidden = true;
+      membershipHistory.hidden = true;
+      membershipStatus.textContent = 'Sign in to view membership details.';
+      selectedMembershipMonths = null;
+      document.querySelectorAll('[data-membership-months]').forEach((button) => button.setAttribute('aria-pressed', 'false'));
       setAuthMode('signin');
     }
   }

@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.fivbe.twa",
+        "sha256_cert_fingerprints": ["08:7D:38:D3:C4:79:07:B6:49:19:B1:60:09:8F:75:1E:F2:8A:4E:A1:B2:8E:93:89:C1:40:8F:00:A2:E0:DD:65"]
+      }
+    }]

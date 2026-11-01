@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "Fivbe Gifts",
+  "short_name": "Fivbe",
+  "description": "Shop thoughtful gifts at Fivbe Gifts.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8f4ed",
+  "theme_color": "#2f6858",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

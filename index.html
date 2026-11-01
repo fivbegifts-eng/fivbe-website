@@ -1233,10 +1233,10 @@ footer{border-top:1px solid var(--line);padding:24px 28px}.footer-row{max-width:
     const BUSINESS = {
       name: "Fivbe Gifts",
       shortName: "Fivbe",
-      tagline: "More Than Just Gifts",
-      eyebrow: "Gifts Made With Love",
-      description: "Personalized gifts made to make every moment special.",
-      announcement: "Diwali Hamper Is Out Now 😍",
+      tagline: "Make it personal.",
+      eyebrow: "Thoughtful gifts, happy hearts",
+      description: "For the big days, tiny wins and all the people who make life feel special. Find a little something they’ll keep forever.",
+      announcement: "Little moments, made unforgettable ✳ Thoughtful gifts, delivered with care",
       whatsapp: "917349112715",
       phone: "+91 7349112715",
       email: "fivbegifts@gmail.com",
@@ -1252,7 +1252,7 @@ footer{border-top:1px solid var(--line);padding:24px 28px}.footer-row{max-width:
 let PRODUCTS = [];
   </script>
 
-  <div class="topline"><b>Little moments,</b> made unforgettable <span>✳</span> Thoughtful gifts, delivered with care</div>
+  <div class="topline" id="announcement"><b>Little moments,</b> made unforgettable <span>✳</span> Thoughtful gifts, delivered with care</div>
   <header class="site-header"><div class="header-inner">
     <a class="brand" href="#top" aria-label="Fivbe Gifts home"><span class="brand-mark" id="brand-mark">f.</span><span class="brand-name" id="brand-name">fivbe<span>.</span></span></a>
     <label class="search"><span>⌕</span><input class="search" id="search" type="search" placeholder="Search gifts, frames, hampers…" aria-label="Search products" autocomplete="off"><span class="search-hint">FIVBE</span></label>
@@ -1431,7 +1431,7 @@ let PRODUCTS = [];
     document.getElementById("brand-mark").textContent = BUSINESS.shortName;
     document.getElementById("brand-name").textContent = BUSINESS.name;
     document.getElementById("business-eyebrow").textContent = BUSINESS.eyebrow;
-    document.getElementById("business-tagline").textContent = BUSINESS.tagline;
+    document.getElementById("business-tagline").innerHTML = "Make it<br><em>personal.</em>";
     document.getElementById("business-description").textContent = BUSINESS.description;
     document.getElementById("business-address").textContent = BUSINESS.address;
     document.getElementById("business-hours").textContent = BUSINESS.hours;

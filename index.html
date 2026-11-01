@@ -1420,16 +1420,17 @@ let PRODUCTS = [];
       <div class="quick-section-heading"><div><span class="quick-overline">FIND YOUR KIND OF GIFT</span><h2>Shop by mood.</h2></div><p>A little something for every person and every moment.</p></div>
       <div class="category-grid" id="category-tiles" aria-label="Shop by category"></div><div class="filters" id="filters" hidden></div>
     </div></section>
-    <section class="quick-membership-wrap"><div class="container quick-membership-card">
-      <div class="quick-membership-copy"><span class="quick-overline">A LITTLE MORE VALUE WITH EVERY ORDER</span><h2 id="membership-invite-title">Good gifts. Better member prices.</h2><p>Join Fivbe Membership to unlock special pricing on eligible gifts. Your benefits are linked to your signed-in account.</p>
-        <a class="membership-invite-button" href="membership.html">Explore membership <span aria-hidden="true">→</span></a><small class="quick-membership-note">Membership activates after payment verification.</small>
-      </div><div class="quick-membership-visual" aria-hidden="true"><span class="quick-membership-spark">✦</span><strong>F</strong><span>FIVBE MEMBER</span></div>
-    </div></section>
+
     <section class="quick-collection container" id="collection">
       <div class="quick-section-heading quick-collection-heading"><div><span class="quick-overline">LOVED RIGHT NOW</span><h2>Popular right now.</h2></div><p>Thoughtful finds, ready to make someone smile.</p></div>
       <div class="reference-filter-row" id="reference-filters" aria-label="Filter products"><button type="button" class="reference-filter active" data-product-filter="all">All picks</button><button type="button" class="reference-filter" data-product-filter="bestsellers" disabled title="Popularity ranking is not available in the current product data">Bestsellers</button><button type="button" class="reference-filter" data-product-filter="new">Just dropped</button><button type="button" class="reference-filter" data-product-filter="under499">Under ₹499</button></div>
       <div class="catalog-tools" aria-hidden="true"></div><div class="product-grid" id="product-grid"></div>
     </section>
+    <section class="quick-membership-wrap"><div class="container quick-membership-card">
+      <div class="quick-membership-copy"><span class="quick-overline">A LITTLE MORE VALUE WITH EVERY ORDER</span><h2 id="membership-invite-title">Good gifts. Better member prices.</h2><p>Join Fivbe Membership to unlock special pricing on eligible gifts. Your benefits are linked to your signed-in account.</p>
+        <a class="membership-invite-button" href="membership.html">Explore membership <span aria-hidden="true">→</span></a><small class="quick-membership-note">Membership activates after payment verification.</small>
+      </div><div class="quick-membership-visual" aria-hidden="true"><span class="quick-membership-spark">✦</span><strong>F</strong><span>FIVBE MEMBER</span></div>
+    </div></section>
     <section class="quick-about" id="about"><div class="container quick-about-inner">
       <div><span class="quick-overline">MORE THAN JUST GIFTS</span><h2>Make the little moments feel big.</h2></div>
       <p id="about-description">At Fivbe Gifts, we believe thoughtful gifts make everyday moments memorable. Explore personalised keepsakes, frames, hampers and more, all in one place.</p>
@@ -1550,7 +1551,7 @@ window.fivbeSetMemberActive = active => { window.fivbeMemberActive = !!active; r
 const categoryTiles = document.getElementById('category-tiles');
 const categoryEmoji = { 'All pieces':'🎁', 'Gift Hampers':'🧺', 'Photo Frames':'🖼️', 'Car Frames':'🚙', 'Polaroids':'📸', 'Personalised Gifts':'💌', 'Festival Hampers':'🎊', 'Accessories':'🎀' };
 function buildFilters() {
-  const cats = ['All pieces', ...new Set(validProducts.map(p => p.category))];
+  const cats = ['All pieces','Gift Hampers','Photo Frames','Car Frames','Polaroids','Personalised Gifts','Festival Hampers'];
   if (!cats.includes(selectedCategory)) selectedCategory = 'All pieces';
   categoryTiles.innerHTML = cats.map(c => `<button class="category-tile ${c === selectedCategory ? 'active' : ''}" type="button" data-category="${escapeHTML(c)}" aria-pressed="${c === selectedCategory}"><span class="category-emoji">${categoryEmoji[c] || '🎁'}</span><strong>${c === 'All pieces' ? 'All gifts' : escapeHTML(c)}</strong></button>`).join('');
 }

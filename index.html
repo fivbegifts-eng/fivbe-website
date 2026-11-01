@@ -1459,6 +1459,33 @@ let PRODUCTS = [];
 let validProducts = [], selectedCategory = 'All pieces', activeProductIndex = null, pendingOrder = null, activeGalleryIndex = 0;
 const filters = document.getElementById('filters'), grid = document.getElementById('product-grid'), search = document.getElementById('search');
 const fivbeCart = new Map();
+let fivbeCartHydrated = false;
+function restoreFivbeCart(){
+ if(fivbeCartHydrated)return;
+ fivbeCartHydrated=true;
+ try{
+   const saved=JSON.parse(localStorage.getItem('fivbe-cart-v1')||'[]');
+   const indexes=new Map(PRODUCTS.map((product,index)=>[String(product.id),index]));
+   saved.forEach(entry=>{
+     const index=indexes.get(String(entry.productId));
+     if(index===undefined)return;
+     const product=productAt(index),min=minQtyFor(product),stock=stockFor(product);
+     if(stock<min)return;
+     const quantity=Math.max(min,Math.min(stock,Math.floor(Number(entry.quantity)||min)));
+     fivbeCart.set(index,{id:index,quantity});
+   });
+ }catch(error){console.warn('Saved bag could not be restored:',error);}
+ renderCart();
+ const params=new URLSearchParams(window.location.search);
+ if(params.get('openBag')==='1'){
+   cartPanel.classList.add('expanded');
+   document.body.classList.add('fivbe-modal-open');
+   params.delete('openBag');
+   const cleanUrl=window.location.pathname+(params.toString()?'?'+params.toString():'')+window.location.hash;
+   window.history.replaceState({},'',cleanUrl);
+ }
+}
+
 const priceFor = (p, q) => {
   const tier = (p.tiers || []).find(t => q >= Number(t.min_quantity) && (t.max_quantity == null || q <= Number(t.max_quantity)));
   return Number(tier ? (window.fivbeMemberActive ? tier.member_unit_price : tier.regular_unit_price) :
@@ -1486,7 +1513,7 @@ categoryTiles.addEventListener('click', e => {
 search.addEventListener('input', renderProducts);
 window.setFivbeProducts = rows => {
   PRODUCTS = (rows||[]).map((r,i)=>({id:r.id,slug:r.slug||'',name:r.name,price:Number(r.regular_price||0),memberPrice:r.member_price==null?null:Number(r.member_price),category:Array.isArray(r.categories)?r.categories[0]?.name||'Other':r.categories?.name||'Other',description:r.description||'',images:Array.isArray(r.image_urls)?r.image_urls.filter(Boolean).slice(0,4):[],image:r.image_urls?.[0]||'',stockQuantity:Number(r.stock_quantity??0),packedWeightGrams:r.packed_weight_grams==null?null:Number(r.packed_weight_grams),minimumOrderQuantity:Number(r.minimum_order_quantity||1),tiers:Array.isArray(r.product_price_tiers)?r.product_price_tiers:[],originalIndex:i}));
-  validProducts=PRODUCTS.filter(p=>p.name&&p.category);buildFilters();renderProducts();
+  validProducts=PRODUCTS.filter(p=>p.name&&p.category);buildFilters();renderProducts();restoreFivbeCart();
 };
 function productCard(p){
   const i=p.originalIndex,sold=stockFor(p)<minQtyFor(p),min=minQtyFor(p),price=priceFor(p,min);
@@ -1568,6 +1595,10 @@ function renderCart(){
  document.getElementById('bag-count').textContent=count;
  document.getElementById('bag-open').setAttribute('aria-label',`Open shopping bag, ${count} items`);
  const checkoutButton=document.querySelector('.fivbe-checkout');if(checkoutButton)checkoutButton.disabled=count===0;
+ document.getElementById('fivbe-cart-heading-count').textContent=count;
+ if(fivbeCartHydrated){
+   try{localStorage.setItem('fivbe-cart-v1',JSON.stringify(Array.from(fivbeCart.entries()).map(([index,item])=>({productId:productAt(index)?.id,quantity:item.quantity})).filter(item=>item.productId!=null)));}catch(error){console.warn('Bag could not be saved:',error);}
+ }
 }
 const cartPanel=document.createElement('div');cartPanel.className='fivbe-cart';
 cartPanel.innerHTML=`<div class="fivbe-cart-backdrop" data-cart-close></div><aside class="fivbe-cart-sheet" role="dialog" aria-modal="true" aria-label="Shopping bag">

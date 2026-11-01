@@ -2,6 +2,9 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <meta name="theme-color" content="#2f6858">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Shop thoughtful gifts and join Fivbe Membership for exclusive member pricing on eligible products." />
@@ -1526,6 +1529,15 @@ button { cursor: pointer; }
 </style>
 </head>
 
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch((error) => {
+        console.error("Fivbe service worker registration failed:", error);
+      });
+    });
+  }
+</script>
 <body>
   <script>
     const BUSINESS = {

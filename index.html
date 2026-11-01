@@ -1210,7 +1210,7 @@ let PRODUCTS = [];
       <a class="brand" href="#top" aria-label="Fivbe Gifts home"><span class="brand-mark" id="brand-mark"></span><span class="brand-name-wrap"><span id="brand-name"></span><small>THOUGHTFUL GIFTS, MADE EASY</small></span></a>
       <div class="quick-delivery-copy"><span>SHOP FIVBE GIFTS</span><strong>Find something meaningful</strong></div>
       <label class="quick-search"><span aria-hidden="true">⌕</span><span class="sr-only">Search gifts</span><input class="search" id="search" type="search" placeholder="Search hampers, photo frames, personalised gifts..." autocomplete="off" /></label>
-      <div class="quick-header-actions"><a class="whatsapp-button" id="header-whatsapp" href="#" target="_blank" rel="noreferrer">Help</a><button class="account-button" id="account-open" type="button">Sign in</button><button class="menu-button" type="button" aria-label="Open menu" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button></div>
+      <div class="quick-header-actions"><a class="whatsapp-button" id="header-whatsapp" href="#" target="_blank" rel="noreferrer">Help</a><button class="account-button" id="account-open" type="button">Sign in</button><button class="bag-button" id="bag-open" type="button" aria-label="Open shopping bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8.5h13l1 12h-15l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span>Bag</span><b id="bag-count">0</b></button><button class="menu-button" type="button" aria-label="Open menu" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button></div>
     </div>
     <div class="quick-nav-row"><div class="container quick-nav-inner">
       <nav class="nav-links" aria-label="Main navigation"><a href="#collection">Shop gifts</a><a href="membership.html">Membership</a><a href="#about">Why Fivbe</a><a href="#contact">Contact</a></nav>
@@ -1456,7 +1456,7 @@ let PRODUCTS = [];
       hero.innerHTML = heroFallback;
     }
 /* Dynamic catalogue, product detail view, cart and secure checkout */
-let validProducts = [], selectedCategory = 'All pieces', activeProductIndex = null, pendingOrder = null;
+let validProducts = [], selectedCategory = 'All pieces', activeProductIndex = null, pendingOrder = null, activeGalleryIndex = 0;
 const filters = document.getElementById('filters'), grid = document.getElementById('product-grid'), search = document.getElementById('search');
 const fivbeCart = new Map();
 const priceFor = (p, q) => {
@@ -1504,36 +1504,102 @@ function productCard(p){
 function renderProducts(){const q=search.value.trim().toLowerCase();const shown=validProducts.filter(p=>(selectedCategory==='All pieces'||p.category===selectedCategory)&&(!q||`${p.name} ${p.description} ${p.category}`.toLowerCase().includes(q)));grid.innerHTML=shown.length?shown.map(productCard).join(''):'<div class="empty"><h3>Nothing by that name yet.</h3><p>Try another search or browse all pieces.</p></div>';}
 const detailModal=document.createElement('div');detailModal.className='fivbe-modal';detailModal.hidden=true;detailModal.innerHTML='<div class="fivbe-modal-backdrop" data-close-detail></div><section class="fivbe-modal-card" role="dialog" aria-modal="true" aria-label="Product details"><button class="fivbe-modal-close" type="button" data-close-detail aria-label="Close">×</button><div id="fivbe-detail-content"></div></section>';document.body.appendChild(detailModal);
 const checkoutModal=document.createElement('div');checkoutModal.className='fivbe-modal';checkoutModal.hidden=true;checkoutModal.innerHTML='<div class="fivbe-modal-backdrop" data-close-checkout></div><section class="fivbe-modal-card fivbe-checkout-card" role="dialog" aria-modal="true" aria-label="Secure checkout"><button class="fivbe-modal-close" type="button" data-close-checkout aria-label="Close">×</button><div id="fivbe-checkout-content"></div></section>';document.body.appendChild(checkoutModal);
-function renderDetails(i){const p=productAt(i);if(!p)return;activeProductIndex=i;const min=minQtyFor(p), sold=stockFor(p)<min;const imgs=p.images.length?p.images:[];
- const gallery=imgs.length?`<div class="fivbe-gallery">${imgs.map((src,n)=>`<img src="${escapeHTML(src)}" alt="${escapeHTML(p.name)} image ${n+1}" class="${n===0?'is-active':''}" data-gallery-image="${n}" loading="lazy">`).join('')}</div>`:'<div class="fivbe-gallery fivbe-no-image">Image coming soon</div>';
+function setGalleryIndex(nextIndex){
+ const track=document.querySelector('.fivbe-gallery-track');
+ if(!track)return;
+ const count=Math.max(1,Number(track.dataset.slideCount)||1);
+ activeGalleryIndex=(nextIndex+count)%count;
+ track.style.transform=`translateX(-${activeGalleryIndex*100}%)`;
+ document.querySelectorAll('[data-gallery-image]').forEach((button,index)=>{
+   const active=index===activeGalleryIndex;
+   button.classList.toggle('is-active',active);
+   button.setAttribute('aria-pressed',String(active));
+ });
+ const position=document.getElementById('fivbe-gallery-position');
+ if(position)position.textContent=`${activeGalleryIndex+1} / ${count}`;
+}
+function renderDetails(i){
+ const p=productAt(i);if(!p)return;
+ activeProductIndex=i;activeGalleryIndex=0;
+ const min=minQtyFor(p),stock=stockFor(p),sold=stock<min,imgs=(p.images||[]).filter(Boolean).slice(0,4);
+ const gallery=imgs.length?`
+   <div class="fivbe-detail-gallery">
+     <div class="fivbe-gallery-viewport">
+       <div class="fivbe-gallery-track" data-slide-count="${imgs.length}">
+         ${imgs.map((src,n)=>`<figure class="fivbe-gallery-slide"><img src="${escapeHTML(src)}" alt="${escapeHTML(p.name)} · image ${n+1}" loading="${n===0?'eager':'lazy'}"></figure>`).join('')}
+       </div>
+       ${imgs.length>1?`<button type="button" class="fivbe-gallery-arrow prev" data-gallery-step="-1" aria-label="Previous product image">‹</button><button type="button" class="fivbe-gallery-arrow next" data-gallery-step="1" aria-label="Next product image">›</button>`:''}
+       <span class="fivbe-gallery-counter" id="fivbe-gallery-position">1 / ${imgs.length}</span>
+     </div>
+     ${imgs.length>1?`<div class="fivbe-gallery-thumbs" aria-label="Product images">${imgs.map((src,n)=>`<button type="button" class="fivbe-gallery-thumb ${n===0?'is-active':''}" data-gallery-image="${n}" aria-label="Show image ${n+1}" aria-pressed="${n===0}"><img src="${escapeHTML(src)}" alt="" loading="lazy"></button>`).join('')}</div>`:''}
+   </div>`
+   :'<div class="fivbe-detail-gallery"><div class="fivbe-gallery-empty"><span>F</span><strong>Fivbe Gifts</strong><small>Product photos coming soon</small></div></div>';
  const tiers=p.tiers.length?`<div class="fivbe-tier-list"><strong>Quantity pricing</strong>${p.tiers.map(t=>`<span>${Number(t.min_quantity)}${t.max_quantity==null?'+':`–${Number(t.max_quantity)}`} units: ${money(window.fivbeMemberActive?t.member_unit_price:t.regular_unit_price)} each</span>`).join('')}</div>`:'';
- document.getElementById('fivbe-detail-content').innerHTML=`<div class="fivbe-detail-layout">${gallery}<div><p class="product-category">${escapeHTML(p.category)}</p><h2>${escapeHTML(p.name)}</h2><p>${escapeHTML(p.description)||'A thoughtful gift, made with care.'}</p><p class="fivbe-detail-price" id="fivbe-detail-price">${money(priceFor(p,min))} <small>per unit</small></p><p class="fivbe-stock-note">${sold?'Sold out':`${stockFor(p)} available`} · Minimum order: ${min}</p>${tiers}<label class="fivbe-qty-label">Quantity <input id="fivbe-detail-qty" type="number" min="${min}" max="${stockFor(p)}" value="${min}" ${sold?'disabled':''}></label><p class="fivbe-line-total" id="fivbe-detail-total">Line total: ${money(priceFor(p,min)*min)}</p><div class="fivbe-detail-actions"><button type="button" class="add-to-cart-btn" data-detail-add="${i}" ${sold?'disabled':''}>Add to Cart</button><button type="button" class="fivbe-view-btn" data-buy-now="${i}" ${sold?'disabled':''}>Buy Now</button></div></div></div>`;
- detailModal.hidden=false;document.body.classList.add('fivbe-modal-open');
+ document.getElementById('fivbe-detail-content').innerHTML=`
+   <div class="fivbe-detail-view">
+     <div class="fivbe-detail-kicker"><span>FIVBE GIFTS · PRODUCT DETAILS</span><span class="fivbe-detail-stock ${sold?'is-sold':''}">${sold?'Currently unavailable':'In stock'}</span></div>
+     <div class="fivbe-detail-layout">
+       ${gallery}
+       <div class="fivbe-detail-info">
+         <p class="fivbe-detail-category">${escapeHTML(p.category)}</p>
+         <h2>${escapeHTML(p.name)}</h2>
+         <p class="fivbe-detail-description">${escapeHTML(p.description)||'A thoughtful gift, selected with care.'}</p>
+         <div class="fivbe-detail-price-row"><strong class="fivbe-detail-price" id="fivbe-detail-price">${money(priceFor(p,min))}</strong><span>per unit</span></div>
+         <div class="fivbe-detail-minimum"><span>Minimum order</span><strong>${min} unit${min===1?'':'s'}</strong><span class="fivbe-stock-quantity">${sold?'Out of stock':`${stock} available`}</span></div>
+         ${tiers}
+         <div class="fivbe-detail-qty-block"><label for="fivbe-detail-qty">Quantity</label><div class="fivbe-qty-control"><button type="button" data-detail-qty-step="-1" aria-label="Decrease quantity" ${sold?'disabled':''}>−</button><input id="fivbe-detail-qty" type="number" min="${min}" max="${Math.max(min,stock)}" value="${min}" inputmode="numeric" ${sold?'disabled':''}><button type="button" data-detail-qty-step="1" aria-label="Increase quantity" ${sold?'disabled':''}>+</button></div></div>
+         <p class="fivbe-line-total" id="fivbe-detail-total">Total: ${money(priceFor(p,min)*min)}</p>
+         <div class="fivbe-detail-actions"><button type="button" class="add-to-cart-btn" data-detail-add="${i}" ${sold?'disabled':''}>Add to bag</button><button type="button" class="fivbe-view-btn" data-buy-now="${i}" ${sold?'disabled':''}>Buy now</button></div>
+         <p class="fivbe-detail-reassurance">Secure checkout · Member pricing for active members</p>
+       </div>
+     </div>
+   </div>`;
+ setGalleryIndex(0);detailModal.hidden=false;document.body.classList.add('fivbe-modal-open');
 }
 function cartAdd(i,q){const p=productAt(i);if(!p||stockFor(p)<minQtyFor(p))return alert('This product is currently unavailable.');const min=minQtyFor(p),qty=Math.max(min,Math.floor(Number(q)||min)),existing=fivbeCart.get(i),next=(existing?.quantity||0)+qty;if(next>stockFor(p))return alert(`Only ${stockFor(p)} units are available.`);if(existing)existing.quantity=next;else fivbeCart.set(i,{id:i,quantity:qty});renderCart();}
-function renderCart(){const box=document.querySelector('.fivbe-cart-items');if(!box)return;let subtotal=0,count=0;box.innerHTML=fivbeCart.size?Array.from(fivbeCart.entries()).map(([i,item])=>{const p=productAt(i),unit=priceFor(p,item.quantity),line=unit*item.quantity;subtotal+=line;count+=item.quantity;return `<div class="fivbe-cart-item"><div><div class="fivbe-cart-item-name">${escapeHTML(p.name)}</div><div class="fivbe-cart-item-price">${money(unit)} × ${item.quantity}</div></div><div class="fivbe-cart-controls"><button type="button" data-cart-minus="${i}" aria-label="Remove one">−</button><span>${item.quantity}</span><button type="button" data-cart-plus="${i}" aria-label="Add one">+</button></div></div>`;}).join(''):'<p class="fivbe-cart-empty">Your cart is empty.</p>';
- document.querySelector('.fivbe-cart-total-value').textContent=money(subtotal);document.querySelector('.fivbe-cart-count').textContent=count;document.querySelector('.fivbe-cart-bar-total').textContent=money(subtotal);document.querySelector('.fivbe-cart').style.display=count?'block':'none';}
-const cartPanel=document.createElement('div');cartPanel.className='fivbe-cart';cartPanel.innerHTML='<div class="fivbe-cart-content"><h3>Your Cart</h3><div class="fivbe-cart-items"></div><div class="fivbe-cart-total"><span>Subtotal</span><span class="fivbe-cart-total-value">₹0</span></div><button class="fivbe-checkout" type="button">Proceed to Secure Checkout</button></div><div class="fivbe-cart-bar"><button class="fivbe-cart-toggle" type="button" aria-expanded="false"><span class="fivbe-cart-bar-label"><strong><span class="fivbe-cart-count">0</span> items in cart</strong><small>Tap to view your cart</small></span><span class="fivbe-cart-bar-total">₹0</span><span class="fivbe-cart-view">View Cart ↑</span></button></div>';document.body.appendChild(cartPanel);
-cartPanel.querySelector('.fivbe-cart-toggle').addEventListener('click',()=>{const open=cartPanel.classList.toggle('expanded');cartPanel.querySelector('.fivbe-cart-toggle').setAttribute('aria-expanded',String(open));cartPanel.querySelector('.fivbe-cart-view').textContent=open?'Hide Cart ↓':'View Cart ↑';});
+function renderCart(){
+ const box=document.querySelector('.fivbe-cart-items');if(!box)return;
+ let subtotal=0,count=0;
+ box.innerHTML=fivbeCart.size?Array.from(fivbeCart.entries()).map(([i,item])=>{
+   const p=productAt(i),unit=priceFor(p,item.quantity),line=unit*item.quantity;subtotal+=line;count+=item.quantity;
+   return `<div class="fivbe-cart-item"><div class="fivbe-cart-item-main"><div class="fivbe-cart-item-name">${escapeHTML(p.name)}</div><div class="fivbe-cart-item-price">${money(unit)} each · ${money(line)} total</div></div><div class="fivbe-cart-controls"><button type="button" data-cart-minus="${i}" aria-label="Remove one">−</button><span>${item.quantity}</span><button type="button" data-cart-plus="${i}" aria-label="Add one">+</button></div></div>`;
+ }).join(''):'<div class="fivbe-cart-empty"><span class="fivbe-empty-bag">⌑</span><strong>Your bag is waiting</strong><p>Add a few thoughtful gifts and they will appear here.</p><a href="#collection" data-cart-close>Explore gifts</a></div>';
+ document.querySelector('.fivbe-cart-total-value').textContent=money(subtotal);
+ document.getElementById('bag-count').textContent=count;
+ document.getElementById('bag-open').setAttribute('aria-label',`Open shopping bag, ${count} items`);
+ const checkoutButton=document.querySelector('.fivbe-checkout');if(checkoutButton)checkoutButton.disabled=count===0;
+}
+const cartPanel=document.createElement('div');cartPanel.className='fivbe-cart';
+cartPanel.innerHTML=`<div class="fivbe-cart-backdrop" data-cart-close></div><aside class="fivbe-cart-sheet" role="dialog" aria-modal="true" aria-label="Shopping bag">
+ <div class="fivbe-cart-head"><div><span>FIVBE GIFTS</span><h2>Your bag <small>· <span id="fivbe-cart-heading-count">0</span> items</small></h2></div><button type="button" class="fivbe-cart-close" data-cart-close aria-label="Close bag">×</button></div>
+ <div class="fivbe-cart-items"></div>
+ <div class="fivbe-cart-footer"><div class="fivbe-cart-total"><span>Subtotal</span><strong class="fivbe-cart-total-value">₹0</strong></div><p>Delivery charges are calculated at secure checkout.</p><button class="fivbe-checkout" type="button">Proceed to secure checkout <span>→</span></button><button type="button" class="fivbe-continue-shopping" data-cart-close>Continue shopping</button></div>
+</aside>`;
+document.body.appendChild(cartPanel);
+document.getElementById('bag-open').addEventListener('click',()=>{cartPanel.classList.add('expanded');document.body.classList.add('fivbe-modal-open');});
+
 function openCheckout(){if(!fivbeCart.size)return alert('Your cart is empty.');if(!window.fivbeCurrentUser){alert('Please sign in or create an account before checkout.');document.getElementById('account-open').click();return;}
  const lines=Array.from(fivbeCart.entries()).map(([i,x])=>({product:productAt(i),quantity:x.quantity}));const missing=lines.find(x=>!Number.isInteger(x.product.packedWeightGrams)||x.product.packedWeightGrams<=0);if(missing)return alert(`Checkout is not available yet: packed weight is missing for “${missing.product.name}”. Please contact us on WhatsApp.`);
  const weight=lines.reduce((s,x)=>s+x.product.packedWeightGrams*x.quantity,0);if(weight>5000){const msg=`Hi Fivbe Gifts, I need a shipping quote for a cart weighing ${weight} g.\n`+lines.map(x=>`${x.product.name} × ${x.quantity}`).join('\n');window.open(whatsapp(msg),'_blank');return alert('This cart is above 5 kg and needs a manual shipping quote. WhatsApp has been opened; please confirm shipping before ordering.');}
  const shippingEstimate=weight<=499?70:weight<=999?100:weight<=1999?120:weight<=2999?160:weight<=3999?400:450;
  const profile=window.fivbeCustomerProfile||{};document.getElementById('fivbe-checkout-content').innerHTML=`<h2>Delivery details</h2><p>Sign-in is required. Your order will be linked to your Fivbe account.</p><form id="fivbe-address-form" class="fivbe-address-form"><label>Full name<input name="full_name" required maxlength="100" value="${escapeHTML(profile.full_name||'')}"></label><label>Phone number<input name="phone" required inputmode="tel" pattern="[0-9+() -]{8,18}" value="${escapeHTML(profile.phone||'')}"></label><label class="fivbe-full">Address line 1<input name="address_line1" required maxlength="180"></label><label class="fivbe-full">Address line 2 (optional)<input name="address_line2" maxlength="180"></label><label>Landmark (optional)<input name="landmark" maxlength="120"></label><label>City<input name="city" required maxlength="80"></label><label>State<input name="state" required maxlength="80"></label><label>PIN code<input name="pincode" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6"></label><div class="fivbe-full fivbe-checkout-summary"><strong>Items subtotal: ${money(lines.reduce((s,x)=>s+priceFor(x.product,x.quantity)*x.quantity,0))}</strong><strong>Packed weight: ${weight.toLocaleString('en-IN')} g · Estimated shipping: ${money(shippingEstimate)}</strong><small>Shipping is recalculated securely from saved product weights before your order is created.</small></div><button class="add-to-cart-btn fivbe-full" type="submit">Create Order & Continue to UPI</button><p class="fivbe-full fivbe-form-status" id="fivbe-address-status" role="status"></p></form>`;
- checkoutModal.hidden=false;document.body.classList.add('fivbe-modal-open');}
+ checkoutModal.hidden=false;cartPanel.classList.remove('expanded');document.body.classList.add('fivbe-modal-open');}
 function showPaymentStep(order){pendingOrder=order;const amount=Number(order.total_amount),upi=new URLSearchParams({pa:'7975100918@fam',pn:'Fivbe Gifts',am:amount.toFixed(2),cu:'INR',tn:`Fivbe order ${order.order_id}`});document.getElementById('fivbe-checkout-content').innerHTML=`<h2>Order created</h2><p>Order ID: <strong>${escapeHTML(order.order_id)}</strong></p><p>Items: ${money(order.subtotal)} · Shipping: ${money(order.shipping_fee)}</p><p class="fivbe-payment-total">Total to pay: ${money(amount)}</p><a class="add-to-cart-btn fivbe-upi-link" href="upi://pay?${upi.toString()}">Pay with UPI</a><p>After paying, enter your UPI transaction reference (UTR) below. Your payment remains pending until Fivbe verifies it.</p><form id="fivbe-utr-form" class="fivbe-address-form"><label class="fivbe-full">UPI UTR / transaction reference<input name="utr" required minlength="6" maxlength="40" autocomplete="off"></label><button class="add-to-cart-btn fivbe-full" type="submit">Submit UTR for verification</button><p id="fivbe-utr-status" class="fivbe-full fivbe-form-status" role="status"></p></form>`;}
 
 document.addEventListener('click',async e=>{
+ const closeBag=e.target.closest('[data-cart-close]');if(closeBag){cartPanel.classList.remove('expanded');if(detailModal.hidden&&checkoutModal.hidden)document.body.classList.remove('fivbe-modal-open');return;}
+ const galleryStep=e.target.closest('[data-gallery-step]');if(galleryStep){setGalleryIndex(activeGalleryIndex+Number(galleryStep.dataset.galleryStep));return;}
+ const qtyStep=e.target.closest('[data-detail-qty-step]');if(qtyStep){const input=document.getElementById('fivbe-detail-qty');if(input&&!input.disabled){input.value=Math.max(Number(input.min),Math.min(Number(input.max),Number(input.value)+Number(qtyStep.dataset.detailQtyStep)));input.dispatchEvent(new Event('input',{bubbles:true}));}return;}
  const closeDetail=e.target.closest('[data-close-detail]'),closeCheckout=e.target.closest('[data-close-checkout]');if(closeDetail){detailModal.hidden=true;activeProductIndex=null;document.body.classList.remove('fivbe-modal-open');return;}if(closeCheckout){checkoutModal.hidden=true;document.body.classList.remove('fivbe-modal-open');return;}
  const quick=e.target.closest('[data-quick-add]');if(quick){cartAdd(Number(quick.dataset.quickAdd),minQtyFor(productAt(quick.dataset.quickAdd)));return;}
  const detailAdd=e.target.closest('[data-detail-add]'),buy=e.target.closest('[data-buy-now]');if(detailAdd||buy){const i=Number((detailAdd||buy).dataset.detailAdd||(buy&&buy.dataset.buyNow));const p=productAt(i),q=Math.floor(Number(document.getElementById('fivbe-detail-qty')?.value)||minQtyFor(p));cartAdd(i,q);if(buy)openCheckout();else{detailModal.hidden=true;document.body.classList.remove('fivbe-modal-open');}return;}
  const open=e.target.closest('[data-open-product]');if(open){renderDetails(open.dataset.openProduct);return;}
  const minus=e.target.closest('[data-cart-minus]'),plus=e.target.closest('[data-cart-plus]');if(minus){const i=Number(minus.dataset.cartMinus),x=fivbeCart.get(i);if(x){x.quantity--;if(x.quantity<minQtyFor(productAt(i)))fivbeCart.delete(i);renderCart();}return;}if(plus){const i=Number(plus.dataset.cartPlus),x=fivbeCart.get(i);if(x){if(x.quantity+1>stockFor(productAt(i)))return alert('No more stock is available.');x.quantity++;renderCart();}return;}
  if(e.target.closest('.fivbe-checkout'))openCheckout();
- const thumb=e.target.closest('[data-gallery-image]');if(thumb){thumb.parentElement.querySelectorAll('img').forEach(x=>x.classList.remove('is-active'));thumb.classList.add('is-active');}
+ const thumb=e.target.closest('[data-gallery-image]');if(thumb){setGalleryIndex(Number(thumb.dataset.galleryImage));return;}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){detailModal.hidden=true;checkoutModal.hidden=true;document.body.classList.remove('fivbe-modal-open');}const card=e.target.closest('[data-open-product]');if(card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();renderDetails(card.dataset.openProduct);}});
-document.addEventListener('input',e=>{if(e.target.id==='fivbe-detail-qty'){const p=productAt(activeProductIndex);if(!p)return;const q=Math.max(minQtyFor(p),Math.min(stockFor(p),Math.floor(Number(e.target.value)||minQtyFor(p))));e.target.value=q;document.getElementById('fivbe-detail-price').innerHTML=`${money(priceFor(p,q))} <small>per unit</small>`;document.getElementById('fivbe-detail-total').textContent=`Line total: ${money(priceFor(p,q)*q)}`;}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){detailModal.hidden=true;checkoutModal.hidden=true;cartPanel.classList.remove('expanded');document.body.classList.remove('fivbe-modal-open');}const card=e.target.closest('[data-open-product]');if(card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();renderDetails(card.dataset.openProduct);}});
+document.addEventListener('input',e=>{if(e.target.id==='fivbe-detail-qty'){const p=productAt(activeProductIndex);if(!p)return;const q=Math.max(minQtyFor(p),Math.min(stockFor(p),Math.floor(Number(e.target.value)||minQtyFor(p))));e.target.value=q;document.getElementById('fivbe-detail-price').textContent=money(priceFor(p,q));document.getElementById('fivbe-detail-total').textContent=`Total: ${money(priceFor(p,q)*q)}`;}});
 document.addEventListener('submit',async e=>{
  if(e.target.id==='fivbe-address-form'){e.preventDefault();const status=document.getElementById('fivbe-address-status'),button=e.target.querySelector('button[type=submit]');button.disabled=true;status.textContent='Validating products, stock and shipping…';const fd=new FormData(e.target),address=Object.fromEntries(fd.entries());const items=Array.from(fivbeCart.entries()).map(([i,x])=>({product_id:productAt(i).id,quantity:x.quantity}));try{const result=await window.fivbeCreateCustomerOrder({action:'create_order',items,shipping_address:address});showPaymentStep(result);status.textContent='';}catch(err){status.textContent=err.message||'Could not create order. Please try again.';button.disabled=false;}return;}
  if(e.target.id==='fivbe-utr-form'){e.preventDefault();const status=document.getElementById('fivbe-utr-status'),button=e.target.querySelector('button[type=submit]');button.disabled=true;status.textContent='Submitting UTR…';try{const utr=new FormData(e.target).get('utr').trim();await window.fivbeCreateCustomerOrder({action:'submit_utr',order_id:pendingOrder.order_id,utr});status.textContent='UTR submitted. Your payment is pending verification by Fivbe Gifts.';fivbeCart.clear();renderCart();}catch(err){status.textContent=err.message||'Could not submit UTR.';button.disabled=false;}}

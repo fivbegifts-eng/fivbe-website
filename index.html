@@ -1208,7 +1208,24 @@
     .fivbe-cart-item-main{min-width:0}
     .fivbe-checkout-kicker{display:block;margin:0 0 8px;color:#2f6858;font-size:9px;font-weight:900;letter-spacing:.12em}
 
-  </style>
+  /* Exact concept storefront skin */
+:root{--ink:#172b25;--muted:#728079;--line:#e7ebe4;--lime:#d9f45b;--forest:#2f6858;--deep:#163b31;--coral:#ff886e;--shadow:0 18px 50px rgba(27,53,43,.09);--cream:#f6f7f2}
+body{background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,sans-serif;line-height:1.5}
+.topline{min-height:34px;background:var(--deep);color:#f5f8ee;display:flex;align-items:center;justify-content:center;gap:9px;padding:7px 16px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:750}.topline b{color:var(--lime)}
+.site-header{position:sticky;top:0;z-index:20;background:rgba(246,247,242,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(23,43,37,.08)}.header-inner{max-width:1280px;margin:auto;padding:15px 28px;display:grid;grid-template-columns:190px minmax(220px,1fr) auto;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink)}.brand-mark{width:42px;height:42px;display:grid;place-items:center;background:linear-gradient(145deg,#2f6858,#173d32);color:#fff;border-radius:15px 15px 15px 5px;font-weight:950;font-size:24px;font-style:italic;letter-spacing:-.12em;transform:rotate(-4deg);box-shadow:4px 4px 0 var(--lime)}.brand-name{font-weight:950;letter-spacing:-.07em;font-size:24px;line-height:1}.brand-name span{color:var(--forest)}
+.search{height:46px;display:flex;align-items:center;gap:11px;padding:0 15px;border:1px solid #e4e9e1;background:#fff;border-radius:15px;color:#8a968f}.search input{border:0;outline:0;background:transparent;width:100%;color:var(--ink);font-size:13px}.search-hint{font-size:9px;color:#9aa49d}.header-actions{display:flex;align-items:center;gap:8px}.delivery-pill{padding:9px 12px;border-radius:12px;background:#edf3e9;color:var(--forest);font-size:11px;font-weight:800;white-space:nowrap}.icon-btn{height:44px;min-width:44px;padding:0 12px;border:1px solid var(--line);background:#fff;border-radius:13px;color:var(--ink);font-size:12px;font-weight:800}.cart-count{display:inline-grid;place-items:center;margin-left:5px;min-width:19px;height:19px;padding:0 5px;border-radius:50px;background:var(--lime);color:var(--deep);font-size:10px}.concept-nav{max-width:1280px;margin:auto;padding:0 28px 11px;display:flex;gap:24px;font-size:11px;font-weight:800;color:#64736b}
+.main{max-width:1280px;margin:auto;padding:0 28px 80px}.hero{padding:34px 0 25px;display:grid;grid-template-columns:1.08fr .92fr;gap:18px;min-height:420px}.hero-copy{position:relative;overflow:hidden;background:radial-gradient(ellipse at 92% 8%,rgba(255,255,255,.92),transparent 34%),linear-gradient(135deg,#f1e8d9,#e6efdf 48%,#dcebe2);border:1px solid rgba(47,104,88,.1);border-radius:28px;padding:clamp(28px,5vw,58px);display:flex;flex-direction:column;justify-content:center;isolation:isolate}.hero-copy:after{content:"✳   ✦   ·   ✳";position:absolute;z-index:-1;right:-22px;bottom:24px;color:rgba(47,104,88,.13);font-size:38px;letter-spacing:16px;transform:rotate(-18deg)}.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:#365b34}.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--coral)}.hero h1{margin:18px 0 14px;font-size:clamp(44px,6.1vw,76px);line-height:.91;letter-spacing:-.075em;font-weight:950;color:#173d32}.hero h1 em{font-style:italic;color:var(--forest)}.hero-copy p{max-width:390px;color:#385d45;line-height:1.6;font-size:14px;margin:0 0 24px}.primary-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:max-content;border:0;background:var(--deep);color:#fff;border-radius:13px;padding:14px 18px;font-weight:850;font-size:12px;text-decoration:none}
+.hero-art{position:relative;min-height:360px;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 75% 25%,rgba(255,255,255,.7),transparent 28%),linear-gradient(135deg,#d8e6d6,#e8d7ca 54%,#d9d4f3);isolation:isolate}.hero-art:before{content:"";position:absolute;width:340px;height:340px;border:1px solid rgba(255,255,255,.65);border-radius:50%;top:10px;left:50%;transform:translateX(-50%);box-shadow:0 0 0 32px rgba(255,255,255,.12),0 0 0 65px rgba(255,255,255,.12)}.hero-art>img{display:none}.gift-box{position:absolute;width:180px;height:160px;left:50%;top:51%;transform:translate(-50%,-50%) rotate(-8deg);border-radius:12px 12px 22px 22px;background:linear-gradient(140deg,#f9b7a5,#e77e70);box-shadow:20px 30px 40px rgba(92,58,47,.2)}.gift-box:before{content:"";position:absolute;width:100%;height:28px;top:0;background:#f5d7a2;border-radius:10px 10px 4px 4px}.gift-box:after{content:"";position:absolute;width:24px;height:100%;left:calc(50% - 12px);background:#f5d7a2}.gift-ribbon{position:absolute;z-index:2;width:82px;height:52px;left:50%;top:calc(51% - 105px);transform:translateX(-50%) rotate(-8deg)}.gift-ribbon:before,.gift-ribbon:after{content:"";position:absolute;width:40px;height:30px;border:10px solid #f5d7a2;border-radius:50% 50% 4px 50%}.gift-ribbon:before{left:0;transform:rotate(25deg)}.gift-ribbon:after{right:0;transform:scaleX(-1) rotate(25deg)}.float-card{position:absolute;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.75);border-radius:15px;padding:12px 14px;box-shadow:var(--shadow)}.float-card small{display:block;color:var(--muted);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.float-card strong{display:block;margin-top:3px;font-size:14px}.float-one{top:38px;left:22px;transform:rotate(-5deg)}.float-two{bottom:34px;right:22px;transform:rotate(4deg)}.spark{position:absolute;font-size:27px;color:#fff}.spark-a{top:95px;right:75px}.spark-b{bottom:80px;left:62px;font-size:19px}
+.trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:5px 0 28px}.trust-item{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.65);border:1px solid #e9ede5;border-radius:15px;padding:13px 15px}.trust-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#edf4e8;font-size:16px}.trust-item strong{display:block;font-size:11px;font-weight:900}.trust-item small{display:block;margin-top:3px;color:var(--muted);font-size:9px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:22px 0 16px}.section-kicker{color:var(--forest);font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:900}.section-head h2{margin:5px 0 0;font-size:clamp(25px,3vw,34px);letter-spacing:-.065em;line-height:1}.heading-dot{color:var(--forest)}.text-link{color:var(--forest);font-size:11px;font-weight:900}.category-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}.category-tile{border:1px solid #e7ece4;background:#fff;border-radius:18px;padding:15px 8px 13px;text-align:center;color:var(--ink);transition:.2s;display:flex;flex-direction:column;align-items:center;gap:9px}.category-tile:hover,.category-tile.active{transform:translateY(-3px);border-color:var(--forest);box-shadow:0 9px 20px rgba(47,104,88,.09)}.category-tile.active{background:#edf4e8}.category-emoji{width:48px;height:48px;display:grid;place-items:center;background:#f2f5ed;border-radius:15px;font-size:25px}.category-tile strong{font-size:10px;line-height:1.25}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.product-card{min-width:0;background:#fff;border:1px solid #e9ede6;border-radius:20px;overflow:hidden;transition:transform .22s,box-shadow .22s}.product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.product-image{position:relative;height:218px;overflow:hidden;display:grid;place-items:center;background:#f0eee6}.product-image img{width:100%;height:100%;object-fit:cover}.product-image-open{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent}.product-tag{position:absolute;z-index:2;top:12px;left:12px;background:#fff;color:var(--forest);padding:6px 9px;border-radius:7px;font-size:8px;font-weight:950}.add-to-cart-btn{border:0;background:var(--lime);color:var(--deep);border-radius:9px;padding:9px 13px;font-size:10px;font-weight:950}.quick-add-btn{position:absolute;z-index:3;right:10px;bottom:10px;display:flex;align-items:center;gap:7px}.product-copy{padding:14px}.product-category{color:#87928b;text-transform:uppercase;letter-spacing:.12em;font-size:8px;font-weight:900;margin:0}.product-title{margin:6px 0;font-size:13px;line-height:1.25;min-height:32px}.product-description{color:#7d8982;font-size:10px;line-height:1.45;margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.quick-product-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}.quick-price-wrap{display:flex;flex-direction:column;gap:2px}.quick-price-wrap .price{font-size:16px;font-weight:950}.quick-price-wrap small{color:#87928b;font-size:9px}.fivbe-member-label{color:var(--forest)!important;font-weight:900}.fivbe-view-btn{border:1px solid #dfe7dd;background:#fff;color:var(--forest);border-radius:9px;padding:8px 11px;font-size:10px;font-weight:900}.fivbe-soldout{background:#fff1ed;color:#a34f3d}
+.promo-strip{margin:36px 0 30px;padding:24px 28px;border-radius:22px;background:var(--deep);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px;position:relative;overflow:hidden}.promo-strip:after{content:"✳";position:absolute;right:25%;top:-65px;font-size:180px;color:rgba(217,244,91,.12)}.promo-strip small{color:var(--lime);text-transform:uppercase;font-size:9px;letter-spacing:.16em;font-weight:900}.promo-strip h3{margin:6px 0 0;font-size:clamp(20px,3vw,29px)}.promo-strip p{margin:5px 0 0;color:#b7c9bf;font-size:11px}.promo-button{position:relative;z-index:1;background:var(--lime);color:var(--deep);white-space:nowrap}
+.quick-about{padding:36px 0;border-block:1px solid var(--line)}.quick-about-inner{display:grid;grid-template-columns:1fr 1fr;gap:15px 40px;align-items:center}.quick-about h2,.quick-contact h2{font-size:clamp(26px,4vw,38px);line-height:1;letter-spacing:-.06em;margin:8px 0}.quick-about p,.quick-contact p{font-size:13px;color:var(--muted);line-height:1.7}.quick-about-points{display:flex;gap:18px;flex-wrap:wrap;font-size:11px;font-weight:800;color:var(--forest)}.quick-contact{padding:38px 0}.quick-contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}.quick-contact-details{display:grid;grid-template-columns:1fr 1fr;gap:18px}.quick-contact-details div{display:grid;gap:4px}.quick-contact-details strong{font-size:11px}.quick-contact-details span{font-size:11px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px 28px}.footer-row{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;color:#7c8981;font-size:10px}.footer-links{display:flex;gap:16px}.auth-dialog,.fivbe-modal-card,.fivbe-cart-sheet{font-family:inherit}
+@media(max-width:900px){.header-inner{grid-template-columns:160px 1fr auto;gap:12px;padding:12px 18px}.delivery-pill{display:none}.main{padding:0 18px 70px}.hero{min-height:360px}.trust-row{grid-template-columns:repeat(2,1fr)}.category-grid{grid-template-columns:repeat(4,1fr)}.product-grid{grid-template-columns:repeat(3,1fr)}.product-image{height:190px}}
+@media(max-width:620px){.topline{font-size:9px}.header-inner{grid-template-columns:1fr auto;padding:11px 15px;gap:10px}.search{grid-column:1/-1;grid-row:2;height:42px}.header-actions{grid-column:2;grid-row:1}.header-actions .help-link{display:none}.concept-nav{padding:0 15px 10px;gap:17px;font-size:10px}.main{padding:0 14px 60px}.hero{grid-template-columns:1fr;padding-top:17px;gap:11px}.hero-copy{min-height:345px;border-radius:22px;padding:28px}.hero h1{font-size:58px}.hero-art{min-height:260px;border-radius:22px}.gift-box{width:145px;height:130px}.gift-ribbon{top:calc(51% - 90px)}.trust-row{gap:7px;padding-bottom:18px}.trust-item{padding:10px;gap:8px}.trust-item strong{font-size:10px}.trust-item small{font-size:8px}.trust-icon{width:30px;height:30px}.section-head{margin-top:22px}.category-grid{grid-template-columns:repeat(4,1fr);gap:7px}.category-tile{padding:11px 5px;border-radius:14px}.category-emoji{width:42px;height:42px;font-size:22px}.category-tile strong{font-size:9px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.product-image{height:160px}.product-copy{padding:11px}.product-title{font-size:12px;min-height:30px}.quick-product-bottom{align-items:flex-start}.quick-price-wrap .price{font-size:15px}.promo-strip{padding:20px;align-items:flex-start;flex-direction:column}.promo-button{width:100%}.quick-about-inner,.quick-contact-inner{grid-template-columns:1fr;gap:14px}.quick-contact-details{gap:14px}.footer-row{flex-direction:column;align-items:flex-start}.footer-links{flex-wrap:wrap}}
+\n  </style>
 </head>
 
 <body>
@@ -1216,10 +1233,10 @@
     const BUSINESS = {
       name: "Fivbe Gifts",
       shortName: "Fivbe",
-      tagline: "More Than Just Gifts",
-      eyebrow: "Gifts Made With Love",
-      description: "Personalized gifts made to make every moment special.",
-      announcement: "Diwali Hamper Is Out Now 😍",
+      tagline: "Make it personal.",
+      eyebrow: "Thoughtful gifts, happy hearts",
+      description: "For the big days, tiny wins and all the people who make life feel special. Find a little something they’ll keep forever.",
+      announcement: "Little moments, made unforgettable ✳ Thoughtful gifts, delivered with care",
       whatsapp: "917349112715",
       phone: "+91 7349112715",
       email: "fivbegifts@gmail.com",
@@ -1235,21 +1252,13 @@
 let PRODUCTS = [];
   </script>
 
-  <div class="announcement" id="announcement"></div>
-  <header class="site-header">
-    <div class="container quick-header">
-      <a class="brand" href="#top" aria-label="Fivbe Gifts home"><span class="brand-mark" id="brand-mark"></span><span class="brand-name-wrap"><span id="brand-name"></span><small>THOUGHTFUL GIFTS, MADE EASY</small></span></a>
-      <div class="quick-delivery-copy"><span>SHOP FIVBE GIFTS</span><strong>Find something meaningful</strong></div>
-      <label class="quick-search"><span aria-hidden="true">⌕</span><span class="sr-only">Search gifts</span><input class="search" id="search" type="search" placeholder="Search hampers, photo frames, personalised gifts..." autocomplete="off" /></label>
-      <div class="quick-header-actions"><a class="whatsapp-button" id="header-whatsapp" href="#" target="_blank" rel="noreferrer">Help</a><button class="account-button" id="account-open" type="button">Sign in</button><button class="bag-button" id="bag-open" type="button" aria-label="Open shopping bag, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8.5h13l1 12h-15l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span>Bag</span><b id="bag-count">0</b></button><button class="menu-button" type="button" aria-label="Open menu" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')">☰</button></div>
-    </div>
-    <div class="quick-nav-row"><div class="container quick-nav-inner">
-      <nav class="nav-links" aria-label="Main navigation"><a href="#collection">Shop gifts</a><a href="membership.html">Membership</a><a href="#about">Why Fivbe</a><a href="#contact">Contact</a></nav>
-      <span class="quick-shipping-note">Personalised with care · Delivery across India</span>
-    </div></div>
-  </header>
-
-  <section class="auth-overlay" id="auth-overlay" aria-hidden="true">
+  <div class="topline" id="announcement"><b>Little moments,</b> made unforgettable <span>✳</span> Thoughtful gifts, delivered with care</div>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="#top" aria-label="Fivbe Gifts home"><span class="brand-mark" id="brand-mark">f.</span><span class="brand-name" id="brand-name">fivbe<span>.</span></span></a>
+    <label class="search"><span>⌕</span><input class="search" id="search" type="search" placeholder="Search gifts, frames, hampers…" aria-label="Search products" autocomplete="off"><span class="search-hint">FIVBE</span></label>
+    <div class="header-actions"><div class="delivery-pill">✦ Made with love · Bengaluru</div><a class="icon-btn help-link" id="header-whatsapp" href="#" target="_blank" rel="noreferrer">Help</a><button class="icon-btn" id="account-open" type="button">Account</button><button class="icon-btn" id="bag-open" type="button" aria-label="Open shopping bag, 0 items">Bag <span class="cart-count" id="bag-count">0</span></button></div>
+  </div><div class="concept-nav"><a href="#collection">Shop gifts</a><a href="membership.html">Membership</a><a href="#about">Our story</a><a href="#contact">Contact</a></div></header>
+  \n  <section class="auth-overlay" id="auth-overlay" aria-hidden="true">
     <div class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
       <button class="auth-close" id="auth-close" type="button" aria-label="Close">×</button>
       <p class="auth-kicker">Fivbe Gifts account</p>
@@ -1385,50 +1394,19 @@ let PRODUCTS = [];
     </div>
   </section>
 
-  <main id="top">
-    <section class="quick-hero-wrap"><div class="container quick-hero">
-      <div class="quick-hero-copy"><p class="quick-eyebrow" id="business-eyebrow"></p><h1 id="business-tagline"></h1><p class="quick-hero-description" id="business-description"></p>
-        <div class="quick-hero-actions"><a class="primary-link" href="#collection">Shop gifts <span aria-hidden="true">→</span></a><a class="text-link" href="membership.html">Explore membership</a></div>
-        <div class="quick-trust-row"><span><b>✓</b> Carefully picked</span><span><b>✓</b> Secure account checkout</span><span><b>✓</b> Shipped across India</span></div>
-      </div><div class="hero-media quick-hero-art" id="hero-media" aria-label="Fivbe Gifts collection"></div>
-    </div></section>
-    <section class="quick-categories"><div class="container">
-      <div class="quick-section-heading"><div><span class="quick-overline">BROWSE FIVBE</span><h2>Shop by category</h2></div><p>Find a little something for every person and moment.</p></div>
-      <div class="category-grid" id="category-tiles" aria-label="Shop by category"></div><div class="filters" id="filters" hidden></div>
-    </div></section>
-    <section class="quick-membership-wrap"><div class="container quick-membership-card">
-      <div class="quick-membership-copy"><span class="quick-overline">A LITTLE MORE VALUE WITH EVERY ORDER</span><h2 id="membership-invite-title">Good gifts. Better member prices.</h2><p>Join Fivbe Membership to unlock special pricing on eligible gifts. Your benefits are linked to your signed-in account.</p>
-        <a class="membership-invite-button" href="membership.html">Explore membership <span aria-hidden="true">→</span></a><small class="quick-membership-note">Membership activates after payment verification.</small>
-      </div><div class="quick-membership-visual" aria-hidden="true"><span class="quick-membership-spark">✦</span><strong>F</strong><span>FIVBE MEMBER</span></div>
-    </div></section>
-    <section class="quick-collection container" id="collection">
-      <div class="quick-section-heading quick-collection-heading"><div><span class="quick-overline">THE FIVBE COLLECTION</span><h2>Gifts worth sharing</h2></div><p>Explore thoughtful finds, keepsakes and hampers.</p></div>
-      <div class="catalog-tools" aria-hidden="true"></div><div class="product-grid" id="product-grid"></div>
+<main id="top" class="main">
+    <section class="hero"><div class="hero-copy"><div class="eyebrow" id="business-eyebrow"><i></i> Thoughtful gifts, happy hearts</div><h1 id="business-tagline">Make it<br><em>personal.</em></h1><p id="business-description">For the big days, tiny wins and all the people who make life feel special. Find a little something they'll keep forever.</p><a class="primary-btn" href="#collection">Explore the collection <span>↗</span></a></div>
+      <div class="hero-art" id="hero-media" aria-label="Fivbe Gifts collection"><div class="art-orbit"></div><div class="float-card float-one"><small>Gift edit no. 01</small><strong>Made for your people ♡</strong></div><div class="gift-box"></div><div class="gift-ribbon"></div><span class="spark spark-a">✳</span><span class="spark spark-b">✦</span><div class="float-card float-two"><small>The little details</small><strong>Make it memorable.</strong></div></div>
     </section>
-    <section class="quick-about" id="about"><div class="container quick-about-inner">
-      <div><span class="quick-overline">MORE THAN JUST GIFTS</span><h2>Make the little moments feel big.</h2></div>
-      <p id="about-description">At Fivbe Gifts, we believe thoughtful gifts make everyday moments memorable. Explore personalised keepsakes, frames, hampers and more, all in one place.</p>
-      <div class="quick-about-points"><span><b>✦</b> Personal touches</span><span><b>✦</b> Thoughtful picks</span><span><b>✦</b> Personal service</span></div>
-    </div></section>
-    <section class="quick-contact" id="contact"><div class="container quick-contact-inner">
-      <div class="quick-contact-copy"><span class="quick-overline">NEED A HAND?</span><h2>Let’s find your perfect gift.</h2><p>Tell us what you’re looking for. We’re happy to help you choose something special.</p><a class="whatsapp-button" id="contact-whatsapp" href="#" target="_blank" rel="noreferrer">Chat with Fivbe</a></div>
-      <div class="quick-contact-details"><div><strong>Delivery</strong><span id="business-address"></span></div><div><strong>Hours</strong><span id="business-hours"></span></div><div><strong>Call or WhatsApp</strong><span id="business-phone"></span></div><div><strong>Email</strong><span id="business-email"></span></div></div>
-    </div></section>
+    <section class="trust-row"><div class="trust-item"><span class="trust-icon">🎁</span><div><strong>Made personal</strong><small>Thoughtful gifting, always</small></div></div><div class="trust-item"><span class="trust-icon">⚡</span><div><strong>Quick & easy</strong><small>A smoother way to shop</small></div></div><div class="trust-item"><span class="trust-icon">💚</span><div><strong>Member perks</strong><small>Unlock special pricing</small></div></div><div class="trust-item"><span class="trust-icon">📦</span><div><strong>Carefully packed</strong><small>Ready to make someone's day</small></div></div></section>
+    <section class="shop-section" id="shop"><div class="section-head"><div><div class="section-kicker">Find your kind of gift</div><h2>Shop by mood<span class="heading-dot">.</span></h2></div><a class="text-link" href="#collection">View everything ↗</a></div>
+      <div class="category-grid" id="category-tiles" aria-label="Shop by category"></div><div class="filters" id="filters" hidden></div>
+      <div class="section-head collection-head" id="collection"><div><div class="section-kicker">A few things to fall for</div><h2>Popular right now<span class="heading-dot">.</span></h2></div><span class="collection-caption">Thoughtful finds, made to mean more</span></div><div class="product-grid" id="product-grid"></div></section>
+    <section class="promo-strip"><div><small>For the ones who get you</small><h3>More love. Less ordinary.</h3><p>Join the Fivbe family and make every gift feel like your kind of magic.</p></div><a class="primary-btn promo-button" href="membership.html">Discover member perks ↗</a></section>
+    <section class="quick-about" id="about"><div class="quick-about-inner"><div><span class="section-kicker">MORE THAN JUST GIFTS</span><h2>Make the little moments feel big.</h2></div><p id="about-description">At Fivbe Gifts, thoughtful gifts make everyday moments memorable.</p><div class="quick-about-points"><span>✦ Personal touches</span><span>✦ Thoughtful picks</span><span>✦ Personal service</span></div></div></section>
+    <section class="quick-contact" id="contact"><div class="quick-contact-inner"><div><span class="section-kicker">NEED A HAND?</span><h2>Let’s find your perfect gift.</h2><p>Tell us what you’re looking for. We’re happy to help you choose something special.</p><a class="primary-btn" id="contact-whatsapp" href="#" target="_blank" rel="noreferrer">Chat with Fivbe ↗</a></div><div class="quick-contact-details"><div><strong>Delivery</strong><span id="business-address"></span></div><div><strong>Hours</strong><span id="business-hours"></span></div><div><strong>Call or WhatsApp</strong><span id="business-phone"></span></div><div><strong>Email</strong><span id="business-email"></span></div></div></div></section>
   </main>
-
-  <footer>
-    <div class="container footer-row">
-      <span id="footer-business"></span>
-      <div class="footer-links">
-        <a href="#collection">Collection</a>
-        <a href="membership.html">Membership</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a id="instagram-link" href="#" target="_blank" rel="noreferrer" hidden>Instagram</a>
-      </div>
-      <span id="copyright"></span>
-    </div>
-  </footer>
+  <footer><div class="footer-row"><span id="footer-business">Fivbe Gifts</span><div class="footer-links"><a href="#collection">Collection</a><a href="membership.html">Membership</a><a href="#about">About</a><a href="#contact">Contact</a><a id="instagram-link" href="https://www.instagram.com/fivbegifts/" target="_blank" rel="noreferrer">Instagram</a></div><span id="copyright"></span></div></footer>
 
   <script>
     const money = (value) => `₹${Number(value).toLocaleString("en-IN")}`;
@@ -1453,7 +1431,7 @@ let PRODUCTS = [];
     document.getElementById("brand-mark").textContent = BUSINESS.shortName;
     document.getElementById("brand-name").textContent = BUSINESS.name;
     document.getElementById("business-eyebrow").textContent = BUSINESS.eyebrow;
-    document.getElementById("business-tagline").textContent = BUSINESS.tagline;
+    document.getElementById("business-tagline").innerHTML = "Make it<br><em>personal.</em>";
     document.getElementById("business-description").textContent = BUSINESS.description;
     document.getElementById("business-address").textContent = BUSINESS.address;
     document.getElementById("business-hours").textContent = BUSINESS.hours;
@@ -1468,25 +1446,7 @@ let PRODUCTS = [];
     document.getElementById("contact-whatsapp").href =
       whatsapp(`Hi ${BUSINESS.name}, I’m browsing your collection and would love a recommendation.`);
 
-    /* Hero image with fallback */
-    const hero = document.getElementById("hero-media");
-    const heroFallback = `
-      <div class="hero-fallback">
-        <div class="vessel"></div>
-        <div class="hero-label">A thoughtful<br />little collection</div>
-        <div class="hero-caption">Fivbe Gifts · Made with care</div>
-      </div>`;
-
-    if (BUSINESS.heroImage) {
-      const heroImage = document.createElement("img");
-      heroImage.src = BUSINESS.heroImage;
-      heroImage.alt = "Fivbe Gifts collection";
-      heroImage.onerror = () => { hero.innerHTML = heroFallback; };
-      hero.appendChild(heroImage);
-    } else {
-      hero.innerHTML = heroFallback;
-    }
-/* Dynamic catalogue, product detail view, cart and secure checkout */
+    /* Decorative hero artwork is supplied by the storefront markup. */\n/* Dynamic catalogue, product detail view, cart and secure checkout */
 let validProducts = [], selectedCategory = 'All pieces', activeProductIndex = null, pendingOrder = null, activeGalleryIndex = 0;
 const filters = document.getElementById('filters'), grid = document.getElementById('product-grid'), search = document.getElementById('search');
 const fivbeCart = new Map();
@@ -1555,7 +1515,7 @@ function productCard(p){
       ${sold ? '<span class="product-tag fivbe-soldout">SOLD OUT</span>' : `<button type="button" class="add-to-cart-btn quick-add-btn" data-quick-add="${i}" aria-label="Add ${name} to cart"><span>ADD</span><b>+</b></button>`}
     </div>
     <div class="product-copy"><p class="product-category">${category}</p><h3 class="product-title">${name}</h3><p class="product-description">${description}</p>
-      <div class="quick-product-bottom"><div class="quick-price-wrap"><span class="price">${money(price)}</span>${window.fivbeMemberActive&&p.memberPrice!=null?'<small class="fivbe-member-label">Member price</small>':`<small>Min. order: ${min}</small>`}</div><button type="button" class="fivbe-view-btn" data-open-product="${i}">Details</button></div>
+      <div class="quick-product-bottom"><div class="quick-price-wrap"><span class="price">${money(price)}</span>${p.memberPrice!=null?(window.fivbeMemberActive?'<small class="fivbe-member-label">Member price</small>':`<small class="fivbe-member-label">Member ${money(p.memberPrice)}</small>`):`<small>Min. order: ${min}</small>`}</div><button type="button" class="fivbe-view-btn" data-open-product="${i}">Details</button></div>
       ${sold?'<p class="fivbe-stock-note">Currently unavailable</p>':''}
     </div></article>`;
 }
@@ -1612,7 +1572,11 @@ function renderDetails(i){
        </div>
      </div>
    </div>`;
- setGalleryIndex(0);detailModal.hidden=false;document.body.classList.add('fivbe-modal-open');
+ setGalleryIndex(0);
+ const swipeViewport=document.querySelector('.fivbe-gallery-viewport');let swipeStartX=0;
+ swipeViewport?.addEventListener('touchstart',event=>{swipeStartX=event.changedTouches[0].clientX;},{passive:true});
+ swipeViewport?.addEventListener('touchend',event=>{const delta=event.changedTouches[0].clientX-swipeStartX;if(Math.abs(delta)>35)setGalleryIndex(activeGalleryIndex+(delta<0?1:-1));},{passive:true});
+ detailModal.hidden=false;document.body.classList.add('fivbe-modal-open');
 }
 function cartAdd(i,q){const p=productAt(i);if(!p||stockFor(p)<minQtyFor(p))return alert('This product is currently unavailable.');const min=minQtyFor(p),qty=Math.max(min,Math.floor(Number(q)||min)),existing=fivbeCart.get(i),next=(existing?.quantity||0)+qty;if(next>stockFor(p))return alert(`Only ${stockFor(p)} units are available.`);if(existing)existing.quantity=next;else fivbeCart.set(i,{id:i,quantity:qty});renderCart();}
 function renderCart(){

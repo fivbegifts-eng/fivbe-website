@@ -1491,15 +1491,15 @@ window.setFivbeProducts = rows => {
 function productCard(p){
   const i=p.originalIndex,sold=stockFor(p)<minQtyFor(p),min=minQtyFor(p),price=priceFor(p,min);
   const name=escapeHTML(p.name),category=escapeHTML(p.category),description=escapeHTML(p.description||'');
-  const img=p.image?\`<img src="\${escapeHTML(p.image)}" alt="\${name}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('image-fallback')">\`:'<span class="quick-product-placeholder">Fivbe Gifts</span>';
-  return \`<article class="product-card fivbe-product-card">
-    <div class="product-image"><button class="product-image-open" type="button" data-open-product="\${i}" aria-label="View \${name}">\${img}</button>
-      \${sold?'<span class="product-tag fivbe-soldout">SOLD OUT</span>':\`<button type="button" class="add-to-cart-btn quick-add-btn" data-quick-add="\${i}" aria-label="Add \${name} to cart"><span>ADD</span><b>+</b></button>\`}
+  const img=p.image ? `<img src="${escapeHTML(p.image)}" alt="${name}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('image-fallback')">` : '<span class="quick-product-placeholder">Fivbe Gifts</span>';
+  return `<article class="product-card fivbe-product-card">
+    <div class="product-image"><button class="product-image-open" type="button" data-open-product="${i}" aria-label="View ${name}">${img}</button>
+      ${sold ? '<span class="product-tag fivbe-soldout">SOLD OUT</span>' : `<button type="button" class="add-to-cart-btn quick-add-btn" data-quick-add="${i}" aria-label="Add ${name} to cart"><span>ADD</span><b>+</b></button>`}
     </div>
-    <div class="product-copy"><p class="product-category">\${category}</p><h3 class="product-title">\${name}</h3><p class="product-description">\${description}</p>
-      <div class="quick-product-bottom"><div class="quick-price-wrap"><span class="price">\${money(price)}</span>\${window.fivbeMemberActive&&p.memberPrice!=null?'<small class="fivbe-member-label">Member price</small>':\`<small>Min. order: \${min}</small>\`}</div><button type="button" class="fivbe-view-btn" data-open-product="\${i}">Details</button></div>
-      \${sold?'<p class="fivbe-stock-note">Currently unavailable</p>':''}
-    </div></article>\`;
+    <div class="product-copy"><p class="product-category">${category}</p><h3 class="product-title">${name}</h3><p class="product-description">${description}</p>
+      <div class="quick-product-bottom"><div class="quick-price-wrap"><span class="price">${money(price)}</span>${window.fivbeMemberActive&&p.memberPrice!=null?'<small class="fivbe-member-label">Member price</small>':`<small>Min. order: ${min}</small>`}</div><button type="button" class="fivbe-view-btn" data-open-product="${i}">Details</button></div>
+      ${sold?'<p class="fivbe-stock-note">Currently unavailable</p>':''}
+    </div></article>`;
 }
 function renderProducts(){const q=search.value.trim().toLowerCase();const shown=validProducts.filter(p=>(selectedCategory==='All pieces'||p.category===selectedCategory)&&(!q||`${p.name} ${p.description} ${p.category}`.toLowerCase().includes(q)));grid.innerHTML=shown.length?shown.map(productCard).join(''):'<div class="empty"><h3>Nothing by that name yet.</h3><p>Try another search or browse all pieces.</p></div>';}
 const detailModal=document.createElement('div');detailModal.className='fivbe-modal';detailModal.hidden=true;detailModal.innerHTML='<div class="fivbe-modal-backdrop" data-close-detail></div><section class="fivbe-modal-card" role="dialog" aria-modal="true" aria-label="Product details"><button class="fivbe-modal-close" type="button" data-close-detail aria-label="Close">×</button><div id="fivbe-detail-content"></div></section>';document.body.appendChild(detailModal);

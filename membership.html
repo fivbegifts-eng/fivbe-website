@@ -84,6 +84,7 @@
       .footer-row{flex-direction:column;gap:8px;text-align:left}
     }
 
+  .nav-bag b{display:grid;place-items:center;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#e1edb7;color:#274b35;font-size:8px;font-weight:950}
   </style>
 </head>
 <body>
@@ -91,7 +92,7 @@
   <header class="site-header"><div class="container nav">
     <a class="brand" href="index.html"><span class="membership-brand-mark">F</span><span class="membership-brand-name">Fivbe Gifts<small>THOUGHTFUL GIFTS, MADE EASY</small></span></a>
     <nav class="nav-links" aria-label="Main navigation"><a href="index.html#collection">Shop gifts</a><a href="index.html#about">Why Fivbe</a></nav>
-    <a class="nav-bag" href="index.html?openBag=1" aria-label="Open shopping bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8.5h13l1 12h-15l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span>Bag</span></a>
+    <a class="nav-bag" href="index.html?openBag=1" aria-label="Open shopping bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8.5h13l1 12h-15l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span>Bag</span><b id="membership-bag-count">0</b></a>
     <a class="nav-join" href="index.html?join=6">Join now</a>
   </div></header>
   <main>
@@ -141,6 +142,6 @@
     </section>
   </main>
   <footer><div class="container footer-row"><span>© <span id="year"></span> Fivbe Gifts</span><span><a href="index.html">Home</a> · <a href="https://www.instagram.com/fivbegifts/" target="_blank" rel="noreferrer">Instagram</a> · <a href="https://wa.me/917349112715" target="_blank" rel="noreferrer">WhatsApp</a></span></div></footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();try{const saved=JSON.parse(localStorage.getItem('fivbe-cart-v1')||'[]');document.getElementById('membership-bag-count').textContent=saved.reduce((sum,item)=>sum+Math.max(0,Number(item.quantity)||0),0);}catch(_){}</script>
 </body>
 </html>

@@ -1515,7 +1515,7 @@ function productCard(p){
       ${sold ? '<span class="product-tag fivbe-soldout">SOLD OUT</span>' : `<button type="button" class="add-to-cart-btn quick-add-btn" data-quick-add="${i}" aria-label="Add ${name} to cart"><span>ADD</span><b>+</b></button>`}
     </div>
     <div class="product-copy"><p class="product-category">${category}</p><h3 class="product-title">${name}</h3><p class="product-description">${description}</p>
-      <div class="quick-product-bottom"><div class="quick-price-wrap"><span class="price">${money(price)}</span>${window.fivbeMemberActive&&p.memberPrice!=null?'<small class="fivbe-member-label">Member price</small>':`<small>Min. order: ${min}</small>`}</div><button type="button" class="fivbe-view-btn" data-open-product="${i}">Details</button></div>
+      <div class="quick-product-bottom"><div class="quick-price-wrap"><span class="price">${money(price)}</span>${p.memberPrice!=null?(window.fivbeMemberActive?'<small class="fivbe-member-label">Member price</small>':`<small class="fivbe-member-label">Member ${money(p.memberPrice)}</small>`):`<small>Min. order: ${min}</small>`}</div><button type="button" class="fivbe-view-btn" data-open-product="${i}">Details</button></div>
       ${sold?'<p class="fivbe-stock-note">Currently unavailable</p>':''}
     </div></article>`;
 }
@@ -1572,7 +1572,11 @@ function renderDetails(i){
        </div>
      </div>
    </div>`;
- setGalleryIndex(0);detailModal.hidden=false;document.body.classList.add('fivbe-modal-open');
+ setGalleryIndex(0);
+ const swipeViewport=document.querySelector('.fivbe-gallery-viewport');let swipeStartX=0;
+ swipeViewport?.addEventListener('touchstart',event=>{swipeStartX=event.changedTouches[0].clientX;},{passive:true});
+ swipeViewport?.addEventListener('touchend',event=>{const delta=event.changedTouches[0].clientX-swipeStartX;if(Math.abs(delta)>35)setGalleryIndex(activeGalleryIndex+(delta<0?1:-1));},{passive:true});
+ detailModal.hidden=false;document.body.classList.add('fivbe-modal-open');
 }
 function cartAdd(i,q){const p=productAt(i);if(!p||stockFor(p)<minQtyFor(p))return alert('This product is currently unavailable.');const min=minQtyFor(p),qty=Math.max(min,Math.floor(Number(q)||min)),existing=fivbeCart.get(i),next=(existing?.quantity||0)+qty;if(next>stockFor(p))return alert(`Only ${stockFor(p)} units are available.`);if(existing)existing.quantity=next;else fivbeCart.set(i,{id:i,quantity:qty});renderCart();}
 function renderCart(){

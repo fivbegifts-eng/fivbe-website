@@ -682,7 +682,7 @@
     .auth-overlay.is-open { display: flex; }
     .auth-dialog {
       position: relative;
-      width: min(100%, 440px);
+      width: min(100%, 560px);
       max-height: min(90vh, 720px);
       overflow-y: auto;
       padding: 30px;
@@ -937,6 +937,20 @@
       .auth-profile-detail { grid-template-columns: 82px minmax(0, 1fr); }
       .auth-profile-top { align-items: center; }
     }
+
+
+    /* Fivbe account: separate menu pages */
+    .fivbe-account-area{display:grid;gap:12px;margin:18px 0}.fivbe-account-menu{display:grid;gap:9px}
+    .fivbe-account-menu button{position:relative;display:grid;grid-template-columns:42px 1fr 18px;grid-template-rows:auto auto;align-items:center;gap:2px 11px;width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fff;text-align:left;color:var(--ink)}
+    .fivbe-account-menu button>span{grid-row:1/3;display:grid;place-items:center;width:40px;height:40px;border-radius:11px;background:var(--brand-light);color:var(--brand-dark);font-size:18px}
+    .fivbe-account-menu button b{font-size:12px}.fivbe-account-menu button small{color:var(--muted);font-size:10px}.fivbe-account-menu button i{grid-column:3;grid-row:1/3;color:var(--brand);font-size:23px;font-style:normal}
+    .fivbe-account-menu button:hover{border-color:var(--brand);background:#fbfdf9}.fivbe-account-view{display:grid;gap:12px}.fivbe-account-view[hidden]{display:none!important}
+    .fivbe-account-back{justify-self:start;padding:7px 0;border:0;background:transparent;color:var(--brand);font-size:11px;font-weight:800}
+    .fivbe-stamp-tier{margin:13px 0;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fff}
+    .fivbe-stamp-tier-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.fivbe-stamp-tier-head strong{color:var(--brand-dark);font-size:13px}.fivbe-stamp-tier-head small{color:var(--muted);font-size:10px}
+    .fivbe-stamp-circles{display:flex;flex-wrap:wrap;gap:7px}.fivbe-stamp-circle{display:grid;place-items:center;width:31px;height:31px;border:1.5px solid #aab8ad;border-radius:50%;color:#718077;background:#fff;font-size:10px;font-weight:800}.fivbe-stamp-circle.done{border-color:var(--brand);background:var(--brand);color:#fff}
+    .fivbe-mystery{display:flex;align-items:center;gap:7px;margin-top:11px;color:var(--muted);font-size:10px}.fivbe-mystery-icon{display:grid;place-items:center;width:30px;height:30px;border:1px dashed #9eaa9f;border-radius:9px;color:#829087;background:#f8f8f4;font-size:16px}.fivbe-mystery.unlocked{color:var(--brand-dark);font-weight:800}.fivbe-mystery.unlocked .fivbe-mystery-icon{border:1px solid var(--brand);color:#fff;background:var(--brand)}
+    .fivbe-order-detail{padding:12px 0;border-top:1px solid var(--line)}.fivbe-order-detail:first-child{border-top:0}.fivbe-order-top{display:flex;justify-content:space-between;gap:10px}.fivbe-order-top strong{font-size:11px}.fivbe-order-top b{font-size:12px;color:var(--brand-dark)}.fivbe-order-meta{margin-top:4px;color:var(--muted);font-size:10px}.fivbe-order-id{overflow-wrap:anywhere}
 
     /* Homepage membership invitation */
     .membership-invite { padding: 58px 0; background: #e5eee8; border-top: 1px solid #d7e4dc; border-bottom: 1px solid #d7e4dc; }
@@ -1741,18 +1755,19 @@ let PRODUCTS = [];
           </form>
           <p class="auth-profile-status" id="auth-profile-status" hidden></p>
 
-          <section class="customer-hub" id="customer-hub" aria-label="Your orders and loyalty">
-            <div class="customer-hub-card">
-              <h3 class="customer-hub-title">My orders</h3>
-              <p class="customer-hub-sub">Track your purchases and payment status.</p>
-              <div class="customer-list" id="customer-order-list"><p class="customer-loading">Loading your orders…</p></div>
+          <section class="fivbe-account-area" id="customer-hub" aria-label="Your Fivbe account">
+            <div class="fivbe-account-menu" id="fivbe-account-menu">
+              <button type="button" data-account-view="profile"><span>♙</span><b>Profile & settings</b><small>Edit your personal details</small><i>›</i></button>
+              <button type="button" data-account-view="active"><span>📦</span><b>Active orders</b><small>Track orders in progress</small><i>›</i></button>
+              <button type="button" data-account-view="past"><span>✓</span><b>Past orders</b><small>Your completed purchases</small><i>›</i></button>
+              <button type="button" data-account-view="membership"><span>♛</span><b>Membership</b><small>Plan, benefits and expiry</small><i>›</i></button>
+              <button type="button" data-account-view="loyalty"><span>✦</span><b>Loyalty stamps</b><small>Stamps, tiers and rewards</small><i>›</i></button>
             </div>
-            <div class="customer-hub-card">
-              <h3 class="customer-hub-title">Fivbe Loyalty</h3>
-              <p class="customer-hub-sub">Earn one stamp for every verified paid order.</p>
-              <div id="customer-loyalty-summary"><p class="customer-loading">Loading your stamps…</p></div>
-              <div class="customer-list" id="customer-reward-list"></div>
-            </div>
+            <div class="fivbe-account-view" id="fivbe-view-profile" hidden><button class="fivbe-account-back" type="button">← Account menu</button><div id="fivbe-profile-slot"></div></div>
+            <div class="fivbe-account-view" id="fivbe-view-active" hidden><button class="fivbe-account-back" type="button">← Account menu</button><h3 class="customer-hub-title">Active orders</h3><p class="customer-hub-sub">Orders being processed, packed or shipped.</p><div class="customer-list" id="customer-active-orders"><p class="customer-loading">Loading…</p></div></div>
+            <div class="fivbe-account-view" id="fivbe-view-past" hidden><button class="fivbe-account-back" type="button">← Account menu</button><h3 class="customer-hub-title">Past orders</h3><p class="customer-hub-sub">Your completed purchases and payment records.</p><div class="customer-list" id="customer-past-orders"><p class="customer-loading">Loading…</p></div></div>
+            <div class="fivbe-account-view" id="fivbe-view-membership" hidden><button class="fivbe-account-back" type="button">← Account menu</button><div id="fivbe-membership-slot"></div></div>
+            <div class="fivbe-account-view" id="fivbe-view-loyalty" hidden><button class="fivbe-account-back" type="button">← Account menu</button><h3 class="customer-hub-title">Fivbe Loyalty</h3><p class="customer-hub-sub">Earn one stamp for every verified paid order. Complete each tier to unlock its mystery reward.</p><div id="customer-loyalty-summary"><p class="customer-loading">Loading your stamps…</p></div><div class="customer-list" id="customer-reward-list"></div></div>
           </section>
 
           <button class="auth-signout" id="auth-signout" type="button">Sign out</button>
@@ -2153,10 +2168,27 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     profilePhone.value = savedProfile.phone;
   }
 
-  const customerOrderList = document.getElementById('customer-order-list');
+  const customerActiveOrders = document.getElementById('customer-active-orders');
+  const customerPastOrders = document.getElementById('customer-past-orders');
   const customerLoyaltySummary = document.getElementById('customer-loyalty-summary');
   const customerRewardList = document.getElementById('customer-reward-list');
   const loyaltyMilestones = [{tier:'Bronze',stamps:3},{tier:'Silver',stamps:6},{tier:'Gold',stamps:8},{tier:'Diamond',stamps:10}];
+
+  // Move existing profile and membership controls into their own account pages.
+  (function setupAccountPages(){
+    const profileSlot=document.getElementById('fivbe-profile-slot');
+    const membershipSlot=document.getElementById('fivbe-membership-slot');
+    ['auth-profile-top','auth-profile-details','auth-profile-form','auth-profile-status'].forEach(id=>{const el=document.getElementById(id);if(el)profileSlot.appendChild(el);});
+    const emailRow=document.createElement('div');emailRow.className='auth-profile-detail';emailRow.innerHTML='<dt>Email</dt><dd id="fivbe-account-email-view"></dd>';const details=document.getElementById('auth-profile-details');details.appendChild(emailRow);
+    const membership=document.getElementById('membership-checkout');if(membership)membershipSlot.appendChild(membership);
+    const menu=document.getElementById('fivbe-account-menu');
+    const views=['profile','active','past','membership','loyalty'];
+    function show(view){menu.hidden=Boolean(view);views.forEach(name=>{const el=document.getElementById('fivbe-view-'+name);if(el)el.hidden=name!==view;});}
+    menu.querySelectorAll('[data-account-view]').forEach(btn=>btn.addEventListener('click',()=>show(btn.dataset.accountView)));
+    document.querySelectorAll('.fivbe-account-back').forEach(btn=>btn.addEventListener('click',()=>show(null)));
+    show(null);
+    window.fivbeShowAccountView=show;
+  })();
 
   function safeCustomerText(value) {
     return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -2164,7 +2196,8 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
 
   async function loadCustomerActivity(user) {
     if (!user) return;
-    customerOrderList.innerHTML = '<p class="customer-loading">Loading your orders…</p>';
+    customerActiveOrders.innerHTML = '<p class="customer-loading">Loading your orders…</p>';
+    customerPastOrders.innerHTML = '<p class="customer-loading">Loading your orders…</p>';
     customerLoyaltySummary.innerHTML = '<p class="customer-loading">Loading your stamps…</p>';
     customerRewardList.innerHTML = '';
     const [ordersResult, stampsResult, rewardsResult] = await Promise.all([
@@ -2173,15 +2206,21 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
       supabase.from('loyalty_rewards').select('id, tier, milestone_stamps, reward_name, reward_status, unlocked_at, claimed_at, redeemed_at').eq('user_id', user.id).order('milestone_stamps', {ascending:true})
     ]);
     if (ordersResult.error) {
-      customerOrderList.innerHTML = '<p class="customer-empty customer-error">Order history could not load. Check customer order read access (RLS).</p>';
+      const errorHtml = '<p class="customer-empty customer-error">Orders could not load. Check customer order read access (RLS).</p>';
+      customerActiveOrders.innerHTML = errorHtml; customerPastOrders.innerHTML = errorHtml;
     } else {
       const orders = ordersResult.data || [];
-      customerOrderList.innerHTML = orders.length ? orders.map(order => {
+      const completedStates = ['completed','delivered','fulfilled','cancelled','refunded'];
+      const renderOrder = order => {
         const date = order.created_at ? new Date(order.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Date unavailable';
-        const shortId = String(order.id).slice(0,8).toUpperCase();
-        const total = Number(order.total_amount ?? 0);
-        return `<article class="customer-order"><div><strong>Order #${safeCustomerText(shortId)}</strong><small>${safeCustomerText(date)} · ${safeCustomerText(order.order_status || 'placed')}</small></div><div class="customer-order-side"><strong>₹${total.toFixed(2)}</strong><small class="customer-status">${safeCustomerText(order.payment_status || 'pending')}</small></div></article>`;
-      }).join('') : '<p class="customer-empty">Your orders will appear here after checkout.</p>';
+        const id = String(order.id); const total = Number(order.total_amount ?? 0);
+        const state = String(order.order_status || 'placed').toLowerCase();
+        return `<article class="fivbe-order-detail"><div class="fivbe-order-top"><strong>Order <span class="fivbe-order-id">#${safeCustomerText(id.slice(0,8).toUpperCase())}</span></strong><b>₹${total.toFixed(2)}</b></div><div class="fivbe-order-meta">${safeCustomerText(date)} · ${safeCustomerText(state)} · Payment: ${safeCustomerText(order.payment_status || 'pending')}</div>${Number(order.discount_amount)>0?`<div class="fivbe-order-meta">Coupon ${safeCustomerText(order.coupon_code||'applied')} · Discount ₹${Number(order.discount_amount).toFixed(2)}</div>`:''}</article>`;
+      };
+      const active = orders.filter(o => !completedStates.includes(String(o.order_status||'').toLowerCase()));
+      const past = orders.filter(o => completedStates.includes(String(o.order_status||'').toLowerCase()));
+      customerActiveOrders.innerHTML = active.length ? active.map(renderOrder).join('') : '<p class="customer-empty">No active orders right now.</p>';
+      customerPastOrders.innerHTML = past.length ? past.map(renderOrder).join('') : '<p class="customer-empty">Completed orders will appear here.</p>';
     }
     if (stampsResult.error) {
       customerLoyaltySummary.innerHTML = '<p class="customer-empty customer-error">Loyalty stamps could not load. Check customer loyalty read access (RLS).</p>';
@@ -2195,7 +2234,7 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
       const progressEnd = next?.stamps || 10;
       const progress = next ? Math.max(0,Math.min(100,((total-progressStart)/(progressEnd-progressStart))*100)) : 100;
       const remaining = next ? Math.max(0,next.stamps-total) : 0;
-      customerLoyaltySummary.innerHTML = `<div class="loyalty-summary"><div><div class="loyalty-count">${total} <span style="font-size:12px;font-weight:650">stamps</span></div><small style="color:var(--muted);font-size:10px">${remaining ? `${remaining} more to ${next.tier}` : 'All loyalty milestones reached'}</small></div><span class="loyalty-tier">${tier}</span></div><div class="loyalty-track"><span style="width:${progress}%"></span></div><div class="loyalty-foot"><span>${next ? `${total} / ${next.stamps} stamps` : 'Diamond completed'}</span><span>Bronze 3 · Silver 6 · Gold 8 · Diamond 10</span></div>`;
+      customerLoyaltySummary.innerHTML = `<div class="loyalty-summary"><div><div class="loyalty-count">${total} <span style="font-size:12px;font-weight:650">stamps</span></div><small style="color:var(--muted);font-size:10px">${remaining ? `${remaining} more to ${next.tier}` : 'All loyalty milestones reached'}</small></div><span class="loyalty-tier">${tier}</span></div>` + loyaltyMilestones.map(m => { const unlocked = total >= m.stamps; const lockedBehind = loyaltyMilestones.some(prev => prev.stamps < m.stamps && total < prev.stamps); const reward = (rewardsResult.data || []).find(r => r.tier === m.tier); const count = m.stamps; return `<section class="fivbe-stamp-tier"><div class="fivbe-stamp-tier-head"><strong>${m.tier} ${lockedBehind?'🔒':''}</strong><small>${Math.min(total,count)} / ${count} stamps</small></div><div class="fivbe-stamp-circles">${Array.from({length:count},(_,i)=>`<span class="fivbe-stamp-circle ${total>i?'done':''}">${total>i?'✓':i+1}</span>`).join('')}</div><div class="fivbe-mystery ${unlocked?'unlocked':''}"><span class="fivbe-mystery-icon">${unlocked?'🎁':'🔒'}</span><span>${unlocked?'Mystery reward unlocked':'Mystery reward · complete '+count+' stamps'}</span></div></section>`; }).join('');
     }
     if (rewardsResult.error) {
       customerRewardList.innerHTML = '<p class="customer-empty customer-error">Rewards could not load.</p>';
@@ -2441,6 +2480,7 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     document.getElementById('customer-hub').hidden = !signedIn;
     if (signedIn) {
       document.getElementById('auth-account-email').textContent = currentAuthUser.email || 'Signed-in account';
+      const emailView=document.getElementById('fivbe-account-email-view');if(emailView)emailView.textContent=currentAuthUser.email||'—';
       authTitle.textContent = 'Your account.';
       authIntro.textContent = 'You are signed in to Fivbe Gifts.';
       setAuthMessage('');

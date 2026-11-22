@@ -950,6 +950,16 @@
     .fivbe-stamp-tier-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.fivbe-stamp-tier-head strong{color:var(--brand-dark);font-size:13px}.fivbe-stamp-tier-head small{color:var(--muted);font-size:10px}
     .fivbe-stamp-circles{display:flex;flex-wrap:wrap;gap:7px}.fivbe-stamp-circle{display:grid;place-items:center;width:31px;height:31px;border:1.5px solid #aab8ad;border-radius:50%;color:#718077;background:#fff;font-size:10px;font-weight:800}.fivbe-stamp-circle.done{border-color:var(--brand);background:var(--brand);color:#fff}
     .fivbe-mystery{display:flex;align-items:center;gap:7px;margin-top:11px;color:var(--muted);font-size:10px}.fivbe-mystery-icon{display:grid;place-items:center;width:30px;height:30px;border:1px dashed #9eaa9f;border-radius:9px;color:#829087;background:#f8f8f4;font-size:16px}.fivbe-mystery.unlocked{color:var(--brand-dark);font-weight:800}.fivbe-mystery.unlocked .fivbe-mystery-icon{border:1px solid var(--brand);color:#fff;background:var(--brand)}
+    .fivbe-claim-card{display:grid;gap:8px;margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    .fivbe-claim-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .fivbe-claim-status{display:inline-flex;padding:4px 8px;border-radius:20px;background:#f1f2ed;color:#59665b;font-size:9px;font-weight:800;text-transform:capitalize}
+    .fivbe-claim-status.approved{background:#e5eee8;color:#214d42}
+    .fivbe-claim-status.rejected{background:#fbecea;color:#8a2e25}
+    .fivbe-claim-note{margin:0;color:var(--muted);font-size:10px;line-height:1.5;overflow-wrap:anywhere}
+    .fivbe-claim-button{justify-self:start;min-height:34px;padding:0 12px;border:0;border-radius:7px;color:#fff;background:var(--brand-dark);font-size:10px;font-weight:750}
+    .fivbe-claim-button:disabled{opacity:.6;cursor:wait}
+    .fivbe-claim-form{display:grid;gap:7px}
+    .fivbe-claim-form textarea{width:100%;min-height:58px;padding:9px;border:1px solid var(--line);border-radius:7px;font:11px var(--sans);resize:vertical}
     .fivbe-order-detail{padding:12px 0;border-top:1px solid var(--line)}.fivbe-order-detail:first-child{border-top:0}.fivbe-order-top{display:flex;justify-content:space-between;gap:10px}.fivbe-order-top strong{font-size:11px}.fivbe-order-top b{font-size:12px;color:var(--brand-dark)}.fivbe-order-meta{margin-top:4px;color:var(--muted);font-size:10px}.fivbe-order-id{overflow-wrap:anywhere}
 
     /* Homepage membership invitation */
@@ -2207,10 +2217,11 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     customerPastOrders.innerHTML = '<p class="customer-loading">Loading your orders…</p>';
     customerLoyaltySummary.innerHTML = '<p class="customer-loading">Loading your stamps…</p>';
     customerRewardList.innerHTML = '';
-    const [ordersResult, stampsResult, rewardsResult] = await Promise.all([
+    const [ordersResult, stampsResult, rewardsResult, claimsResult] = await Promise.all([
       supabase.from('orders').select('id, subtotal, shipping_fee, total_amount, payment_status, order_status, created_at, coupon_code, discount_amount').eq('customer_id', user.id).order('created_at', {ascending:false}).limit(30),
       supabase.from('loyalty_stamps').select('id, order_id, stamps, reason, created_at').eq('user_id', user.id).order('created_at', {ascending:false}).limit(100),
-      supabase.from('loyalty_rewards').select('id, tier, milestone_stamps, reward_name, reward_status, unlocked_at, claimed_at, redeemed_at').eq('user_id', user.id).order('milestone_stamps', {ascending:true})
+      supabase.from('loyalty_rewards').select('id, tier, milestone_stamps, reward_name, reward_status, unlocked_at, claimed_at, redeemed_at').eq('user_id', user.id).order('milestone_stamps', {ascending:true}),
+      callMembershipApi({action:'my_reward_claims'}).catch(error => ({error}))
     ]);
     if (ordersResult.error) {
       const errorHtml = '<p class="customer-empty customer-error">Orders could not load. Check customer order read access (RLS).</p>';
@@ -2247,10 +2258,26 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
       customerRewardList.innerHTML = '<p class="customer-empty customer-error">Rewards could not load.</p>';
     } else {
       const rewards = rewardsResult.data || [];
+      const claims = claimsResult?.claims || [];
+      const claimByReward = new Map(claims.map(claim => [claim.reward_id, claim]));
+      const claimsError = claimsResult?.error;
       customerRewardList.innerHTML = rewards.length ? `<h4 style="margin:14px 0 3px;color:var(--brand-dark);font-size:12px">Your rewards</h4>` + rewards.map(reward => {
         const status = reward.reward_status || 'unlocked';
         const date = reward.unlocked_at ? new Date(reward.unlocked_at).toLocaleDateString('en-IN') : '';
-        return `<article class="customer-reward"><div><strong>${safeCustomerText(reward.reward_name || reward.tier+' reward')}</strong><small>${safeCustomerText(reward.tier)} · ${Number(reward.milestone_stamps)||0} stamps${date?' · '+safeCustomerText(date):''}</small></div><span class="customer-status">${safeCustomerText(status)}</span></article>`;
+        const claim = claimByReward.get(reward.id);
+        const rewardTitle = safeCustomerText(reward.reward_name || reward.tier+' reward');
+        let claimHtml = '';
+        if (claim) {
+          const requested = claim.requested_at ? new Date(claim.requested_at).toLocaleString('en-IN') : '';
+          const reviewed = claim.reviewed_at ? new Date(claim.reviewed_at).toLocaleString('en-IN') : '';
+          const claimStatus = String(claim.status || 'pending').toLowerCase();
+          claimHtml = `<div class="fivbe-claim-card"><div class="fivbe-claim-row"><strong>Reward request</strong><span class="fivbe-claim-status ${safeCustomerText(claimStatus)}">${safeCustomerText(claimStatus.replace('_',' '))}</span></div><p class="fivbe-claim-note">Requested${requested?' · '+safeCustomerText(requested):''}</p>${reviewed?`<p class="fivbe-claim-note">Reviewed · ${safeCustomerText(reviewed)}</p>`:''}${claim.admin_note?`<p class="fivbe-claim-note"><strong>Fivbe note:</strong> ${safeCustomerText(claim.admin_note)}</p>`:''}${claimStatus==='pending'?'<p class="fivbe-claim-note">Your request is waiting for Fivbe approval.</p>':claimStatus==='approved'?'<p class="fivbe-claim-note">Your reward request is approved. Contact Fivbe to arrange redemption.</p>':'<p class="fivbe-claim-note">This request was not approved. Contact Fivbe if you need clarification.</p>'}</div>`;
+        } else if (status === 'unlocked') {
+          claimHtml = claimsError
+            ? '<p class="customer-empty customer-error">Reward requests are temporarily unavailable.</p>'
+            : `<form class="fivbe-claim-form" data-reward-claim="${safeCustomerText(reward.id)}"><textarea name="customer_note" maxlength="1000" placeholder="Optional note for Fivbe"></textarea><button class="fivbe-claim-button" type="submit">Request reward</button><p class="fivbe-claim-note">Your request will be sent for manual approval.</p></form>`;
+        }
+        return `<article class="fivbe-claim-card"><div class="customer-reward" style="padding:0;border:0"><div><strong>${rewardTitle}</strong><small>${safeCustomerText(reward.tier)} · ${Number(reward.milestone_stamps)||0} stamps${date?' · unlocked '+safeCustomerText(date):''}</small></div><span class="customer-status">${safeCustomerText(status)}</span></div>${claimHtml}</article>`;
       }).join('') : '<p class="customer-empty">Your unlocked rewards will appear here as you reach each milestone.</p>';
     }
   }
@@ -2399,6 +2426,30 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     if (data?.error) throw new Error(data.error);
     return data;
   }
+
+  customerRewardList.addEventListener('submit', async (event) => {
+    const form = event.target.closest('form[data-reward-claim]');
+    if (!form) return;
+    event.preventDefault();
+    if (!currentAuthUser) {
+      setAuthMessage('Please sign in to request your reward.', true);
+      return;
+    }
+    const button = form.querySelector('button[type="submit"]');
+    const rewardId = form.dataset.rewardClaim;
+    const customerNote = form.querySelector('textarea[name="customer_note"]')?.value?.trim() || '';
+    button.disabled = true;
+    button.textContent = 'Submitting…';
+    try {
+      await callMembershipApi({action:'submit_reward_claim', reward_id:rewardId, customer_note:customerNote});
+      await loadCustomerActivity(currentAuthUser);
+      setAuthMessage('Reward request submitted. It will show as Pending Approval until Fivbe reviews it.');
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = 'Request reward';
+      setAuthMessage(error.message || 'Could not submit your reward request.', true);
+    }
+  });
 
   function renderMembershipHistory(requests) {
     if (!requests || !requests.length) {

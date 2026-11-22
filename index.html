@@ -647,6 +647,28 @@
       white-space: nowrap;
     }
     .account-button:hover { color: #fff; background: var(--brand); }
+
+    /* Customer order history and loyalty dashboard */
+    .customer-hub{display:grid;gap:14px;margin:18px 0}.customer-hub[hidden]{display:none}
+    .customer-hub-card{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff}
+    .customer-hub-title{margin:0 0 5px;color:var(--brand-dark);font:600 22px/1.2 var(--serif)}
+    .customer-hub-sub{margin:0 0 13px;color:var(--muted);font-size:11px}
+    .loyalty-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border-radius:10px;background:var(--brand-light)}
+    .loyalty-count{color:var(--brand-dark);font-size:30px;font-weight:850;line-height:1}
+    .loyalty-tier{padding:6px 10px;border-radius:30px;color:#fff;background:var(--brand-dark);font-size:10px;font-weight:800}
+    .loyalty-track{height:8px;margin:13px 0 7px;overflow:hidden;border-radius:10px;background:#e9e7df}
+    .loyalty-track span{display:block;height:100%;border-radius:10px;background:var(--brand);transition:width .25s}
+    .loyalty-foot{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px}
+    .customer-list{display:grid;gap:9px}
+    .customer-order,.customer-reward{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+    .customer-order:first-child,.customer-reward:first-child{border-top:0}
+    .customer-order strong,.customer-reward strong{display:block;color:var(--ink);font-size:11px}
+    .customer-order small,.customer-reward small{display:block;color:var(--muted);font-size:10px}
+    .customer-order-side{text-align:right;white-space:nowrap}
+    .customer-status{display:inline-block;margin-top:4px;padding:3px 7px;border-radius:20px;background:#f1f2ed;color:#59665b;font-size:9px;font-weight:750;text-transform:capitalize}
+    .customer-empty,.customer-loading{padding:13px 0;color:var(--muted);font-size:11px}
+    .customer-error{color:#8a2e25}
+
     .auth-overlay {
       position: fixed;
       inset: 0;
@@ -1719,6 +1741,19 @@ let PRODUCTS = [];
           </form>
           <p class="auth-profile-status" id="auth-profile-status" hidden></p>
 
+          <section class="customer-hub" id="customer-hub" aria-label="Your orders and loyalty">
+            <div class="customer-hub-card">
+              <h3 class="customer-hub-title">My orders</h3>
+              <p class="customer-hub-sub">Track your purchases and payment status.</p>
+              <div class="customer-list" id="customer-order-list"><p class="customer-loading">Loading your orders…</p></div>
+            </div>
+            <div class="customer-hub-card">
+              <h3 class="customer-hub-title">Fivbe Loyalty</h3>
+              <p class="customer-hub-sub">Earn one stamp for every verified paid order.</p>
+              <div id="customer-loyalty-summary"><p class="customer-loading">Loading your stamps…</p></div>
+              <div class="customer-list" id="customer-reward-list"></div>
+            </div>
+          </section>
 
           <button class="auth-signout" id="auth-signout" type="button">Sign out</button>
         </div>
@@ -2118,6 +2153,62 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     profilePhone.value = savedProfile.phone;
   }
 
+  const customerOrderList = document.getElementById('customer-order-list');
+  const customerLoyaltySummary = document.getElementById('customer-loyalty-summary');
+  const customerRewardList = document.getElementById('customer-reward-list');
+  const loyaltyMilestones = [{tier:'Bronze',stamps:3},{tier:'Silver',stamps:6},{tier:'Gold',stamps:8},{tier:'Diamond',stamps:10}];
+
+  function safeCustomerText(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+
+  async function loadCustomerActivity(user) {
+    if (!user) return;
+    customerOrderList.innerHTML = '<p class="customer-loading">Loading your orders…</p>';
+    customerLoyaltySummary.innerHTML = '<p class="customer-loading">Loading your stamps…</p>';
+    customerRewardList.innerHTML = '';
+    const [ordersResult, stampsResult, rewardsResult] = await Promise.all([
+      supabase.from('orders').select('id, subtotal, shipping_fee, total_amount, payment_status, order_status, created_at, coupon_code, discount_amount').eq('customer_id', user.id).order('created_at', {ascending:false}).limit(30),
+      supabase.from('loyalty_stamps').select('id, order_id, stamps, reason, created_at').eq('user_id', user.id).order('created_at', {ascending:false}).limit(100),
+      supabase.from('loyalty_rewards').select('id, tier, milestone_stamps, reward_name, reward_status, unlocked_at, claimed_at, redeemed_at').eq('user_id', user.id).order('milestone_stamps', {ascending:true})
+    ]);
+    if (ordersResult.error) {
+      customerOrderList.innerHTML = '<p class="customer-empty customer-error">Order history could not load. Check customer order read access (RLS).</p>';
+    } else {
+      const orders = ordersResult.data || [];
+      customerOrderList.innerHTML = orders.length ? orders.map(order => {
+        const date = order.created_at ? new Date(order.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Date unavailable';
+        const shortId = String(order.id).slice(0,8).toUpperCase();
+        const total = Number(order.total_amount ?? 0);
+        return `<article class="customer-order"><div><strong>Order #${safeCustomerText(shortId)}</strong><small>${safeCustomerText(date)} · ${safeCustomerText(order.order_status || 'placed')}</small></div><div class="customer-order-side"><strong>₹${total.toFixed(2)}</strong><small class="customer-status">${safeCustomerText(order.payment_status || 'pending')}</small></div></article>`;
+      }).join('') : '<p class="customer-empty">Your orders will appear here after checkout.</p>';
+    }
+    if (stampsResult.error) {
+      customerLoyaltySummary.innerHTML = '<p class="customer-empty customer-error">Loyalty stamps could not load. Check customer loyalty read access (RLS).</p>';
+    } else {
+      const stamps = stampsResult.data || [];
+      const total = stamps.reduce((sum, row) => sum + Math.max(0, Number(row.stamps) || 0), 0);
+      const current = [...loyaltyMilestones].reverse().find(m => total >= m.stamps);
+      const next = loyaltyMilestones.find(m => total < m.stamps);
+      const tier = current?.tier || 'No tier yet';
+      const progressStart = current?.stamps || 0;
+      const progressEnd = next?.stamps || 10;
+      const progress = next ? Math.max(0,Math.min(100,((total-progressStart)/(progressEnd-progressStart))*100)) : 100;
+      const remaining = next ? Math.max(0,next.stamps-total) : 0;
+      customerLoyaltySummary.innerHTML = `<div class="loyalty-summary"><div><div class="loyalty-count">${total} <span style="font-size:12px;font-weight:650">stamps</span></div><small style="color:var(--muted);font-size:10px">${remaining ? `${remaining} more to ${next.tier}` : 'All loyalty milestones reached'}</small></div><span class="loyalty-tier">${tier}</span></div><div class="loyalty-track"><span style="width:${progress}%"></span></div><div class="loyalty-foot"><span>${next ? `${total} / ${next.stamps} stamps` : 'Diamond completed'}</span><span>Bronze 3 · Silver 6 · Gold 8 · Diamond 10</span></div>`;
+    }
+    if (rewardsResult.error) {
+      customerRewardList.innerHTML = '<p class="customer-empty customer-error">Rewards could not load.</p>';
+    } else {
+      const rewards = rewardsResult.data || [];
+      customerRewardList.innerHTML = rewards.length ? `<h4 style="margin:14px 0 3px;color:var(--brand-dark);font-size:12px">Your rewards</h4>` + rewards.map(reward => {
+        const status = reward.reward_status || 'unlocked';
+        const date = reward.unlocked_at ? new Date(reward.unlocked_at).toLocaleDateString('en-IN') : '';
+        return `<article class="customer-reward"><div><strong>${safeCustomerText(reward.reward_name || reward.tier+' reward')}</strong><small>${safeCustomerText(reward.tier)} · ${Number(reward.milestone_stamps)||0} stamps${date?' · '+safeCustomerText(date):''}</small></div><span class="customer-status">${safeCustomerText(status)}</span></article>`;
+      }).join('') : '<p class="customer-empty">Your unlocked rewards will appear here as you reach each milestone.</p>';
+    }
+  }
+
   async function loadCustomerProfile(user) {
     if (!user) return;
     const requestId = ++profileRequestId;
@@ -2149,6 +2240,7 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     window.fivbeSetMemberActive?.(Boolean(data?.is_member && expiry && expiry > new Date()));
     setProfileViewMode(false);
     await loadMembershipData(user);
+    await loadCustomerActivity(user);
     focusMembershipCheckout();
   }
 
@@ -2346,6 +2438,7 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     accountOpen.textContent = signedIn ? 'My account' : 'Sign in';
     authForms.hidden = signedIn;
     authSignedIn.hidden = !signedIn;
+    document.getElementById('customer-hub').hidden = !signedIn;
     if (signedIn) {
       document.getElementById('auth-account-email').textContent = currentAuthUser.email || 'Signed-in account';
       authTitle.textContent = 'Your account.';

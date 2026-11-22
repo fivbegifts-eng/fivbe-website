@@ -1375,6 +1375,8 @@ body{background:#f6f7f2;color:#172b25}.container{width:min(1280px,calc(100% - 48
 .reference-filter:disabled{opacity:.45;cursor:not-allowed}
 .container{width:min(1280px,calc(100% - 48px))}
 
+
+.fivbe-order-items{display:grid;gap:6px;margin:9px 0;padding:9px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.fivbe-order-item{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}.fivbe-order-item strong{color:var(--ink);white-space:nowrap}
 </style>
 <style>
 
@@ -2218,7 +2220,7 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
     customerLoyaltySummary.innerHTML = '<p class="customer-loading">Loading your stamps…</p>';
     customerRewardList.innerHTML = '';
     const [ordersResult, stampsResult, rewardsResult, claimsResult] = await Promise.all([
-      supabase.from('orders').select('id, subtotal, shipping_fee, total_amount, payment_status, order_status, created_at, coupon_code, discount_amount').eq('customer_id', user.id).order('created_at', {ascending:false}).limit(30),
+      supabase.from('orders').select('id, subtotal, shipping_fee, total_amount, payment_status, order_status, created_at, coupon_code, discount_amount, order_items(product_name, quantity, unit_price)').eq('customer_id', user.id).order('created_at', {ascending:false}).limit(30),
       supabase.from('loyalty_stamps').select('id, order_id, stamps, reason, created_at').eq('user_id', user.id).order('created_at', {ascending:false}).limit(100),
       supabase.from('loyalty_rewards').select('id, tier, milestone_stamps, reward_name, reward_status, unlocked_at, claimed_at, redeemed_at').eq('user_id', user.id).order('milestone_stamps', {ascending:true}),
       callMembershipApi({action:'my_reward_claims'}).catch(error => ({error}))
@@ -2233,7 +2235,12 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
         const date = order.created_at ? new Date(order.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Date unavailable';
         const id = String(order.id); const total = Number(order.total_amount ?? 0);
         const state = String(order.order_status || 'placed').toLowerCase();
-        return `<article class="fivbe-order-detail"><div class="fivbe-order-top"><strong>Order <span class="fivbe-order-id">#${safeCustomerText(id.slice(0,8).toUpperCase())}</span></strong><b>₹${total.toFixed(2)}</b></div><div class="fivbe-order-meta">${safeCustomerText(date)} · ${safeCustomerText(state)} · Payment: ${safeCustomerText(order.payment_status || 'pending')}</div>${Number(order.discount_amount)>0?`<div class="fivbe-order-meta">Coupon ${safeCustomerText(order.coupon_code||'applied')} · Discount ₹${Number(order.discount_amount).toFixed(2)}</div>`:''}</article>`;
+        const itemRows = (order.order_items || []).map(item => {
+          const quantity = Math.max(0, Number(item.quantity) || 0);
+          const unitPrice = Math.max(0, Number(item.unit_price) || 0);
+          return `<div class="fivbe-order-item"><span>${safeCustomerText(item.product_name || 'Product')} × ${quantity}</span><strong>₹${(unitPrice * quantity).toFixed(2)}</strong></div>`;
+        }).join('');
+        return `<article class="fivbe-order-detail"><div class="fivbe-order-top"><strong>Order <span class="fivbe-order-id">#${safeCustomerText(id.slice(0,8).toUpperCase())}</span></strong><b>₹${total.toFixed(2)}</b></div><div class="fivbe-order-meta">${safeCustomerText(date)} · ${safeCustomerText(state)} · Payment: ${safeCustomerText(order.payment_status || 'pending')}</div>${itemRows ? `<div class="fivbe-order-items">${itemRows}</div>` : ''}${Number(order.subtotal)>0?`<div class="fivbe-order-meta">Subtotal ₹${Number(order.subtotal).toFixed(2)}${Number(order.shipping_fee)>0?' · Shipping ₹'+Number(order.shipping_fee).toFixed(2):''}</div>`:''}${Number(order.discount_amount)>0?`<div class="fivbe-order-meta">Coupon ${safeCustomerText(order.coupon_code||'applied')} · Discount ₹${Number(order.discount_amount).toFixed(2)}</div>`:''}</article>`;
       };
       const active = orders.filter(o => !completedStates.includes(String(o.order_status||'').toLowerCase()));
       const past = orders.filter(o => completedStates.includes(String(o.order_status||'').toLowerCase()));
@@ -2252,7 +2259,7 @@ document.getElementById('mobile-bag-open')?.addEventListener('click',()=>documen
       const progressEnd = next?.stamps || 10;
       const progress = next ? Math.max(0,Math.min(100,((total-progressStart)/(progressEnd-progressStart))*100)) : 100;
       const remaining = next ? Math.max(0,next.stamps-total) : 0;
-      customerLoyaltySummary.innerHTML = `<div class="loyalty-summary"><div><div class="loyalty-count">${total} <span style="font-size:12px;font-weight:650">stamps</span></div><small style="color:var(--muted);font-size:10px">${remaining ? `${remaining} more to ${next.tier}` : 'All loyalty milestones reached'}</small></div><span class="loyalty-tier">${tier}</span></div>` + loyaltyMilestones.map(m => { const unlocked = total >= m.stamps; const lockedBehind = loyaltyMilestones.some(prev => prev.stamps < m.stamps && total < prev.stamps); const reward = (rewardsResult.data || []).find(r => r.tier === m.tier); const count = m.stamps; return `<section class="fivbe-stamp-tier"><div class="fivbe-stamp-tier-head"><strong>${m.tier} ${lockedBehind?'🔒':''}</strong><small>${Math.min(total,count)} / ${count} stamps</small></div><div class="fivbe-stamp-circles">${Array.from({length:count},(_,i)=>`<span class="fivbe-stamp-circle ${total>i?'done':''}">${total>i?'✓':i+1}</span>`).join('')}</div><div class="fivbe-mystery ${unlocked?'unlocked':''}"><span class="fivbe-mystery-icon">${unlocked?'🎁':'🔒'}</span><span>${unlocked?'Mystery reward unlocked':'Mystery reward · complete '+count+' stamps'}</span></div></section>`; }).join('');
+      customerLoyaltySummary.innerHTML = `<div class="loyalty-summary"><div><div class="loyalty-count">${total} <span style="font-size:12px;font-weight:650">stamps</span></div><small style="color:var(--muted);font-size:10px">${remaining ? `${remaining} more to ${next.tier}` : 'All loyalty milestones reached'}</small></div><span class="loyalty-tier">${tier}</span></div>` + loyaltyMilestones.map(m => { const unlocked = total >= m.stamps; const lockedBehind = loyaltyMilestones.some(prev => prev.stamps < m.stamps && total < prev.stamps); const reward = (rewardsResult.data || []).find(r => String(r.tier || '').toLowerCase() === m.tier.toLowerCase()); const count = m.stamps; return `<section class="fivbe-stamp-tier"><div class="fivbe-stamp-tier-head"><strong>${m.tier} ${lockedBehind?'🔒':''}</strong><small>${Math.min(total,count)} / ${count} stamps</small></div><div class="fivbe-stamp-circles">${Array.from({length:count},(_,i)=>`<span class="fivbe-stamp-circle ${total>i?'done':''}">${total>i?'✓':i+1}</span>`).join('')}</div><div class="fivbe-mystery ${unlocked?'unlocked':''}"><span class="fivbe-mystery-icon">${unlocked?'🎁':'🔒'}</span><span>${unlocked?'Mystery reward unlocked':'Mystery reward · complete '+count+' stamps'}</span></div></section>`; }).join('');
     }
     if (rewardsResult.error) {
       customerRewardList.innerHTML = '<p class="customer-empty customer-error">Rewards could not load.</p>';
